@@ -1,11 +1,14 @@
 <!DOCTYPE html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" a href="general.css">
     <link rel="stylesheet" a href="variables.css">
     <link rel="stylesheet" a href="type-styles.css">
     <link rel="stylesheet" a href="header.css">
     <link rel="stylesheet" a href="projects.css">
     <link rel="stylesheet" a href="footer.css">
+    <link rel="stylesheet" href="https://use.typekit.net/ydc4tzz.css">
 
     <title>jesslikes.work</title>
   </head>
@@ -161,18 +164,20 @@
   }
 }
 
-@media screen and (max-width: 1080px) {
+@media screen and (min-width: 641px) and (max-width: 1080px) {
   .type-parent {
     display: block;
   }
 }
 
-@media screen and (max-width: 630px) {
+@media screen and (max-width: 640px) {
+  .type-parent {
+    display: block;
+  }
   .type-caption {
     display: none;
   }
 }
-
 
   .ref-artboard {
     border: 2px solid var(--grey); 
