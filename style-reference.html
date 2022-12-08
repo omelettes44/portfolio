@@ -23,13 +23,19 @@
       <div class="ref-artboard-title">
         Typography
       </div>
-
+      
       <div class="ref-content">
+        <div style="padding: 20px 0 40px; max-width: 500px">
+          <span style="font-weight: 500; font-size: 14pt;">The font family is Degular in 500 weight across all styles. Available via <a href="https://fonts.adobe.com/fonts/degular" class="inline-link" style="font-weight: 500">Adobe Typekit</a>.</span>
+       </div>
+
+        <hr class="ref-hr">
+
         <div class="type-parent">
           <h1 class="type-primary">Header 1</h1>
           <div class="type-secondary">
             <p class="type-styles">
-              <span class="type-label">font-size</span> 4.7em<br>
+              <span class="type-label">font-size</span> 56pt<br>
               <span class="type-label">line-height</span> 1.1em<br>
               <span class="type-label">letter-spacing</span> -0.02em
             </p>
@@ -41,16 +47,17 @@
 
         <hr class="ref-hr">
 
+
         <div class="type-parent">
           <h2 class="type-primary">Header 2</h2>
           <div class="type-secondary">
             <p class="type-styles">
-              <span class="type-label">font-size</span> 4.7em<br>
+              <span class="type-label">font-size</span> 36pt<br>
               <span class="type-label">line-height</span> 1.1em<br>
               <span class="type-label">letter-spacing</span> -0.02em
             </p>
             <p class="type-caption">
-              Dramatically large header text. Contrasts with all other type and elements on a page.
+              
             </p>
           </div>
         </div>
@@ -61,12 +68,12 @@
           <h3 class="type-primary">Header 3</h3>
           <div class="type-secondary">
             <p class="type-styles">
-              <span class="type-label">font-size</span> 4.7em<br>
+              <span class="type-label">font-size</span> 24pt<br>
               <span class="type-label">line-height</span> 1.1em<br>
               <span class="type-label">letter-spacing</span> -0.02em
             </p>
             <p class="type-caption">
-              Dramatically large header text. Contrasts with all other type and elements on a page.
+              
             </p>
           </div>
         </div>
@@ -77,12 +84,12 @@
           <h4 class="type-primary">Header 4</h4>
           <div class="type-secondary">
             <p class="type-styles">
-              <span class="type-label">font-size</span> 4.7em<br>
+              <span class="type-label">font-size</span> 18pt<br>
               <span class="type-label">line-height</span> 1.1em<br>
               <span class="type-label">letter-spacing</span> -0.02em
             </p>
             <p class="type-caption">
-              Dramatically large header text. Contrasts with all other type and elements on a page.
+              
             </p>
           </div>
         </div>
@@ -93,17 +100,68 @@
           <h5 class="type-primary">Header 5</h5>
           <div class="type-secondary">
             <p class="type-styles">
-              <span class="type-label">font-size</span> 4.7em<br>
+              <span class="type-label">font-size</span> 1.2em<br>
               <span class="type-label">line-height</span> 1.1em<br>
               <span class="type-label">letter-spacing</span> -0.02em
             </p>
             <p class="type-caption">
-              Dramatically large header text. Contrasts with all other type and elements on a page.
+              
             </p>
           </div>
         </div>
 
       </div>
+    </div>
+
+    <div class="ref-artboard">
+
+      <div class="ref-artboard-title">
+        Color
+      </div>
+
+      <div class="ref-content-color" style="display: inline-block;">
+
+        <div class="color-card">
+          <div class="color-swatch" style="background-color: hsl(33, 100%, 98%); width: 125px; height: 125px; "></div>
+          <div style="padding-top: 8px;">
+            <span class="color-name">Light tan</span><br>
+            <span class="color-label">HEX</span>#FFFBF6<br>
+            <span class="color-label">RGB</span>255 251 246<br>
+            <span class="color-label">VAR</span>--light-tan
+          </div>
+       </div>
+
+       <div class="color-card">
+        <div class="color-swatch" style="background-color: rgb(167, 167, 167); width: 125px; height: 125px;"></div>
+        <div style="padding-top: 8px;">
+          <span class="color-name">Grey</span><br>
+          <span class="color-label">HEX</span>#A7A7A7<br>
+          <span class="color-label">RGB</span>167 167 167<br>
+          <span class="color-label">VAR</span>--grey
+        </div>
+       </div>
+
+       <div class="color-card">
+        <div class="color-swatch" style="background-color: rgb(255, 156, 33); width: 125px; height: 125px;"></div>
+        <div style="padding-top: 8px;">
+          <span class="color-name">Highlight</span><br>
+          <span class="color-label">HEX</span>#FF9C21<br>
+          <span class="color-label">RGB</span>255 156 33<br>
+          <span class="color-label">VAR</span>--hlight
+        </div>
+      </div>
+
+        <div class="color-card">
+        <div class="color-swatch" style="background-color: rgb(66, 66, 66); width: 125px; height: 125px;"></div>
+        <div style="padding-top: 8px;">
+          <span class="color-name">Soft black</span><br>
+          <span class="color-label">HEX</span>#424242<br>
+          <span class="color-label">RGB</span>66 66 66<br>
+          <span class="color-label">VAR</span>(--black)
+        </div>
+      </div>
+
+    </div>
     </div>
 
   </body>
@@ -112,8 +170,36 @@
 
 
 <style>
+.ref-artboard {
+    border: 2px solid var(--grey); 
+    border-radius: 5px;
+    margin-bottom: 100px;
+}
+.ref-artboard-title {
+    background: var(--grey); 
+    padding: 10px var(--column-spacing); 
+    color: var(--white); 
+    font-weight: 400; 
+    letter-spacing: 0.04em;
+}
+  .ref-hr {
+    height: 1px;
+    border: none;
+    background-color: lightgray;
+    margin: 0;
+  }
+  h1 {
+    line-height: 1em;
+  }
 .ref-content {
   padding: var(--column-spacing);
+}
+.ref-content-color {
+  display: grid;
+  padding: var(--column-spacing);
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  column-gap: var(--column-spacing);
+  row-gap: var(--column-spacing);
 }
 .type-parent {
   padding: var(--column-spacing) 0; 
@@ -158,6 +244,23 @@
   margin: 0;
   line-height: .4em !important;
 }
+.color-card {
+  display: inline-block;
+  padding: 25px;
+}
+.color-swatch {
+  border: 2px solid rgb(233, 232, 232); border-radius: 10px;
+}
+.color-label {
+  font-size: 11pt;
+  font-weight: 600;
+  margin-right: 5px;
+}
+.color-name {
+  font-weight: 500;
+  font-size: 14pt;
+  line-height: 20pt;
+}
 @media screen and (min-width: 1081px) {
   .type-parent {
     padding-right: 40px;
@@ -178,33 +281,5 @@
     display: none;
   }
 }
-
-  .ref-artboard {
-    border: 2px solid var(--grey); 
-    border-radius: 5px;
-  }
-  .ref-artboard-title {
-    background: var(--grey); 
-    padding: 10px var(--column-spacing); 
-    color: var(--white); 
-    font-weight: 400; 
-    letter-spacing: 0.04em;
-  }
-  .ref-grid-3 {
-    display: grid; 
-    grid-template-columns: 1fr 250px 250px;
-    row-gap: 25px;
-    column-gap: 25px;
-    padding-right: 40px
-  }
-  .ref-hr {
-    height: 1px;
-    border: none;
-    background-color: lightgray;
-    margin: 0;
-  }
-  h1 {
-    line-height: 1em;
-  }
   
 </style>
