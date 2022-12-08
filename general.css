@@ -41,7 +41,7 @@ hr {
 }
 
 .inline-link {
-  background: url("../assets/links/inline-link-arrow.png") no-repeat 100% 0;
+  background: url("inline-link-arrow.png") no-repeat 100% 0;
   background-size: 13px 17px;
   text-decoration: none;
   color: #898989;
