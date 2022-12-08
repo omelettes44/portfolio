@@ -1,0 +1,32 @@
+:root{
+  /* spacing */
+    --sm-vh: 2vh;
+    --sm-vw: 2vw;
+    --md-vh: 4vh;
+    --md-vw: 4vw;
+    --lg-vh: 6vh;
+    --lg-vw: 6vw;
+  /* colors */
+    --black: #424242;
+    --white: #FFFFFF;
+    --tan: #FFFBF6;
+    --grey: #A7A7A7;
+    --hlight: #FF9C21;
+  /* typography size */
+    --h1: 4.7em;
+    --h2: 3em;
+    --h3: 2em;
+    --h4: 1.5em;
+    --h5: 1.2em;
+    --h6: .8em;
+    --p: 1.2em;
+    --caption: 1em;
+  /* typography weight */
+    --light: 100;
+    --reg: 400;
+    --semi: 500;
+    --bold: 600;
+  /* projects */
+    --column-spacing: 25px;
+    --project-info: var(--h3);
+}

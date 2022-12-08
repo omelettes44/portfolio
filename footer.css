@@ -1,0 +1,17 @@
+.footer-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 0 60px 0;
+  padding: 0;
+}
+
+.footer-content a{
+  font-size: var(--h4);
+  text-decoration: none;
+  color: var(--black);
+}
+
+.footer-content a:hover{
+  text-decoration: underline;
+}
