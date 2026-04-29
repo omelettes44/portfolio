@@ -286,7 +286,7 @@ function ConnectFooter({ variant = "light" }) {
         <div className="connect__label">Connect with me</div>
         <div className="connect__cta">
           <a className="btn-pill" href="mailto:hi@jesslikes.work">
-            Send an email <ArrowIcon />
+            <span className="btn-pill__label">Send an email</span> <ArrowIcon />
           </a>
           <a className="btn-text" href="https://www.linkedin.com/in/jess-leung-77897010b/" target="_blank" rel="noopener">
             <span className="slide-inner">
