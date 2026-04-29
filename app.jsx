@@ -289,7 +289,10 @@ function ConnectFooter({ variant = "light" }) {
             Send an email <ArrowIcon />
           </a>
           <a className="btn-text" href="https://www.linkedin.com/in/jess-leung-77897010b/" target="_blank" rel="noopener">
-            LinkedIn
+            <span className="slide-inner">
+              <span className="slide-top">LinkedIn</span>
+              <span className="slide-bot">LinkedIn</span>
+            </span>
           </a>
         </div>
       </div>
