@@ -12,8 +12,144 @@
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 
+/* ==================== CUSTOM CURSORS ==================== */
+
+/* Hide default cursor on all pages */
+.page {
+  cursor: none;
+}
+
+.page a,
+.page button,
+.page .tile {
+  cursor: none;
+}
+
+/* Custom cursor dot element */
+.custom-cursor {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+}
+
+/* ========== WORK PAGE: Simple dot ========== */
+.page--work .custom-cursor {
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s cubic-bezier(0.22, 1, 0.36, 1),
+              width 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+              height 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Shrink on hover over clickable elements */
+.page--work .custom-cursor.hovering {
+  width: 5px;
+  height: 5px;
+}
+
+/* ========== PROCESS PAGE: Figma-style arrow ========== */
+.page--process .custom-cursor {
+  width: 20px;
+  height: 20px;
+  transform: translate(-2px, -2px);
+  mix-blend-mode: normal;
+}
+
+.page--process .custom-cursor svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ========== PERSON PAGE: Hand-drawn wobbly circle ========== */
+.page--person .custom-cursor {
+  width: 24px;
+  height: 24px;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: normal;
+  transition: transform 0.1s ease-out;
+}
+
+.page--person .custom-cursor svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+
+
+STEP 2: ADD THIS JAVASCRIPT CODE
+---------------------------------
+Find the line that says </body> in your index.html file  
+Paste THIS CODE right BEFORE that </body> line:
+
+
+<script>
+(function() {
+  const cursor = document.createElement('div');
+  cursor.className = 'custom-cursor';
+  document.body.appendChild(cursor);
+
+  let cursorX = 0, cursorY = 0, currentPage = 'work';
+
+  function updateCursor(e) {
+    cursorX = e.clientX;
+    cursorY = e.clientY;
+    cursor.style.left = cursorX + 'px';
+    cursor.style.top = cursorY + 'px';
+  }
+
+  function updateActivePage() {
+    const activePage = document.querySelector('.layer.is-active');
+    if (!activePage) return;
+    
+    if (activePage.querySelector('.page--work')) {
+      currentPage = 'work';
+      cursor.innerHTML = '';
+    } else if (activePage.querySelector('.page--process')) {
+      currentPage = 'process';
+      cursor.innerHTML = '<svg viewBox="0 0 20 20" fill="none"><path d="M3 3L3 17L9 11L12 14L17 3L3 3Z" fill="white" stroke="black" stroke-width="1.5" stroke-linejoin="round"/><path d="M3 3L12 14" stroke="black" stroke-width="1.5"/></svg>';
+    } else if (activePage.querySelector('.page--person')) {
+      currentPage = 'person';
+      cursor.innerHTML = '<svg viewBox="0 0 24 24" fill="none"><path d="M12 2.5C6.8 2.5 2.5 6.8 2.5 12C2.5 17.2 6.8 21.5 12 21.5C17.2 21.5 21.5 17.2 21.5 12C21.5 6.8 17.2 2.5 12 2.5Z" stroke="#111" stroke-width="1.8" stroke-linecap="round" style="stroke-dasharray: 2, 1.5;"/></svg>';
+    }
+  }
+
+  function handleHover(e) {
+    if (currentPage === 'work') {
+      cursor.classList.toggle('hovering', e.type === 'mouseenter');
+    }
+  }
+
+  function attachListeners() {
+    document.querySelectorAll('.page--work a, .page--work button, .page--work .tile').forEach(el => {
+      el.addEventListener('mouseenter', handleHover);
+      el.addEventListener('mouseleave', handleHover);
+    });
+  }
+
+  document.addEventListener('mousemove', updateCursor);
+  new MutationObserver(() => {
+    updateActivePage();
+    attachListeners();
+  }).observe(document.body, {subtree: true, attributes: true, attributeFilter: ['class']});
+
+  setTimeout(() => {
+    updateActivePage();
+    attachListeners();
+  }, 100);
+})();
+</script>
+
+  
 <style>
-  :root {
+  :root 
+  
+  {
     --bg-person: #ffffff;
     --bg-process: #2e57d6;
     --bg-work: #0d1116;
