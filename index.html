@@ -1103,8 +1103,11 @@
   body[data-density="tight"] .clients { margin-top: 40px; }
   /* Custom cursor */
   @media (hover: hover) and (pointer: fine) {
-    html, body { cursor: none; }
-    a, button, .nav__btn, .tile, .client, .prog, [role="button"] { cursor: none; }
+    html, body, * { cursor: none !important; }
+    /* Keep system cursor inside the tweaks panel UI controls */
+    [class^="twk-"], [class*=" twk-"], [class^="twk-"] *, [class*=" twk-"] * {
+      cursor: auto !important;
+    }
   }
   .cursor-dot, .cursor-ring {
     position: fixed;
