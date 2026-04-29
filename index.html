@@ -842,6 +842,7 @@
     background: transparent;
     position: relative;
     overflow: hidden;
+    isolation: isolate;
     transition: transform 220ms var(--ease),
                 color 260ms var(--ease),
                 border-color 260ms var(--ease);
@@ -853,9 +854,13 @@
     background: var(--accent);
     transform: translateX(-101%);
     transition: transform 380ms var(--ease);
-    z-index: 0;
+    z-index: -1;
   }
-  .btn-pill > * { position: relative; z-index: 1; }
+  .btn-pill .btn-pill__label,
+  .btn-pill .arrow {
+    position: relative;
+    z-index: 1;
+  }
   .btn-pill .arrow {
     width: 22px; height: 22px;
     transition: transform 260ms var(--ease);
@@ -901,6 +906,7 @@
     height: 1.1em;
     overflow: hidden;
     line-height: 1.1;
+    vertical-align: bottom;
   }
   .btn-text .slide-top,
   .btn-text .slide-bot {
@@ -1096,6 +1102,10 @@
   body[data-density="tight"] .section { margin-top: 28px; }
   body[data-density="tight"] .clients { margin-top: 40px; }
   /* Custom cursor */
+  @media (hover: hover) and (pointer: fine) {
+    html, body { cursor: none; }
+    a, button, .nav__btn, .tile, .client, .prog, [role="button"] { cursor: none; }
+  }
   .cursor-dot, .cursor-ring {
     position: fixed;
     top: 0; left: 0;
@@ -1123,14 +1133,13 @@
     margin-left: -32px; margin-top: -32px;
     opacity: 0.4;
   }
-  .page--person .cursor-dot { background: #111; }
-  .page--process .cursor-dot,
-  .page--work .cursor-dot { background: #fff; }
-  .page--person .cursor-ring { border-color: #111; }
-  .page--process .cursor-ring,
-  .page--work .cursor-ring { border-color: #fff; }
+  /* Color variants applied directly to cursor by JS */
+  .cursor-dot.on-light { background: #111; }
+  .cursor-dot.on-dark { background: #fff; }
+  .cursor-ring.on-light { border-color: #111; }
+  .cursor-ring.on-dark { border-color: #fff; }
 
-  @media (hover: none) {
+  @media (hover: none), (pointer: coarse) {
     .cursor-dot, .cursor-ring { display: none; }
   }
 </style>
@@ -1143,12 +1152,17 @@
 <div class="cursor-ring"></div>
 <script>
 (function() {
-  if (window.matchMedia && window.matchMedia('(hover: none)').matches) return;
+  if (window.matchMedia && window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
   var dot = document.querySelector('.cursor-dot');
   var ring = document.querySelector('.cursor-ring');
   if (!dot || !ring) return;
-  var mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', function(e) { mx = e.clientX; my = e.clientY; });
+  var mx = 0, my = 0, rx = 0, ry = 0, started = false;
+
+  document.addEventListener('mousemove', function(e) {
+    mx = e.clientX; my = e.clientY;
+    if (!started) { rx = mx; ry = my; started = true; }
+  });
+
   function tick() {
     rx += (mx - rx) * 0.45;
     ry += (my - ry) * 0.45;
@@ -1157,13 +1171,35 @@
     requestAnimationFrame(tick);
   }
   tick();
+
+  // Detect which page is active and set cursor color accordingly.
+  // White page (Person) = dark cursor; blue/dark pages = light cursor.
+  function syncColor() {
+    var active = document.querySelector('.layer.is-active .page');
+    var onDark = false;
+    if (active) {
+      if (active.classList.contains('page--person')) onDark = false;
+      else if (active.classList.contains('page--process')) onDark = true;
+      else if (active.classList.contains('page--work')) onDark = true;
+    }
+    dot.classList.toggle('on-dark', onDark);
+    dot.classList.toggle('on-light', !onDark);
+    ring.classList.toggle('on-dark', onDark);
+    ring.classList.toggle('on-light', !onDark);
+  }
+  syncColor();
+  // Re-sync whenever the DOM changes (page swaps)
+  var observer = new MutationObserver(syncColor);
+  observer.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
+
+  // Hover state on interactive elements
   document.addEventListener('mouseover', function(e) {
-    if (e.target.closest && e.target.closest('a, button, .nav__btn, .tile, .client, .prog')) {
+    if (e.target.closest && e.target.closest('a, button, .nav__btn, .tile, .client, .prog, [role="button"]')) {
       ring.classList.add('is-hover');
     }
   });
   document.addEventListener('mouseout', function(e) {
-    if (e.target.closest && e.target.closest('a, button, .nav__btn, .tile, .client, .prog')) {
+    if (e.target.closest && e.target.closest('a, button, .nav__btn, .tile, .client, .prog, [role="button"]')) {
       ring.classList.remove('is-hover');
     }
   });
