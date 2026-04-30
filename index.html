@@ -1,1227 +1,575 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>Jess Leung — Visual Designer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
+const { useState, useEffect, useRef, useCallback } = React;
 
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+/* ----------------------------- Data ----------------------------- */
 
-<style>
-  :root {
-    --bg-person: #ffffff;
-    --bg-process: #2e57d6;
-    --bg-work: #0d1116;
-    --ink-person: #111418;
-    --ink-process: #ffffff;
-    --ink-work: #ffffff;
-    --accent: #f7c98a;
-    --accent-soft: #fde6c4;
-    --tile: #14253f;
-    --tile-hi: #1a2e4d;
-    --rule: rgba(0,0,0,0.08);
-    --rule-on-blue: rgba(255,255,255,0.18);
-    --rule-on-dark: rgba(255,255,255,0.10);
-    --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  * { box-sizing: border-box; }
-  html, body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Figtree', system-ui, -apple-system, Helvetica, Arial, sans-serif;
-    font-feature-settings: "ss01", "cv11";
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    background: #0d1116;
-    color: #111;
-    overflow-x: hidden;
-  }
-  body {
-    min-height: 100vh;
-    min-height: 100dvh;
-  }
-  a { color: inherit; }
+const PERSON_COPY = [
+  "After studying design at Pratt Institute, I worked for several years at a creative experiential agency in New York City. In 2018, I relocated to San Francisco, where I've since been freelancing and working in-house with tech companies across the Bay Area.",
+  "My interests shift from time to time but a consistent aspect is one of design — the joy of shaping and participation.",
+  "Outside of work, I'm often deep-diving on one of my sporadic curiosities, doing gel-x nail art for my friends, and building towns in Animal Crossing."
+];
 
-  /* Stage holds three layers that cross-fade. */
-  .stage {
-    position: relative;
-    min-height: 100vh;
-    min-height: 100dvh;
-    width: 100%;
-    overflow: hidden;
-  }
-  .layer {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 700ms var(--ease);
-    will-change: opacity;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-  }
-  .layer.is-active {
-    opacity: 1;
-    pointer-events: auto;
-    z-index: 2;
-  }
-  .layer.is-active main.section,
-  .layer.is-active .connect { animation: rise 900ms var(--ease) both; }
-  .layer.is-active main.section .title,
-  .layer.is-active main.section h1.title { animation: none; }
+const PROCESS_LEAD = "I'm a multidisciplinary designer interested in storytelling and transformation through visual design. From the briefing room to concepting to execution, I'm inspired by vision-driven design solutions that shape meaningful narratives, encourage connection, and are enjoyable to experience.";
 
-  @keyframes rise {
-    from { transform: translateY(8px); opacity: 0; }
-    to   { transform: none; opacity: 1; }
-  }
+const FOCUSES = ["Brand Strategy", "Brand Identity Systems", "Art Direction"];
+const DISCIPLINES = ["Marketing Design", "Web & Digital Design", "Experiential Design", "Presentation Design", "Illustration", "Motion"];
 
-  .page {
-    min-height: 100vh;
-    min-height: 100dvh;
-    padding: 36px 56px 28px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-  }
-  .page--person { background: var(--bg-person); color: var(--ink-person); --bg-current: var(--bg-person); }
-  .page--process { background: var(--bg-process); color: var(--ink-process); --bg-current: var(--bg-process); }
-  .page--work { background: var(--bg-work); color: var(--ink-work); --bg-current: var(--bg-work); }
+const PROGRAMS = [
+  { abbr: "Fg", name: "Figma" },
+  { abbr: "Ps", name: "Photoshop" },
+  { abbr: "Ai", name: "Illustrator" },
+  { abbr: "Ae", name: "After Effects" },
+  { abbr: "Id", name: "InDesign" },
+  { abbr: "Fr", name: "Framer" },
+  { abbr: "Sp", name: "Spline" },
+  { abbr: "Ty", name: "Typography" },
+  { abbr: "Mj", name: "Midjourney" },
+  { abbr: "Cn", name: "Cinema 4D" },
+  { abbr: "Nt", name: "Notion" }
+];
 
-  /* Floating nav (fixed top-right, persists across all pages) */
-  .fnav {
-    position: fixed;
-    top: 36px;
-    right: 56px;
-    z-index: 30;
-    transition: color 500ms var(--ease);
-  }
-  .fnav--person { color: #111; }
-  .fnav--process { color: #ffffff; }
-  .fnav--work { color: rgba(255,255,255,0.92); }
+const PRINCIPLES = [
+  { num: "01", title: "Listen first, sketch second.", body: "Every project starts in conversation. The brief is just the entry point — the real work is finding the unsaid thing the team can't name yet." },
+  { num: "02", title: "Systems, not snapshots.", body: "I design for the long arc: tokens, components, rituals. A logo is the easy part; what's hard is the hundredth touchpoint still feeling like the first." },
+  { num: "03", title: "Make it enjoyable.", body: "Delight isn't decoration. A well-placed surprise — a wink, a curve, a soft transition — is how brands become memories." }
+];
 
-  /* Style A: Squares (default — your current) */
-  .floating-nav {
-    display: flex;
-    gap: 12px;
-    color: #111;
+const PROJECTS = [
+  {
+    id: "p1",
+    cls: "t-a",
+    art: "art-1",
+    year: "2025",
+    title: "Meta Pro Team",
+    sub: "Brand identity & design system – B2B Program",
+    client: "Sundial Health",
+    role: "Lead Designer",
+    services: "Brand Identity, Web Design, Art Direction",
+    year_full: "2024 — 2025",
+    blurb: "A new visual language for a preventative care startup. We built a wordmark, color system, and narrative architecture that reframed annual checkups as something to look forward to — not avoid.",
+    body: "Sundial came to us a year before launch. They had a strong clinical model and a name that hinted at warmth, but the existing identity felt like every other healthcare brand: blue, sterile, faintly defensive. We rebuilt the identity around a single idea — that the body keeps time, and good design helps you read the dial. The mark, color system, and editorial voice all flow from that metaphor."
+  },
+  {
+    id: "p2",
+    cls: "t-b",
+    art: "art-2",
+    year: "2025",
+    title: "America's Retirement Crisis",
+    sub: "Information Design — Fintech",
+    client: "Foundry",
+    role: "Systems Lead",
+    services: "Design System, Component Library, Documentation",
+    year_full: "2025",
+    blurb: "Foundry's first proper design system. 240+ components, six surfaces, three product teams shipping from a shared truth. The hard part wasn't the tokens — it was the rituals that keep them used.",
+    body: "When I joined, Foundry had three platforms (web app, partner dashboard, admin console) and no shared component library between them. The system we shipped is opinionated where it should be — type, spacing, motion — and quiet where it shouldn't (color, copy). It's been adopted by every product squad and now ships about 40% faster than before."
+  },
+  {
+    id: "p3",
+    cls: "t-c",
+    art: "art-3",
+    year: "2024",
+    title: "Helio Field Guide",
+    sub: "Print & editorial",
+    client: "Helio Climate",
+    role: "Art Director",
+    services: "Editorial Design, Illustration, Print Production",
+    year_full: "2024",
+    blurb: "A 96-page field guide for community climate organizers. Designed to be folded, dog-eared, written in. Printed on uncoated stock with a single-spot fluorescent.",
+    body: "Helio wanted a guide that wouldn't sit on a shelf. We designed for use — wide gutters, generous leading, room for marginalia. The cover is letterpressed; interior is on Munken Lynx 100gsm. We printed 5,000 in the first run, all distributed in person."
+  },
+  {
+    id: "p4",
+    cls: "t-d",
+    art: "art-4",
+    year: "2024",
+    title: "Loop Festival",
+    sub: "Identity & wayfinding",
+    client: "Loop SF",
+    role: "Lead Designer",
+    services: "Identity, Wayfinding, Motion",
+    year_full: "2024",
+    blurb: "A circular generative identity for a 3-day music festival in Golden Gate Park. Every artist got their own variant of the mark, derived from their sonic palette.",
+    body: "The brief: an identity that scales from a phone screen to a 40-foot stage backdrop. The answer was a generative system — a single core mark that responds to audio, to light, to time of day. We built the generator in TouchDesigner; the rendered outputs went on tickets, totes, the stage screens, and 4 different beer cans."
+  },
+  {
+    id: "p5",
+    cls: "t-e",
+    art: "art-5",
+    year: "2023",
+    title: "OneEdition ",
+    sub: "Packaging — F&B",
+    client: "Maison Brûlé",
+    role: "Designer",
+    services: "Packaging, Illustration",
+    year_full: "2023",
+    blurb: "Limited-edition hot sauce packaging for a small-batch sauce maker. Hand-illustrated label, foil-stamped seal, recyclable mono-material bottle.",
+    body: "A side project that turned into a regular client. Maison Brûlé is run by two friends out of a kitchen in Oakland. Each edition gets its own label illustration based on the dominant pepper. The bottles ship in a cardboard sleeve printed with linseed-oil ink."
   }
-  .floating-nav--person { color: #111; }
-  .floating-nav--process { color: #ffffff; }
-  .floating-nav--work { color: #ffffff; }
-  .floating-nav--process .nav__btn,
-  .floating-nav--work .nav__btn { border-color: currentColor; }
+];
 
-  /* Style B: Pill (segmented control) */
-  .fnav--pill {
-    display: inline-flex;
-    position: fixed;
-    padding: 4px;
-    border-radius: 999px;
-    background: rgba(0,0,0,0.04);
-    border: 1px solid rgba(0,0,0,0.08);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-  .fnav--pill.fnav--process,
-  .fnav--pill.fnav--work {
-    background: rgba(255,255,255,0.08);
-    border-color: rgba(255,255,255,0.18);
-  }
-  .fnav-pill__thumb {
-    position: absolute;
-    top: 4px; left: 4px; bottom: 4px;
-    width: calc((100% - 8px) / 3);
-    background: currentColor;
-    border-radius: 999px;
-    transition: transform 380ms var(--ease);
-    opacity: 1;
-  }
-  .fnav-pill__btn {
-    position: relative;
-    z-index: 1;
-    border: 0;
-    background: transparent;
-    padding: 8px 18px;
-    font: inherit;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: -0.005em;
-    cursor: pointer;
-    color: currentColor;
-    opacity: 0.7;
-    transition: opacity 220ms var(--ease), color 220ms var(--ease);
-  }
-  .fnav-pill__btn[aria-current="true"] {
-    opacity: 1;
-    color: var(--pill-on, #fff);
-    mix-blend-mode: difference;
-  }
-  .fnav-pill__btn:hover { opacity: 1; }
+const CLIENTS = [
+  { name: "Meta", logo: "assets/logos/meta.png" },
+  { name: "Roblox", logo: "assets/logos/roblox.png" },
+  { name: "Human Interest", logo: "assets/logos/human-interest.png" },
+  { name: "The Participation Agency", logo: "assets/logos/participation-agency.png" },
+  { name: "Apple", logo: "assets/logos/apple.png" },
+  { name: "Transparent Clinch Gallery", logo: "assets/logos/clinch.png" },
+  { name: "Mondelēz International", logo: "assets/logos/mondelez.png" }
+];
 
-  /* Style C: Dots (minimal index) */
-  .fnav--dots {
-    display: flex;
-    align-items: center;
-    gap: 22px;
-  }
-  .fnav-dot {
-    border: 0;
-    background: transparent;
-    padding: 6px 0;
-    cursor: pointer;
-    color: currentColor;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font: inherit;
-  }
-  .fnav-dot__core {
-    display: inline-block;
-    width: 7px; height: 7px; border-radius: 50%;
-    background: currentColor;
-    opacity: 0.35;
-    transition: opacity 240ms var(--ease), transform 320ms var(--ease);
-  }
-  .fnav-dot[aria-current="true"] .fnav-dot__core {
-    opacity: 1;
-    transform: scale(1.6);
-  }
-  .fnav-dot__label {
-    font-size: 12px;
-    letter-spacing: 0.02em;
-    opacity: 0;
-    max-width: 0;
-    overflow: hidden;
-    transition: opacity 240ms var(--ease), max-width 320ms var(--ease);
-    white-space: nowrap;
-  }
-  .fnav-dot[aria-current="true"] .fnav-dot__label,
-  .fnav-dot:hover .fnav-dot__label {
-    opacity: 1;
-    max-width: 80px;
+/* ----------------------------- Helpers ----------------------------- */
+
+function useEscape(active, onEscape) {
+  useEffect(() => {
+    if (!active) return;
+    const h = (e) => { if (e.key === "Escape") onEscape(); };
+    window.addEventListener("keydown", h);
+    return () => window.removeEventListener("keydown", h);
+  }, [active, onEscape]);
+}
+
+/* ----------------------------- Components ----------------------------- */
+
+function ArrowIcon({ size = 16 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="arrow">
+      <line x1="5" y1="12" x2="19" y2="12"/>
+      <polyline points="12 5 19 12 12 19"/>
+    </svg>
+  );
+}
+
+function PlusIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <line x1="12" y1="5" x2="12" y2="19"/>
+      <line x1="5" y1="12" x2="19" y2="12"/>
+    </svg>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <line x1="6" y1="6" x2="18" y2="18"/>
+      <line x1="18" y1="6" x2="6" y2="18"/>
+    </svg>
+  );
+}
+
+function Header() {
+  return (
+    <header className="header">
+      <div className="brand">
+        <span className="brand__name">jess leung</span>
+        <span className="brand__role">visual designer — san francisco</span>
+      </div>
+    </header>
+  );
+}
+
+function FloatingNav({ activeIdx, onNav, style = "squares" }) {
+  // Order: Work (0), Process (1), Person (2)
+  const labels = ["The Work", "The Process", "The Person"];
+  const shorts = ["Work", "Process", "Person"];
+  const nums = ["01", "02", "03"];
+  const pageKey = ["work","process","person"][activeIdx];
+  const icons = [GridIcon, FlowIcon, FaceIcon];
+
+  if (style === "pill") {
+    return (
+      <nav className={`fnav fnav--pill fnav--${pageKey}`} aria-label="Sections">
+        <span className="fnav-pill__thumb" style={{ transform: `translateX(${activeIdx * 100}%)` }} />
+        {shorts.map((l, i) => (
+          <button key={i} className="fnav-pill__btn" aria-current={activeIdx === i} onClick={() => onNav(i)}>
+            {l}
+          </button>
+        ))}
+      </nav>
+    );
   }
 
-  /* Style D: Numbers — monospace tabular */
-  .fnav--numbers {
-    display: flex;
-    gap: 28px;
-  }
-  .fnav-num {
-    border: 0;
-    background: transparent;
-    padding: 4px 0;
-    cursor: pointer;
-    color: currentColor;
-    font: inherit;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    opacity: 0.45;
-    transition: opacity 240ms var(--ease);
-    position: relative;
-  }
-  .fnav-num:hover { opacity: 0.85; }
-  .fnav-num[aria-current="true"] { opacity: 1; }
-  .fnav-num__n {
-    font-family: ui-monospace, SF Mono, Menlo, monospace;
-    font-size: 11px;
-    letter-spacing: 0.04em;
-    opacity: 0.75;
-  }
-  .fnav-num__l {
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: -0.005em;
-  }
-  .fnav-num[aria-current="true"]::after {
-    content: "";
-    position: absolute;
-    left: 0; right: 0;
-    bottom: -6px;
-    height: 1.5px;
-    background: currentColor;
-    border-radius: 1px;
-    animation: underline 320ms var(--ease) both;
-  }
-  @keyframes underline {
-    from { transform: scaleX(0); transform-origin: left; }
-    to   { transform: scaleX(1); transform-origin: left; }
+  if (style === "dots") {
+    return (
+      <nav className={`fnav fnav--dots fnav--${pageKey}`} aria-label="Sections">
+        {labels.map((l, i) => (
+          <button key={i} className="fnav-dot" aria-current={activeIdx === i} aria-label={l} title={l} onClick={() => onNav(i)}>
+            <span className="fnav-dot__core" />
+            <span className="fnav-dot__label">{shorts[i]}</span>
+          </button>
+        ))}
+      </nav>
+    );
   }
 
-  /* Style E: Minimal — text labels with leading line that grows when active */
-  .fnav--minimal {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 6px;
-  }
-  .fnav-min {
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-    color: currentColor;
-    font: inherit;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 4px 0;
-    font-size: 13px;
-    font-weight: 500;
-    opacity: 0.55;
-    transition: opacity 240ms var(--ease);
-  }
-  .fnav-min:hover { opacity: 0.9; }
-  .fnav-min[aria-current="true"] { opacity: 1; font-weight: 600; }
-  .fnav-min__line {
-    display: inline-block;
-    width: 14px;
-    height: 1.5px;
-    background: currentColor;
-    transition: width 320ms var(--ease);
-  }
-  .fnav-min[aria-current="true"] .fnav-min__line { width: 32px; }
-
-  .header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 24px;
-    padding-right: 220px;
-  }
-  .brand {
-    display: flex;
-    align-items: baseline;
-    gap: 18px;
-    flex-wrap: wrap;
-  }
-  .brand__name {
-    font-weight: 700;
-    font-size: 17px;
-    letter-spacing: -0.01em;
-  }
-  .brand__role {
-    font-size: 13px;
-    opacity: 0.78;
-    font-weight: 400;
+  if (style === "numbers") {
+    return (
+      <nav className={`fnav fnav--numbers fnav--${pageKey}`} aria-label="Sections">
+        {labels.map((l, i) => (
+          <button key={i} className="fnav-num" aria-current={activeIdx === i} aria-label={l} title={l} onClick={() => onNav(i)}>
+            <span className="fnav-num__n">{nums[i]}</span>
+            <span className="fnav-num__l">{shorts[i]}</span>
+          </button>
+        ))}
+      </nav>
+    );
   }
 
-  /* Nav squares */
-  .nav {
-    display: flex;
-    gap: 12px;
-  }
-  .nav__btn {
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
-    border: 1.5px solid currentColor;
-    background: transparent;
-    color: inherit;
-    cursor: pointer;
-    padding: 0;
-    position: relative;
-    display: grid;
-    place-items: center;
-    opacity: 0.28;
-    transition: opacity 220ms var(--ease), transform 220ms var(--ease);
-  }
-  .nav__btn:hover { opacity: 0.7; transform: translateY(-1px); }
-  .nav__btn[aria-current="true"] { opacity: 1; }
-  .nav__btn > svg { display: block; transition: transform 220ms var(--ease); opacity: 0.95; }
-  .nav__btn[aria-current="true"] > svg { transform: scale(1.05); }
-
-  /* Section base */
-  .section {
-    flex: 1;
-    margin-top: clamp(36px, 6vw, 80px);
-    width: 100%;
-    max-width: 1280px;
-  }
-  .eyebrow {
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: lowercase;
-    opacity: 0.6;
-    font-weight: 500;
-  }
-  h1.title {
-    margin: 0 0 8px;
-    font-size: clamp(36px, 5.4vw, 64px);
-    font-weight: 800;
-    letter-spacing: -0.025em;
-    line-height: 1;
+  if (style === "minimal") {
+    return (
+      <nav className={`fnav fnav--minimal fnav--${pageKey}`} aria-label="Sections">
+        {labels.map((l, i) => (
+          <button key={i} className="fnav-min" aria-current={activeIdx === i} aria-label={l} onClick={() => onNav(i)}>
+            <span className="fnav-min__line" />
+            <span className="fnav-min__label">{shorts[i]}</span>
+          </button>
+        ))}
+      </nav>
+    );
   }
 
-  /* Person */
-  .person__grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-    gap: clamp(40px, 6vw, 96px);
-    align-items: start;
-    margin-top: 56px;
-  }
-  .person__grid--single {
-    grid-template-columns: minmax(0, 720px);
-  }
-  .person__copy {
-    max-width: 520px;
-    font-size: 17px;
-    line-height: 1.55;
-    color: #2a2f36;
-  }
-  .person__copy p + p { margin-top: 1.2em; }
-  .person__meta {
-    display: grid;
-    grid-template-columns: 110px 1fr;
-    gap: 10px 24px;
-    margin-top: 36px;
-    font-size: 14px;
-    color: #2a2f36;
-  }
-  .person__meta dt { font-weight: 600; }
-  .person__meta dd { margin: 0; opacity: 0.8; }
+  // default: squares (current)
+  return (
+    <nav className={`fnav floating-nav floating-nav--${pageKey}`} aria-label="Sections">
+      {labels.map((l, i) => {
+        const Icon = icons[i];
+        return (
+          <button
+            key={i}
+            className="nav__btn"
+            aria-current={activeIdx === i}
+            aria-label={l}
+            title={l}
+            onClick={() => onNav(i)}
+          >
+            <Icon />
+          </button>
+        );
+      })}
+    </nav>
+  );
+}
 
-  .person__media {
-    position: relative;
-  }
-  .portrait {
-    aspect-ratio: 4 / 5;
-    width: 100%;
-    max-width: 460px;
-    margin-left: auto;
-    border-radius: 18px;
-    background:
-      radial-gradient(120% 80% at 30% 0%, #fde6c4 0%, transparent 60%),
-      radial-gradient(120% 80% at 90% 100%, #f7c98a 0%, transparent 55%),
-      linear-gradient(180deg, #f6efe4 0%, #ecdfca 100%);
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 30px 60px -30px rgba(0,0,0,0.18);
-  }
-  .portrait__sticker {
-    position: absolute;
-    bottom: 18px;
-    left: 18px;
-    background: #111;
-    color: #fff;
-    border-radius: 999px;
-    padding: 8px 14px;
-    font-size: 12px;
-    letter-spacing: 0.02em;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .pulse {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: #6ee787;
-    box-shadow: 0 0 0 0 rgba(110,231,135,0.7);
-    animation: pulse 1.8s infinite;
-  }
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(110,231,135,0.6); }
-    70% { box-shadow: 0 0 0 10px rgba(110,231,135,0); }
-    100% { box-shadow: 0 0 0 0 rgba(110,231,135,0); }
-  }
-  .portrait__label {
-    position: absolute;
-    inset: auto 0 0 0;
-    padding: 22px 22px 18px;
-    display: flex;
-    justify-content: space-between;
-    font-family: ui-monospace, SF Mono, Menlo, monospace;
-    font-size: 11px;
-    color: rgba(0,0,0,0.55);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-  .portrait__big {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    color: rgba(0,0,0,0.18);
-    font-size: clamp(32px, 6vw, 56px);
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    text-align: center;
-    padding: 24px;
-  }
+function GridIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="4" y="4" width="7" height="7" rx="1" />
+      <rect x="13" y="4" width="7" height="7" rx="1" />
+      <rect x="4" y="13" width="7" height="7" rx="1" />
+      <rect x="13" y="13" width="7" height="7" rx="1" />
+    </svg>
+  );
+}
+function FlowIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="6" cy="6" r="2" />
+      <circle cx="18" cy="12" r="2" />
+      <circle cx="6" cy="18" r="2" />
+      <path d="M8 6h6a4 4 0 0 1 4 4v0" />
+      <path d="M16 12a4 4 0 0 1-4 4H8" />
+    </svg>
+  );
+}
+function FaceIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="9" r="4" />
+      <path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6" />
+    </svg>
+  );
+}
 
-  /* Marquee facts */
-  .marquee {
-    margin-top: clamp(40px, 7vw, 80px);
-    padding: 18px 0;
-    overflow: hidden;
-    mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
-  }
-  .marquee__track {
-    display: flex;
-    gap: 48px;
-    width: max-content;
-    animation: marquee 38s linear infinite;
-    font-size: 14px;
-    color: #4a5160;
-    align-items: center;
-  }
-  .marquee__track span { display: inline-flex; align-items: center; gap: 14px; white-space: nowrap; }
-  .marquee__track span::after {
-    content: "";
-    width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: 0.5;
-  }
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
+function ConnectFooter({ variant = "light" }) {
+  return (
+    <footer className="connect">
+      <div>
+        <div className="connect__label">Connect with me</div>
+        <div className="connect__cta">
+          <a className="btn-pill" href="mailto:hi@jesslikes.work">
+            <span className="btn-pill__label">Send an email</span> <ArrowIcon />
+          </a>
+          <a className="btn-text" href="https://www.linkedin.com/in/jess-leung-77897010b/" target="_blank" rel="noopener">
+            <span className="slide-inner">
+              <span className="slide-top">LinkedIn</span>
+              <span className="slide-bot">LinkedIn</span>
+            </span>
+          </a>
+        </div>
+      </div>
+      <div className="copyright">© jess leung 2026</div>
+    </footer>
+  );
+}
 
-  /* Process */
-  .process__lead {
-    font-size: clamp(26px, 3.4vw, 42px);
-    line-height: 1.18;
-    font-weight: 500;
-    letter-spacing: -0.018em;
-    max-width: 16ch;
-    margin: 32px 0 0;
-    text-wrap: balance;
-  }
-  .process__grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: clamp(40px, 5vw, 80px);
-    margin-top: clamp(48px, 7vw, 88px);
-    align-items: start;
-  }
-  .process__lists {
-    display: grid;
-    gap: 28px;
-  }
-  .deflist {
-    display: grid;
-    grid-template-columns: 130px 1fr;
-    gap: 8px 18px;
-    font-size: 15px;
-    align-items: start;
-  }
-  .deflist dt {
-    font-weight: 600;
-    grid-column: 1;
-    margin: 0;
-  }
-  .deflist dd {
-    margin: 0;
-    grid-column: 2;
-    opacity: 0.86;
-    line-height: 1.55;
-  }
-  .deflist dd + dt { margin-top: 6px; }
+/* ----- Person ----- */
 
-  .programs {
-    margin-top: 4px;
-  }
-  .programs__label {
-    font-size: 16px;
-    letter-spacing: 0.04em;
-    opacity: 0.7;
-    margin-bottom: 14px;
-  }
-  .programs__grid {
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 12px;
-    max-width: 460px;
-  }
-  .prog {
-    aspect-ratio: 1 / 1;
-    border-radius: 10px;
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.16);
-    display: grid;
-    place-items: center;
-    font-weight: 700;
-    font-size: 14px;
-    letter-spacing: -0.02em;
-    transition: transform 220ms var(--ease), background 220ms var(--ease);
-    cursor: default;
-    position: relative;
-  }
-  .prog:hover { transform: translateY(-2px); background: rgba(255,255,255,0.2); }
-  .prog__tip {
-    position: absolute;
-    top: -28px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #111;
-    color: #fff;
-    border-radius: 6px;
-    font-size: 11px;
-    padding: 4px 8px;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 180ms var(--ease);
-  }
-  .prog:hover .prog__tip { opacity: 1; }
+function PersonPage() {
+  return (
+    <div className="page page--person">
+      <Header />
+      <main className="section">
+        <h1 className="title">The Person</h1>
 
-  .process__side {
-    display: grid;
-    gap: 28px;
-    align-content: start;
-  }
-  .principle {
-    border: 1px solid var(--rule-on-blue);
-    border-radius: 14px;
-    padding: 22px 24px;
-    background: rgba(255,255,255,0.04);
-  }
-  .principle__num {
-    font-family: ui-monospace, SF Mono, Menlo, monospace;
-    font-size: 12px;
-    opacity: 0.7;
-  }
-  .principle h3 {
-    margin: 8px 0 6px;
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-  }
-  .principle p { margin: 0; font-size: 14px; line-height: 1.55; opacity: 0.85; }
+        <div className="person__grid person__grid--single">
+          <div>
+            <div className="person__copy">
+              {PERSON_COPY.map((p, i) => <p key={i}>{p}</p>)}
+            </div>
+          </div>
+        </div>
+      </main>
+      <ConnectFooter />
+    </div>
+  );
+}
 
-  /* Work */
-  .work__head {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 24px;
-  }
-  .work__count {
-    display: none;
-  }
+/* ----- Process ----- */
 
-  .grid {
-    margin-top: 36px;
-    display: grid;
-    gap: 18px;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-  }
-  .tile {
-    position: relative;
-    background: var(--tile);
-    border-radius: 14px;
-    overflow: hidden;
-    aspect-ratio: 4 / 3;
-    cursor: pointer;
-    border: 0;
-    padding: 0;
-    text-align: left;
-    color: inherit;
-    transition: transform 360ms var(--ease);
-  }
-  .tile.t-a { grid-column: span 3; aspect-ratio: 16 / 11; }
-  .tile.t-b { grid-column: span 3; aspect-ratio: 16 / 11; }
-  .tile.t-c, .tile.t-d, .tile.t-e { grid-column: span 2; aspect-ratio: 4 / 3; }
+function ProcessPage({ processColor }) {
+  return (
+    <div className="page page--process" style={{ background: processColor }}>
+      <Header />
+      <main className="section">
+        <h1 className="title">The Process</h1>
 
-  .tile__art {
-    position: absolute; inset: 0;
-    transition: transform 700ms var(--ease), filter 500ms var(--ease);
-  }
-  .tile:hover .tile__art { transform: scale(1.04); }
+        <p className="process__lead">{PROCESS_LEAD}</p>
 
-  .tile__overlay {
-    position: absolute; inset: 0;
-    padding: 22px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    color: #fff;
-    background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.55) 100%);
-    opacity: 0;
-    transition: opacity 320ms var(--ease);
-  }
-  .tile:hover .tile__overlay,
-  .tile:focus-visible .tile__overlay { opacity: 1; }
-  .tile__title {
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-  }
-  .tile__sub {
-    font-size: 13px;
-    opacity: 0.8;
-    margin-top: 2px;
-  }
-  .tile__year {
-    position: absolute;
-    top: 16px;
-    left: 18px;
-    font-family: ui-monospace, SF Mono, Menlo, monospace;
-    font-size: 11px;
-    opacity: 0.7;
-    color: #fff;
-    letter-spacing: 0.06em;
-  }
-  .tile__open {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.12);
-    backdrop-filter: blur(6px);
-    display: grid; place-items: center;
-    color: #fff;
-    transition: background 220ms var(--ease), transform 220ms var(--ease);
-  }
-  .tile:hover .tile__open { background: rgba(255,255,255,0.2); transform: scale(1.25); }
+        <div className="process__grid">
+          <div className="process__lists">
+            <dl className="deflist">
+              <dt>Focuses</dt>
+              <dd>{FOCUSES.map((f, i) => <div key={i}>{f}</div>)}</dd>
 
-  /* Tile artworks (each one is a different composition built in CSS so they read as distinct) */
-  .art-1 {
-    background:
-      radial-gradient(120% 90% at 20% 20%, #f7c98a 0%, transparent 55%),
-      radial-gradient(120% 90% at 80% 90%, #ff6b48 0%, transparent 55%),
-      linear-gradient(135deg, #1a2e4d 0%, #14253f 100%);
-  }
-  .art-1::before {
-    content: "";
-    position: absolute;
-    inset: 14% 8% 14% 8%;
-    border-radius: 50%;
-    background: radial-gradient(circle, #fff8eb 0%, #f7c98a 40%, transparent 75%);
-    filter: blur(2px);
-    opacity: 0.85;
-  }
-  .art-2 {
-    background: #11212f;
-  }
-  .art-2::before {
-    content: "";
-    position: absolute; inset: 0;
-    background:
-      repeating-linear-gradient(90deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 28px),
-      repeating-linear-gradient(0deg, rgba(255,255,255,0.04) 0 1px, transparent 1px 28px);
-  }
-  .art-2::after {
-    content: "";
-    position: absolute;
-    left: 8%; top: 18%; right: 8%; bottom: 18%;
-    background:
-      radial-gradient(60% 60% at 30% 50%, #6ee787 0%, transparent 65%),
-      radial-gradient(60% 60% at 70% 50%, #2e57d6 0%, transparent 65%);
-    mix-blend-mode: screen;
-    border-radius: 12px;
-  }
-  .art-3 {
-    background: linear-gradient(135deg, #2e57d6, #1a2e4d);
-  }
-  .art-3::before {
-    content: "";
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(40% 40% at 35% 40%, #fff 0%, transparent 60%);
-    opacity: 0.18;
-  }
-  .art-3::after {
-    content: "";
-    position: absolute;
-    left: 50%; top: 50%;
-    width: 60%; aspect-ratio: 1; transform: translate(-50%, -50%);
-    border-radius: 50%;
-    border: 2px solid rgba(255,255,255,0.45);
-    box-shadow:
-      inset 0 0 0 14px rgba(255,255,255,0.06),
-      0 0 0 14px rgba(255,255,255,0.04);
-  }
-  .art-4 {
-    background:
-      conic-gradient(from 220deg at 50% 60%, #f7c98a, #ff6b48, #b54e8a, #2e57d6, #6ee787, #f7c98a);
-    filter: saturate(0.85);
-  }
-  .art-4::before {
-    content: "";
-    position: absolute;
-    inset: 22%;
-    background: #0d1116;
-    border-radius: 50%;
-  }
-  .art-5 {
-    background: #1a2e4d;
-  }
-  .art-5::before {
-    content: "";
-    position: absolute;
-    inset: 16% 18%;
-    background:
-      linear-gradient(180deg, #ff6b48, #f7c98a 60%, #fde6c4);
-    border-radius: 18px 18px 60% 60% / 18px 18px 25% 25%;
-    box-shadow: 0 24px 48px rgba(0,0,0,0.35);
-  }
-  .art-5::after {
-    content: "ed.01";
-    position: absolute;
-    left: 50%; bottom: 18%;
-    transform: translateX(-50%);
-    color: #1a2e4d;
-    font-weight: 800;
-    font-size: 14px;
-    letter-spacing: 0.04em;
-  }
+              <dt>Disciplines</dt>
+              <dd>{DISCIPLINES.map((d, i) => <div key={i}>{d}</div>)}</dd>
+            </dl>
 
-  /* Clients */
-  .clients {
-    margin-top: clamp(56px, 8vw, 96px);
-  }
-  .clients__label {
-    font-size: 16px;
-    letter-spacing: 0.04em;
-    opacity: 0.55;
-    margin-bottom: 18px;
-  }
-  .clients__row {
-    display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    gap: 32px;
-    align-items: center;
-    padding: 12px 0 12px 0;
-  }
-  .client {
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 36px;
-    opacity: 1;
-  }
-  .client img {
-    max-height: 100%;
-    max-width: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    filter: brightness(0) invert(1);
-  }
+            <div className="programs">
+              <div className="programs__label">Programs</div>
+              <div className="programs__grid">
+                {PROGRAMS.map((p, i) => (
+                  <div key={i} className="prog">
+                    {p.abbr}
+                    <span className="prog__tip">{p.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <ConnectFooter variant="blue" />
+    </div>
+  );
+}
 
-  /* Footer (connect bar) */
-  .connect {
-    margin-top: clamp(56px, 8vw, 88px);
-    padding-top: 28px;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: end;
-    gap: 24px;
-  }
-  .connect__label {
-    font-size: 16px;
-    letter-spacing: 0.04em;
-    opacity: 0.6;
-    margin-bottom: 32px;
-  }
-  .connect__cta {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-  }
-  /* Sweep CTA pill */
-  .btn-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 14px;
-    padding: 18px 32px;
-    border-radius: 999px;
-    font-size: 24px;
-    font-weight: 600;
-    letter-spacing: -0.012em;
-    text-decoration: none;
-    line-height: 1;
-    border: 1.5px solid currentColor;
-    background: transparent;
-    position: relative;
-    overflow: hidden;
-    isolation: isolate;
-    transition: transform 220ms var(--ease),
-                color 260ms var(--ease),
-                border-color 260ms var(--ease);
-  }
-  .btn-pill::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--accent);
-    transform: translateX(-101%);
-    transition: transform 380ms var(--ease);
-    z-index: -1;
-  }
-  .btn-pill .btn-pill__label,
-  .btn-pill .arrow {
-    position: relative;
-    z-index: 1;
-  }
-  .btn-pill .arrow {
-    width: 22px; height: 22px;
-    transition: transform 260ms var(--ease);
-  }
-  .btn-pill:hover::before { transform: translateX(0); }
-  .btn-pill:hover .arrow { transform: translateX(4px); }
-  .btn-pill:active { transform: scale(0.98); }
+/* ----- Work ----- */
 
-  /* Person page — dark outline, peach sweep, dark text on hover */
-  .page--person .btn-pill { color: #1b1410; }
-  .page--person .btn-pill::before { background: var(--accent); }
-  .page--person .btn-pill:hover { color: #1b1410; border-color: var(--accent); }
+function Tile({ p, onOpen }) {
+  return (
+    <button className={`tile ${p.cls}`} onClick={() => onOpen(p)} aria-label={`Open ${p.title}`}>
+      <div className={`tile__art ${p.art}`} />
+      <span className="tile__open" aria-hidden="true">
+        <PlusIcon />
+      </span>
+      <div className="tile__overlay">
+        <div className="tile__title">{p.title}</div>
+        <div className="tile__sub">{p.sub}</div>
+      </div>
+    </button>
+  );
+}
 
-  /* Process page — white outline, white sweep, blue text on hover */
-  .page--process .btn-pill { color: #ffffff; }
-  .page--process .btn-pill::before { background: #ffffff; }
-  .page--process .btn-pill:hover { color: #2e57d6; }
+function WorkPage({ onOpenProject }) {
+  return (
+    <div className="page page--work">
+      <Header />
+      <main className="section">
+        <h1 className="title">The Work</h1>
 
-  /* Work page — white outline, white sweep, dark text on hover */
-  .page--work .btn-pill { color: #ffffff; }
-  .page--work .btn-pill::before { background: #ffffff; }
-  .page--work .btn-pill:hover { color: #0d1116; }
+        <div className="grid">
+          {PROJECTS.map((p) => (
+            <Tile key={p.id} p={p} onOpen={onOpenProject} />
+          ))}
+        </div>
 
-  /* Slide LinkedIn link */
-  .btn-text {
-    display: inline-block;
-    padding: 16px 20px;
-    border-radius: 999px;
-    font-size: 24px;
-    font-weight: 500;
-    letter-spacing: -0.012em;
-    text-decoration: none;
-    color: inherit;
-    opacity: 0.85;
-    line-height: 1.1;
-    transition: opacity 220ms var(--ease), color 220ms var(--ease);
-  }
-  .btn-text:hover { opacity: 1; }
-  .btn-text:active { color: var(--accent); }
-  .btn-text .slide-inner {
-    position: relative;
-    display: inline-block;
-    height: 1.1em;
-    overflow: hidden;
-    line-height: 1.1;
-    vertical-align: bottom;
-  }
-  .btn-text .slide-top,
-  .btn-text .slide-bot {
-    display: inline-block;
-    transition: transform 380ms var(--ease);
-  }
-  .btn-text .slide-bot {
-    position: absolute;
-    top: 0;
-    left: 0;
-    white-space: nowrap;
-    transform: translateX(calc(-100% - 48px));
-  }
-  .btn-text:hover .slide-top { transform: translateX(calc(100% + 48px)); }
-  .btn-text:hover .slide-bot { transform: translateX(0); }
+        <section className="clients" aria-label="Previously worked with">
+          <div className="clients__label">Previously worked with</div>
+          <div className="clients__row">
+            {CLIENTS.map((c, i) => (
+              <span key={i} className="client" title={c.name}>
+                <img src={c.logo} alt={c.name} />
+              </span>
+            ))}
+          </div>
+        </section>
+      </main>
+      <ConnectFooter variant="dark" />
+    </div>
+  );
+}
 
-  .copyright {
-    text-align: right;
-    font-size: 12px;
-    opacity: 0.5;
-    align-self: end;
-    font-family: ui-monospace, SF Mono, Menlo, monospace;
-  }
+/* ----- Modal ----- */
 
-  /* Modal */
-  .modal-backdrop {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.55);
-    backdrop-filter: blur(6px);
-    z-index: 50;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 320ms var(--ease);
-  }
-  .modal-backdrop.is-open { opacity: 1; pointer-events: auto; }
+function ProjectModal({ project, onClose }) {
+  const open = !!project;
+  useEscape(open, onClose);
 
-  .modal {
-    position: fixed;
-    inset: 4vh 4vw;
-    background: #fafaf7;
-    color: #111;
-    border-radius: 22px;
-    overflow: hidden;
-    z-index: 60;
-    transform: translateY(24px) scale(0.985);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 360ms var(--ease), transform 420ms var(--ease);
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 40px 100px -20px rgba(0,0,0,0.5);
-  }
-  .modal.is-open { opacity: 1; transform: none; pointer-events: auto; }
-  .modal__head {
-    padding: 22px 28px;
-    border-bottom: 1px solid var(--rule);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-  }
-  .modal__crumbs {
-    font-size: 12px;
-    font-family: ui-monospace, SF Mono, Menlo, monospace;
-    letter-spacing: 0.04em;
-    color: #555;
-  }
-  .modal__close {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    border: 1px solid #ddd;
-    background: #fff;
-    cursor: pointer;
-    display: grid; place-items: center;
-    transition: transform 220ms var(--ease);
-  }
-  .modal__close:hover { transform: scale(1.25); }
-  .modal__close > svg { transition: transform 220ms var(--ease); }
-  .modal__body {
-    overflow-y: auto;
-    padding: 36px 36px 56px;
-  }
-  .modal__hero {
-    aspect-ratio: 16 / 9;
-    border-radius: 14px;
-    margin-bottom: 28px;
-    position: relative;
-    overflow: hidden;
-  }
-  .modal__title {
-    font-size: clamp(28px, 4vw, 44px);
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    margin: 0 0 8px;
-    line-height: 1.05;
-  }
-  .modal__sub {
-    font-size: 16px;
-    color: #444;
-    margin: 0 0 28px;
-    max-width: 60ch;
-    line-height: 1.55;
-  }
-  .modal__meta {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0,1fr));
-    gap: 18px;
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-    padding: 18px 0;
-    margin-bottom: 28px;
-  }
-  .modal__meta dt {
-    font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.55; margin-bottom: 4px;
-    font-family: ui-monospace, SF Mono, Menlo, monospace;
-  }
-  .modal__meta dd { margin: 0; font-size: 14px; font-weight: 500; }
-  .modal__body p { font-size: 16px; line-height: 1.6; color: #2a2f36; max-width: 70ch; }
-  .modal__shots {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin: 24px 0;
-  }
-  .modal__shot {
-    aspect-ratio: 4 / 3;
-    border-radius: 10px;
-    overflow: hidden;
-    position: relative;
-  }
-  .modal__shot.full { grid-column: span 2; aspect-ratio: 16 / 8; }
+  useEffect(() => {
+    if (open) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
 
-  /* Mobile */
-  @media (max-width: 760px) {
-    .page { padding: 22px 22px 24px; }
-    .fnav { top: 22px; right: 22px; }
-    .floating-nav { gap: 8px; }
-    .fnav--numbers { gap: 18px; }
-    .fnav--dots { gap: 14px; }
-    .header { padding-right: 130px; }
-    .brand__name { font-size: 15px; }
-    .brand__role { font-size: 12px; flex-basis: 100%; }
-    .brand { gap: 6px; }
-    .nav__btn { width: 30px; height: 30px; }
-    h1.title { font-size: 38px; }
+  return (
+    <>
+      <div className={`modal-backdrop ${open ? "is-open" : ""}`} onClick={onClose} />
+      <div className={`modal ${open ? "is-open" : ""}`} role="dialog" aria-modal="true" aria-label={project?.title}>
+        {project && (
+          <>
+            <div className="modal__head">
+              <div className="modal__crumbs">the work / {project.client}</div>
+              <button className="modal__close" onClick={onClose} aria-label="Close">
+                <CloseIcon />
+              </button>
+            </div>
+            <div className="modal__body">
+              <div className={`modal__hero tile__art ${project.art}`} style={{ position: "relative" }} />
+              <h2 className="modal__title">{project.title}</h2>
+              <p className="modal__sub">{project.blurb}</p>
+              <dl className="modal__meta">
+                <div><dt>Client</dt><dd>{project.client}</dd></div>
+                <div><dt>Role</dt><dd>{project.role}</dd></div>
+                <div><dt>Services</dt><dd>{project.services}</dd></div>
+                <div><dt>Year</dt><dd>{project.year_full}</dd></div>
+              </dl>
+              <p>{project.body}</p>
+              <div className="modal__shots">
+                <div className={`modal__shot full tile__art ${project.art}`} />
+                <div className={`modal__shot tile__art ${project.art}`} style={{ filter: "hue-rotate(20deg)" }} />
+                <div className={`modal__shot tile__art ${project.art}`} style={{ filter: "hue-rotate(-30deg) saturate(0.85)" }} />
+              </div>
+              <p>Process notes, the false starts, the things we learned. (Drop additional copy + asset rows here per case study.)</p>
+            </div>
+          </>
+        )}
+      </div>
+    </>
+  );
+}
 
-    .section { margin-top: 36px; }
+/* ----- App ----- */
 
-    .person__grid {
-      grid-template-columns: 1fr;
-      gap: 28px;
-      margin-top: 32px;
+function App() {
+  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  // active section index — order: work=0, process=1, person=2
+  const startIdx = { work: 0, process: 1, person: 2 }[tweaks.showStartingScreen] ?? 0;
+  const [active, setActive] = useState(startIdx);
+  const [openProject, setOpenProject] = useState(null);
+
+  // Hash-based navigation so sections are linkable
+  useEffect(() => {
+    const map = ["work", "process", "person"];
+    const fromHash = () => {
+      const h = window.location.hash.replace("#", "");
+      const i = map.indexOf(h);
+      if (i >= 0) setActive(i);
+    };
+    fromHash();
+    window.addEventListener("hashchange", fromHash);
+    return () => window.removeEventListener("hashchange", fromHash);
+  }, []);
+
+  const nav = useCallback((i) => {
+    setActive(i);
+    const map = ["work", "process", "person"];
+    if (window.history.replaceState) {
+      window.history.replaceState(null, "", "#" + map[i]);
     }
-    .person__media { order: -1; }
-    .portrait { max-width: 100%; aspect-ratio: 5 / 4; }
-    .person__copy { font-size: 16px; }
-    .person__meta { grid-template-columns: 100px 1fr; }
+    // Scroll the now-active layer to top
+    requestAnimationFrame(() => {
+      const layers = document.querySelectorAll(".layer");
+      if (layers[i]) layers[i].scrollTop = 0;
+    });
+  }, []);
 
-    .process__lead { font-size: 24px; }
-    .process__grid { grid-template-columns: 1fr; gap: 36px; }
-    .programs__grid { grid-template-columns: repeat(6, 1fr); max-width: none; }
-    .deflist { grid-template-columns: 110px 1fr; }
+  // Expose nav for header buttons (avoid prop-drilling everywhere)
+  useEffect(() => { window.__nav = nav; }, [nav]);
 
-    .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .tile.t-a, .tile.t-b { grid-column: span 2; aspect-ratio: 16 / 11; }
-    .tile.t-c, .tile.t-d, .tile.t-e { grid-column: span 1; aspect-ratio: 1 / 1; }
-    .tile__title { font-size: 15px; }
-    .tile__overlay { opacity: 1; padding: 14px; }
+  // Apply density tweak
+  useEffect(() => {
+    document.body.dataset.density = tweaks.density;
+  }, [tweaks.density]);
 
-    .clients__row { grid-template-columns: repeat(3, 1fr); gap: 22px 18px; padding: 22px 0; }
-    .client { height: 28px; }
+  // Apply accent tweak
+  useEffect(() => {
+    document.documentElement.style.setProperty("--accent", tweaks.accentColor);
+  }, [tweaks.accentColor]);
 
-    .connect { grid-template-columns: 1fr; }
-    .copyright { text-align: left; }
-    .connect__cta { flex-wrap: wrap; }
+  return (
+    <>
+      <div className="stage">
+        <div className={`layer ${active === 0 ? "is-active" : ""}`} aria-hidden={active !== 0}>
+          <WorkPage onOpenProject={setOpenProject} />
+        </div>
+        <div className={`layer ${active === 1 ? "is-active" : ""}`} aria-hidden={active !== 1}>
+          <ProcessPage processColor={tweaks.processColor} />
+        </div>
+        <div className={`layer ${active === 2 ? "is-active" : ""}`} aria-hidden={active !== 2}>
+          <PersonPage />
+        </div>
+      </div>
 
-    .modal { inset: 0; border-radius: 0; }
-    .modal__body { padding: 24px 20px 40px; }
-    .modal__meta { grid-template-columns: repeat(2, 1fr); }
-    .modal__shots { grid-template-columns: 1fr; }
-    .modal__shot.full { grid-column: span 1; }
-  }
+      <ProjectModal project={openProject} onClose={() => setOpenProject(null)} />
 
-  /* Reduce motion */
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.001ms !important;
-      transition-duration: 0.001ms !important;
-    }
-  }
+      <FloatingNav activeIdx={active} onNav={nav} style={tweaks.navStyle} />
 
-  /* Tweaks dark fallback */
-  body[data-density="tight"] .section { margin-top: 28px; }
-  body[data-density="tight"] .clients { margin-top: 40px; }
-  /* Custom cursor */
-  @media (hover: hover) and (pointer: fine) {
-    html, body, * { cursor: none !important; }
-    /* Keep system cursor inside the tweaks panel UI controls */
-    [class^="twk-"], [class*=" twk-"], [class^="twk-"] *, [class*=" twk-"] * {
-      cursor: auto !important;
-    }
-  }
-  .cursor-dot, .cursor-ring {
-    position: fixed;
-    top: 0; left: 0;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-100px, -100px);
-  }
-  .cursor-dot {
-    width: 6px; height: 6px;
-    margin-left: -3px; margin-top: -3px;
-    background: #111;
-    transition: background 300ms var(--ease);
-  }
-  .cursor-ring {
-    width: 32px; height: 32px;
-    margin-left: -16px; margin-top: -16px;
-    border: 1.5px solid #111;
-    transition: width 280ms var(--ease), height 280ms var(--ease),
-                margin 280ms var(--ease), opacity 280ms var(--ease),
-                border-color 300ms var(--ease);
-  }
-  .cursor-ring.is-hover {
-    width: 64px; height: 64px;
-    margin-left: -32px; margin-top: -32px;
-    opacity: 0.4;
-  }
-  /* Color variants applied directly to cursor by JS */
-  .cursor-dot.on-light { background: #111; }
-  .cursor-dot.on-dark { background: #fff; }
-  .cursor-ring.on-light { border-color: #111; }
-  .cursor-ring.on-dark { border-color: #fff; }
+      <TweaksPanel>
+        <TweakSection label="Look & Feel" />
+        <TweakColor
+          label="Process page color"
+          value={tweaks.processColor}
+          onChange={(v) => setTweak("processColor", v)}
+        />
+        <TweakColor
+          label="Email button accent"
+          value={tweaks.accentColor}
+          onChange={(v) => setTweak("accentColor", v)}
+        />
 
-  @media (hover: none), (pointer: coarse) {
-    .cursor-dot, .cursor-ring { display: none; }
-  }
-</style>
-</head>
-<body>
+        <TweakSection label="Layout" />
+        <TweakSelect
+          label="Nav style"
+          value={tweaks.navStyle}
+          options={[
+            { value: "squares", label: "Squares (default)" },
+            { value: "pill", label: "Segmented pill" },
+            { value: "dots", label: "Dots" },
+            { value: "numbers", label: "Numbered tabs" },
+            { value: "minimal", label: "Minimal lines" }
+          ]}
+          onChange={(v) => setTweak("navStyle", v)}
+        />
+        <TweakRadio
+          label="Density"
+          value={tweaks.density}
+          options={[{ value: "default", label: "Default" }, { value: "tight", label: "Tight" }]}
+          onChange={(v) => setTweak("density", v)}
+        />
+        <TweakRadio
+          label="Start on"
+          value={tweaks.showStartingScreen}
+          options={[
+            { value: "person", label: "Person" },
+            { value: "process", label: "Process" },
+            { value: "work", label: "Work" }
+          ]}
+          onChange={(v) => setTweak("showStartingScreen", v)}
+        />
+      </TweaksPanel>
+    </>
+  );
+}
 
-<div id="root"></div>
-
-<div class="cursor-dot"></div>
-<div class="cursor-ring"></div>
-<script>
-(function() {
-  if (window.matchMedia && window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
-  var dot = document.querySelector('.cursor-dot');
-  var ring = document.querySelector('.cursor-ring');
-  if (!dot || !ring) return;
-  var mx = 0, my = 0, rx = 0, ry = 0, started = false;
-
-  document.addEventListener('mousemove', function(e) {
-    mx = e.clientX; my = e.clientY;
-    if (!started) { rx = mx; ry = my; started = true; }
-  });
-
-  function tick() {
-    rx += (mx - rx) * 0.45;
-    ry += (my - ry) * 0.45;
-    dot.style.transform = 'translate(' + mx + 'px,' + my + 'px)';
-    ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px)';
-    requestAnimationFrame(tick);
-  }
-  tick();
-
-  // Detect which page is active and set cursor color accordingly.
-  // White page (Person) = dark cursor; blue/dark pages = light cursor.
-  function syncColor() {
-    var active = document.querySelector('.layer.is-active .page');
-    var onDark = false;
-    if (active) {
-      if (active.classList.contains('page--person')) onDark = false;
-      else if (active.classList.contains('page--process')) onDark = true;
-      else if (active.classList.contains('page--work')) onDark = true;
-    }
-    dot.classList.toggle('on-dark', onDark);
-    dot.classList.toggle('on-light', !onDark);
-    ring.classList.toggle('on-dark', onDark);
-    ring.classList.toggle('on-light', !onDark);
-  }
-  syncColor();
-  // Re-sync whenever the DOM changes (page swaps)
-  var observer = new MutationObserver(syncColor);
-  observer.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
-
-  // Hover state on interactive elements
-  document.addEventListener('mouseover', function(e) {
-    if (e.target.closest && e.target.closest('a, button, .nav__btn, .tile, .prog, [role="button"]')) {
-      ring.classList.add('is-hover');
-    }
-  });
-  document.addEventListener('mouseout', function(e) {
-    if (e.target.closest && e.target.closest('a, button, .nav__btn, .tile, .prog, [role="button"]')) {
-      ring.classList.remove('is-hover');
-    }
-  });
-})();
-</script>
-
-<script>
-  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-    "processColor": "#2e57d6",
-    "accentColor": "#f7c98a",
-    "density": "default",
-    "showStartingScreen": "work",
-    "transitionStyle": "crossfade",
-    "navStyle": "squares"
-  }/*EDITMODE-END*/;
-</script>
-
-<script type="text/babel" src="tweaks-panel.jsx"></script>
-<script type="text/babel" src="app.jsx"></script>
-
-</body>
-</html>
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
