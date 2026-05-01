@@ -54,7 +54,7 @@ const PROJECTS = [
       ]
     },
     title: "Meta Pro Team",
-    sub: "Brand Identity & design system – B2B Program",
+    sub: "Brand identity & design system – B2B Program",
     client: "Meta",
     role: "Lead Designer",
     services: "Brand Identity, Design System, Art Direction",
