@@ -24,7 +24,7 @@ const PROGRAMS = [
   { abbr: "Pt", name: "Powerpoint", img: "assets/programs/powerpoint.png" },
   { abbr: "Gs", name: "Google Slides", img: "assets/programs/google-slides.png" },
   { abbr: "Sk", name: "Sketchup", img: "assets/programs/sketchup.png" },
-  { abbr: "Cl", name: "Claude", img: "assets/programs/Claude.png" },
+  { abbr: "Cl", name: "Claude", img: "assets/programs/claude.png" },
   { abbr: "Vs", name: "Visual Studio Code", img: "assets/programs/visual-studio-code.png" },
 ];
 
