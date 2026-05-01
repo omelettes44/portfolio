@@ -112,7 +112,7 @@ const PROJECTS = [
     cls: "t-d",
     art: "art-4",
     images: {
-      thumbnail: "projects/Fluctuate/thumb.jpg",  // For grid tile
+      thumbnail: "projects/fluctuate/thumb.jpg",  // For grid tile
       hero: "projects/fluctuate/01.gif",         // For modal top
       gallery: [          
         "projects/fluctuate/09.jpg",
