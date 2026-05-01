@@ -59,55 +59,113 @@ const PROJECTS = [
     role: "Lead Designer",
     services: "Brand Identity, Design System, Art Direction",
     blurb: "A new visual language for a Meta's B2B marketing service. From staging photoshoots on three continents to devising a unified system of iconography, color, and messaging, we designed a branded offer that scales internationally. ",
-    body: "Our assets serve a global audience, remain translation-friendly, and support internal teams with comprehensive guidance on use cases across Meta’s channels and platforms. The component library and usage guidelines are published to the company’s internal brand portal."
+    body: "Our assets serve a global audience, remain translation-friendly, and support internal teams with comprehensive guidance on use cases across Meta’s channels and platforms. The collection of still photos, motion assets, component library, and usage guidelines are published to the company’s internal brand portal."
   },
   {
     id: "p2",
     cls: "t-b",
     art: "art-2",
-    title: "America's Retirement Crisis",
-    sub: "Information Design — Fintech",
-    client: "Foundry",
-    role: "Systems Lead",
-    services: "Design System, Component Library, Documentation",
-    blurb: "Foundry's first proper design system. 240+ components, six surfaces, three product teams shipping from a shared truth. The hard part wasn't the tokens — it was the rituals that keep them used.",
-    body: "When I joined, Foundry had three platforms (web app, partner dashboard, admin console) and no shared component library between them. The system we shipped is opinionated where it should be — type, spacing, motion — and quiet where it shouldn't (color, copy). It's been adopted by every product squad and now ships about 40% faster than before."
+    images: {
+      thumbnail: "projects/meta-campaign/thumb.jpg",  // For grid tile
+      hero: "projects/meta-campaign/01.jpg",         // For modal top
+      gallery: [                                      // For modal gallery section
+        "projects/meta-campaign/02.jpg",
+        "projects/meta-campaign/08.jpg",
+        "projects/meta-campaign/06.jpg",
+        "projects/meta-campaign/04.jpg",
+        "projects/meta-campaign/05.jpg",
+        "projects/meta-campaign/07.jpg",
+      ]
+    },
+    title: "Meta Campaigns",
+    sub: "Visual and marketing design",
+    client: "Meta",
+    role: "Visual Designer",
+    services: "Marketing Design, Web Design",
+    blurb: "Designing cohesive B2B campaigns across digital touchpoints.",
+    body: "Working across a high volume of B2B campaigns, I developed visual assets for landing pages, email, and social in close collaboration with cross-functional teams. I focused on crafting clean, eye-catching graphics that maintained consistency with the Meta for Business brand while adapting to different verticals and campaign needs."
   },
   {
     id: "p3",
     cls: "t-c",
     art: "art-3",
-    title: "Helio Field Guide",
-    sub: "Print & editorial",
-    client: "Helio Climate",
-    role: "Art Director",
-    services: "Editorial Design, Illustration, Print Production",
-    blurb: "A 96-page field guide for community climate organizers. Designed to be folded, dog-eared, written in. Printed on uncoated stock with a single-spot fluorescent.",
-    body: "Helio wanted a guide that wouldn't sit on a shelf. We designed for use — wide gutters, generous leading, room for marginalia. The cover is letterpressed; interior is on Munken Lynx 100gsm. We printed 5,000 in the first run, all distributed in person."
+    images: {
+      thumbnail: "projects/human-interest/thumb-2.jpg",  // For grid tile
+      hero: "projects/human-interest/00.jpg",         // For modal top
+      gallery: [                                      // For modal gallery section
+        "projects/human-interest/01.jpg",
+        "projects/human-interest/02.jpg",
+        "projects/human-interest/03.jpg",
+        "projects/human-interest/04.jpg",
+      ]
+    },
+    title: "Human Interest",
+    sub: "Information design and brand strategy",
+    client: "Human Interest",
+    role: "Visual Designer",
+    services: "Information Design, Brand Strategy",
+    blurb: "A digital infographic for Human Interest, a fintech company and 401k provider for small and medium sized businesses.",
+    body: "I served as their sole in-house designer, working closely with the marketing team on brand development, digital campaigns, gated content, and inbound growth. This infographic is the culmination of visual design, market research, and brand strategy, positioning Human Interest as an access point to critical information, supporting retirement savings solutions.",
   },
   {
     id: "p4",
     cls: "t-d",
     art: "art-4",
+    images: {
+      thumbnail: "projects/Fluctuate/thumb.jpg",  // For grid tile
+      hero: "projects/fluctuate/01.gif",         // For modal top
+      gallery: [          
+        "projects/fluctuate/09.jpg",
+        "projects/fluctuate/11.jpg",                       // For modal gallery section
+        "projects/fluctuate/02.jpg",
+        "projects/fluctuate/03.jpg",
+        "projects/fluctuate/04.jpg",
+        "projects/fluctuate/05.jpg",
+        "projects/fluctuate/06.jpg",
+        "projects/fluctuate/07.jpg",
+        "projects/fluctuate/10.jpg",
+        "projects/fluctuate/14.jpg",
+        "projects/fluctuate/15.jpg",
+        "projects/fluctuate/16.jpg",
+      ]
+    },
     year: "2024",
-    title: "Loop Festival",
-    sub: "Identity & wayfinding",
-    client: "Loop SF",
-    role: "Lead Designer",
-    services: "Identity, Wayfinding, Motion",
+    title: "Fluctuate",
+    sub: "Editorial and print design",
+    client: "Personal Project",
+    role: "Creative",
+    services: "Logomaking, Editorial Design, Motion",
     year_full: "2024",
-    blurb: "A circular generative identity for a 3-day music festival in Golden Gate Park. Every artist got their own variant of the mark, derived from their sonic palette.",
-    body: "The brief: an identity that scales from a phone screen to a 40-foot stage backdrop. The answer was a generative system — a single core mark that responds to audio, to light, to time of day. We built the generator in TouchDesigner; the rendered outputs went on tickets, totes, the stage screens, and 4 different beer cans."
+    blurb: "Fluctuate Zine was born as an outlet to explore tension, change, and mental health. The first issue focused on food recipes, grocery items, and flavors as grounding sensory experiences.",
+    body: "One of my favorite quotes is that it's hard to write something polished, and even harder to write something that is honest. I kept that in mind while approaching this personal project, allowing intuition the space to create freely. What resulted visually is a spotlight on typography, textures, and negative space."
   },
   {
     id: "p5",
     cls: "t-e",
     art: "art-5",
-    title: "OneEdition ",
-    sub: "Packaging — F&B",
-    client: "Maison Brûlé",
-    role: "Designer",
-    services: "Packaging, Illustration",
+    images: {
+      thumbnail: "projects/Fluctuate/thumb.jpg",  // For grid tile
+      hero: "projects/fluctuate/01.gif",         // For modal top
+      gallery: [          
+        "projects/fluctuate/09.jpg",
+        "projects/fluctuate/11.jpg",                       // For modal gallery section
+        "projects/fluctuate/02.jpg",
+        "projects/fluctuate/03.jpg",
+        "projects/fluctuate/04.jpg",
+        "projects/fluctuate/05.jpg",
+        "projects/fluctuate/06.jpg",
+        "projects/fluctuate/07.jpg",
+        "projects/fluctuate/10.jpg",
+        "projects/fluctuate/14.jpg",
+        "projects/fluctuate/15.jpg",
+        "projects/fluctuate/16.jpg",
+      ]
+    },
+    title: "Experiential",
+    sub: "Experiential and production design",
+    client: "Various",
+    role: "Graphic and Interactive Designer",
+    services: "Experiential Design, Production Design, Installation",
     blurb: "Limited-edition hot sauce packaging for a small-batch sauce maker. Hand-illustrated label, foil-stamped seal, recyclable mono-material bottle.",
     body: "A side project that turned into a regular client. Maison Brûlé is run by two friends out of a kitchen in Oakland. Each edition gets its own label illustration based on the dominant pepper. The bottles ship in a cardboard sleeve printed with linseed-oil ink."
   }
