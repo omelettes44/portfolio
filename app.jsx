@@ -14,17 +14,18 @@ const FOCUSES = ["Brand Strategy", "Brand Identity Systems", "Art Direction"];
 const DISCIPLINES = ["Marketing Design", "Web & Digital Design", "Experiential Design", "Presentation Design", "Illustration", "Motion"];
 
 const PROGRAMS = [
-  { abbr: "Fg", name: "Figma" },
-  { abbr: "Ps", name: "Photoshop" },
-  { abbr: "Ai", name: "Illustrator" },
-  { abbr: "Ae", name: "After Effects" },
-  { abbr: "Id", name: "InDesign" },
-  { abbr: "Fr", name: "Framer" },
-  { abbr: "Sp", name: "Spline" },
-  { abbr: "Ty", name: "Typography" },
-  { abbr: "Mj", name: "Midjourney" },
-  { abbr: "Cn", name: "Cinema 4D" },
-  { abbr: "Nt", name: "Notion" }
+  { abbr: "Fg", name: "Figma", img: "assets/programs/figma.png" },
+  { abbr: "Ps", name: "Photoshop", img: "assets/programs/photoshop.png" },
+  { abbr: "Ai", name: "Illustrator", img: "assets/programs/illustrator.png" },
+  { abbr: "Ae", name: "After Effects", img: "assets/programs/after-effects.png" },
+  { abbr: "Id", name: "InDesign", img: "assets/programs/indesign.png" },
+  { abbr: "Fr", name: "Framer", img: "assets/programs/framer.png" },
+  { abbr: "Kn", name: "Keynote", img: "assets/programs/keynote.png" },
+  { abbr: "Pt", name: "Powerpoint", img: "assets/programs/powerpoint.png" },
+  { abbr: "Gs", name: "Google Slides", img: "assets/programs/google-slides.png" },
+  { abbr: "Sk", name: "Sketchup", img: "assets/programs/sketchup.png" },
+  { abbr: "Cl", name: "Claude", img: "assets/programs/Claude.png" },
+  { abbr: "Vs", name: "Visual Studio Code", img: "assets/programs/visual-studio-code.png" },
 ];
 
 const PRINCIPLES = [
@@ -38,27 +39,37 @@ const PROJECTS = [
     id: "p1",
     cls: "t-a",
     art: "art-1",
-    year: "2025",
+    images: {
+      thumbnail: "projects/meta-pt/thumb-2.jpg",  // For grid tile
+      hero: "projects/meta-pt/02.jpg",         // For modal top
+      gallery: [                                      // For modal gallery section
+        "projects/meta-pt/meta_tabs_01.gif",
+        "projects/meta-pt/12.jpg",
+        "projects/meta-pt/10.jpg",
+        "projects/meta-pt/06.jpg",
+        "projects/meta-pt/09.jpg",
+        "projects/meta-pt/13.jpg",
+        "projects/meta-pt/04.jpg",
+        "projects/meta-pt/14.jpg",
+      ]
+    },
     title: "Meta Pro Team",
-    sub: "Brand identity & design system – B2B Program",
-    client: "Sundial Health",
+    sub: "Brand Identity & design system – B2B Program",
+    client: "Meta",
     role: "Lead Designer",
-    services: "Brand Identity, Web Design, Art Direction",
-    year_full: "2024 — 2025",
-    blurb: "A new visual language for a preventative care startup. We built a wordmark, color system, and narrative architecture that reframed annual checkups as something to look forward to — not avoid.",
-    body: "Sundial came to us a year before launch. They had a strong clinical model and a name that hinted at warmth, but the existing identity felt like every other healthcare brand: blue, sterile, faintly defensive. We rebuilt the identity around a single idea — that the body keeps time, and good design helps you read the dial. The mark, color system, and editorial voice all flow from that metaphor."
+    services: "Brand Identity, Design System, Art Direction",
+    blurb: "A new visual language for a Meta's B2B marketing service. From staging photoshoots on three continents to devising a unified system of iconography, color, and messaging, we designed a branded offer that scales internationally. ",
+    body: "Our assets serve audiences across four continents, remain translation-friendly, and support internal teams with comprehensive guidance on use cases across Meta’s channels and platforms. The component library and usage guidelines are published to the company’s internal brand portal."
   },
   {
     id: "p2",
     cls: "t-b",
     art: "art-2",
-    year: "2025",
     title: "America's Retirement Crisis",
     sub: "Information Design — Fintech",
     client: "Foundry",
     role: "Systems Lead",
     services: "Design System, Component Library, Documentation",
-    year_full: "2025",
     blurb: "Foundry's first proper design system. 240+ components, six surfaces, three product teams shipping from a shared truth. The hard part wasn't the tokens — it was the rituals that keep them used.",
     body: "When I joined, Foundry had three platforms (web app, partner dashboard, admin console) and no shared component library between them. The system we shipped is opinionated where it should be — type, spacing, motion — and quiet where it shouldn't (color, copy). It's been adopted by every product squad and now ships about 40% faster than before."
   },
@@ -66,13 +77,11 @@ const PROJECTS = [
     id: "p3",
     cls: "t-c",
     art: "art-3",
-    year: "2024",
     title: "Helio Field Guide",
     sub: "Print & editorial",
     client: "Helio Climate",
     role: "Art Director",
     services: "Editorial Design, Illustration, Print Production",
-    year_full: "2024",
     blurb: "A 96-page field guide for community climate organizers. Designed to be folded, dog-eared, written in. Printed on uncoated stock with a single-spot fluorescent.",
     body: "Helio wanted a guide that wouldn't sit on a shelf. We designed for use — wide gutters, generous leading, room for marginalia. The cover is letterpressed; interior is on Munken Lynx 100gsm. We printed 5,000 in the first run, all distributed in person."
   },
@@ -94,13 +103,11 @@ const PROJECTS = [
     id: "p5",
     cls: "t-e",
     art: "art-5",
-    year: "2023",
     title: "OneEdition ",
     sub: "Packaging — F&B",
     client: "Maison Brûlé",
     role: "Designer",
     services: "Packaging, Illustration",
-    year_full: "2023",
     blurb: "Limited-edition hot sauce packaging for a small-batch sauce maker. Hand-illustrated label, foil-stamped seal, recyclable mono-material bottle.",
     body: "A side project that turned into a regular client. Maison Brûlé is run by two friends out of a kitchen in Oakland. Each edition gets its own label illustration based on the dominant pepper. The bottles ship in a cardboard sleeve printed with linseed-oil ink."
   }
@@ -349,7 +356,7 @@ function ProcessPage({ processColor }) {
               <div className="programs__grid">
                 {PROGRAMS.map((p, i) => (
                   <div key={i} className="prog">
-                    {p.abbr}
+                    <img src={p.img} alt={p.name} />
                     <span className="prog__tip">{p.name}</span>
                   </div>
                 ))}
@@ -368,7 +375,15 @@ function ProcessPage({ processColor }) {
 function Tile({ p, onOpen }) {
   return (
     <button className={`tile ${p.cls}`} onClick={() => onOpen(p)} aria-label={`Open ${p.title}`}>
-      <div className={`tile__art ${p.art}`} />
+      <div className={`tile__art ${p.art}`}>
+        {p.images?.thumbnail && (
+          <img 
+            src={p.images.thumbnail} 
+            alt={p.title}
+            className="tile__image"
+          />
+        )}
+      </div>
       <span className="tile__open" aria-hidden="true">
         <PlusIcon />
       </span>
@@ -434,22 +449,50 @@ function ProjectModal({ project, onClose }) {
               </button>
             </div>
             <div className="modal__body">
-              <div className={`modal__hero tile__art ${project.art}`} style={{ position: "relative" }} />
+              {/* Hero image with CSS art fallback */}
+              <div className={`modal__hero tile__art ${project.art}`}>
+                {project.images?.hero && (
+                  <img 
+                    src={project.images.hero} 
+                    alt={project.title}
+                    className="modal__hero-image"
+                  />
+                )}
+              </div>
+              
               <h2 className="modal__title">{project.title}</h2>
               <p className="modal__sub">{project.blurb}</p>
+              
               <dl className="modal__meta">
                 <div><dt>Client</dt><dd>{project.client}</dd></div>
                 <div><dt>Role</dt><dd>{project.role}</dd></div>
                 <div><dt>Services</dt><dd>{project.services}</dd></div>
-                <div><dt>Year</dt><dd>{project.year_full}</dd></div>
               </dl>
+              
               <p>{project.body}</p>
+              
+              {/* Gallery with real images OR CSS art fallback */}
               <div className="modal__shots">
-                <div className={`modal__shot full tile__art ${project.art}`} />
-                <div className={`modal__shot tile__art ${project.art}`} style={{ filter: "hue-rotate(20deg)" }} />
-                <div className={`modal__shot tile__art ${project.art}`} style={{ filter: "hue-rotate(-30deg) saturate(0.85)" }} />
+                {project.images?.gallery ? (
+                  project.images.gallery.map((imgSrc, idx) => (
+                    <div key={idx} className={`modal__shot-image ${idx === 0 ? 'full' : ''}`}>
+                      <img 
+                        src={imgSrc} 
+                        alt={`${project.title} - Detail ${idx + 1}`}
+                        className="modal__shot-image"
+                      />
+                    </div>
+                  ))
+                ) : (
+                  // Fallback to CSS art if no images
+                  <>
+                    <div className={`modal__shot full tile__art ${project.art}`} />
+                    <div className={`modal__shot tile__art ${project.art}`} style={{ filter: "hue-rotate(20deg)" }} />
+                    <div className={`modal__shot tile__art ${project.art}`} style={{ filter: "hue-rotate(-30deg) saturate(0.85)" }} />
+                  </>
+                )}
               </div>
-              <p>Process notes, the false starts, the things we learned. (Drop additional copy + asset rows here per case study.)</p>
+              <p> </p>
             </div>
           </>
         )}
@@ -461,11 +504,13 @@ function ProjectModal({ project, onClose }) {
 /* ----- App ----- */
 
 function App() {
-  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const tweaks = {
+  processColor: "#3856CF",
+  navStyle: "squares"
+};
 
   // active section index — order: work=0, process=1, person=2
-  const startIdx = { work: 0, process: 1, person: 2 }[tweaks.showStartingScreen] ?? 0;
-  const [active, setActive] = useState(startIdx);
+  const [active, setActive] = useState(0); 
   const [openProject, setOpenProject] = useState(null);
 
   // Hash-based navigation so sections are linkable
@@ -497,15 +542,6 @@ function App() {
   // Expose nav for header buttons (avoid prop-drilling everywhere)
   useEffect(() => { window.__nav = nav; }, [nav]);
 
-  // Apply density tweak
-  useEffect(() => {
-    document.body.dataset.density = tweaks.density;
-  }, [tweaks.density]);
-
-  // Apply accent tweak
-  useEffect(() => {
-    document.documentElement.style.setProperty("--accent", tweaks.accentColor);
-  }, [tweaks.accentColor]);
 
   return (
     <>
@@ -525,49 +561,6 @@ function App() {
 
       <FloatingNav activeIdx={active} onNav={nav} style={tweaks.navStyle} />
 
-      <TweaksPanel>
-        <TweakSection label="Look & Feel" />
-        <TweakColor
-          label="Process page color"
-          value={tweaks.processColor}
-          onChange={(v) => setTweak("processColor", v)}
-        />
-        <TweakColor
-          label="Email button accent"
-          value={tweaks.accentColor}
-          onChange={(v) => setTweak("accentColor", v)}
-        />
-
-        <TweakSection label="Layout" />
-        <TweakSelect
-          label="Nav style"
-          value={tweaks.navStyle}
-          options={[
-            { value: "squares", label: "Squares (default)" },
-            { value: "pill", label: "Segmented pill" },
-            { value: "dots", label: "Dots" },
-            { value: "numbers", label: "Numbered tabs" },
-            { value: "minimal", label: "Minimal lines" }
-          ]}
-          onChange={(v) => setTweak("navStyle", v)}
-        />
-        <TweakRadio
-          label="Density"
-          value={tweaks.density}
-          options={[{ value: "default", label: "Default" }, { value: "tight", label: "Tight" }]}
-          onChange={(v) => setTweak("density", v)}
-        />
-        <TweakRadio
-          label="Start on"
-          value={tweaks.showStartingScreen}
-          options={[
-            { value: "person", label: "Person" },
-            { value: "process", label: "Process" },
-            { value: "work", label: "Work" }
-          ]}
-          onChange={(v) => setTweak("showStartingScreen", v)}
-        />
-      </TweaksPanel>
     </>
   );
 }
