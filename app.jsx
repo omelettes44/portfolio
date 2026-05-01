@@ -59,7 +59,7 @@ const PROJECTS = [
     role: "Lead Designer",
     services: "Brand Identity, Design System, Art Direction",
     blurb: "A new visual language for a Meta's B2B marketing service. From staging photoshoots on three continents to devising a unified system of iconography, color, and messaging, we designed a branded offer that scales internationally. ",
-    body: "Our assets serve audiences across four continents, remain translation-friendly, and support internal teams with comprehensive guidance on use cases across Meta’s channels and platforms. The component library and usage guidelines are published to the company’s internal brand portal."
+    body: "Our assets serve a global audience, remain translation-friendly, and support internal teams with comprehensive guidance on use cases across Meta’s channels and platforms. The component library and usage guidelines are published to the company’s internal brand portal."
   },
   {
     id: "p2",
