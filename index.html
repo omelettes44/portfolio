@@ -37,9 +37,10 @@
     font-feature-settings: "ss01", "cv11";
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    background: #0d1116;
+    background: #0d1116; /* Will be dynamically updated by React */
     color: #111;
     overflow-x: hidden;
+    transition: background-color 700ms var(--ease); /* Smooth transition when changing pages */
   }
   body {
     min-height: 100vh;
@@ -551,6 +552,11 @@
     cursor: default;
     position: relative;
   }
+  .prog img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  }
   .prog:hover { transform: translateY(-2px); background: rgba(255,255,255,0.2); }
   .prog__tip {
     position: absolute;
@@ -771,6 +777,34 @@
     font-size: 14px;
     letter-spacing: 0.04em;
   }
+
+/* Image overlays on tiles */
+.tile__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;  /* Keep this for tiles - they need fixed aspect ratios */
+  z-index: 1;
+}
+
+/* Modal hero image - height adjusts to image */
+.modal__hero-image {
+  position: relative;  /* Changed from absolute */
+  width: 100%;
+  height: auto;  /* Changed from 100% */
+  display: block;
+  object-fit: contain;  /* Changed from cover */
+}
+
+/* Modal gallery images - height adjusts to image */
+.modal__shot-image {
+  position: relative;  /* Changed from absolute */
+  width: 100%;
+  height: auto;  /* Changed from 100% */
+  display: block;
+  object-fit: contain;  /* Changed from cover */
+}
 
   /* Clients */
   .clients {
@@ -995,11 +1029,11 @@
     padding: 36px 36px 56px;
   }
   .modal__hero {
-    aspect-ratio: 16 / 9;
     border-radius: 14px;
     margin-bottom: 28px;
     position: relative;
     overflow: hidden;
+    width: 100%;
   }
   .modal__title {
     font-size: clamp(28px, 4vw, 44px);
@@ -1036,13 +1070,16 @@
     gap: 14px;
     margin: 24px 0;
   }
-  .modal__shot {
-    aspect-ratio: 4 / 3;
-    border-radius: 10px;
-    overflow: hidden;
-    position: relative;
-  }
-  .modal__shot.full { grid-column: span 2; aspect-ratio: 16 / 8; }
+.modal__shot {
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.modal__shot.full { 
+  grid-column: span 2; 
+}
 
   /* Mobile */
   @media (max-width: 760px) {
