@@ -159,7 +159,7 @@ const PROJECTS = [
       { src:"projects/draft-can/caratz_02.jpg", span: 1 }, 
       { src:"projects/draft-can/caratz_03.jpg", span: 1 },
       { src:"projects/draft-can/caratz_05.jpg", span: 1 },
-      { src:"projects/draft-can/caratz_404.gif", span: 1 },
+      { src:"projects/draft-can/Caratz_404.gif", span: 1 },
       { src:"projects/draft-can/caratz_04.gif", span: 3},
       { src:"projects/draft-can/mercury_01.jpg", span: 1},
       { src:"projects/draft-can/mercury_02.jpg", span: 1},
