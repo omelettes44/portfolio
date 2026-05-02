@@ -44,13 +44,13 @@ const PROJECTS = [
       hero: "projects/meta-pt/02.jpg",         // For modal top
       gallery: [                                      // For modal gallery section
         { src: "projects/meta-pt/meta_tabs_01.gif", span: 1 },
-        { src: "projects/meta-pt/12.jpg", span: 1 },
-        { src: "projects/meta-pt/10.jpg", span: 1 },
-        { src: "projects/meta-pt/06.jpg", span: 1 },
-        { src: "projects/meta-pt/09.jpg", span: 1 },
-        { src: "projects/meta-pt/13.jpg", span: 1 },
-        { src: "projects/meta-pt/04.jpg", span: 1 },
-        { src: "projects/meta-pt/14.jpg", span: 1 },
+        { src: "projects/meta-pt/12.jpg", span: 2 },
+        { src: "projects/meta-pt/10.jpg", span: 2 },
+        { src: "projects/meta-pt/06.jpg", span: 2 },
+        { src: "projects/meta-pt/09.jpg", span: 2 },
+        { src: "projects/meta-pt/13.jpg", span: 2 },
+        { src: "projects/meta-pt/04.jpg", span: 2 },
+        { src: "projects/meta-pt/14.jpg", span: 2 },
       ]
     },
     title: "Meta Pro Team",
@@ -70,12 +70,12 @@ const PROJECTS = [
       thumbnail: "projects/meta-campaign/thumb.jpg",  // For grid tile
       hero: "projects/meta-campaign/01.jpg",         // For modal top
       gallery: [                                      // For modal gallery section
-      { src:"projects/meta-campaign/02.jpg", span: 1 },
-      { src:"projects/meta-campaign/08.jpg", span: 1 },
-      { src:"projects/meta-campaign/06.jpg", span: 1 },
-      { src:"projects/meta-campaign/04.jpg", span: 1 },
-      { src:"projects/meta-campaign/05.jpg", span: 1 },
-      { src:"projects/meta-campaign/07.jpg", span: 1 },
+      { src:"projects/meta-campaign/02.jpg", span: 2 },
+      { src:"projects/meta-campaign/08.jpg", span: 2 },
+      { src:"projects/meta-campaign/06.jpg", span: 2 },
+      { src:"projects/meta-campaign/04.jpg", span: 2 },
+      { src:"projects/meta-campaign/05.jpg", span: 2 },
+      { src:"projects/meta-campaign/07.jpg", span: 2 },
       ]
     },
     title: "Meta Campaigns",
@@ -91,13 +91,13 @@ const PROJECTS = [
     cls: "t-c",
     art: "art-3",
     images: {
-      thumbnail: "projects/human-interest/thumb-2.jpg",  // For grid tile
-      hero: "projects/human-interest/00.jpg",         // For modal top
+      thumbnail: "projects/human-interest/thumb-3.jpg",  // For grid tile
+      hero: "projects/human-interest/07.jpg",         // For modal top
       gallery: [                                      // For modal gallery section
-      { src:"projects/human-interest/01.jpg", span: 1 },
-      { src:"projects/human-interest/02.jpg", span: 1 },
-      { src:"projects/human-interest/03.jpg", span: 1 },
-      { src:"projects/human-interest/04.jpg", span: 1 },
+      { src:"projects/human-interest/01.jpg", span: 2 },
+      { src:"projects/human-interest/02.jpg", span: 2 },
+      { src:"projects/human-interest/03.jpg", span: 2 },
+      { src:"projects/human-interest/04.jpg", span: 2 },
       ]
     },
     title: "Human Interest",
@@ -116,18 +116,18 @@ const PROJECTS = [
       thumbnail: "projects/fluctuate/thumb.jpg",  // For grid tile
       hero: "projects/fluctuate/01.gif",         // For modal top
       gallery: [          
-      { src:"projects/fluctuate/09.jpg", span: 1 },
-      { src:"projects/fluctuate/11.jpg", span: 1 },                     // For modal gallery section
-      { src:"projects/fluctuate/02.jpg", span: 1 },
-      { src:"projects/fluctuate/03.jpg", span: 1 },
-      { src:"projects/fluctuate/04.jpg", span: 1 },
-      { src:"projects/fluctuate/05.jpg", span: 1 },
-      { src:"projects/fluctuate/06.jpg", span: 1 },
-      { src:"projects/fluctuate/07.jpg", span: 1 },
-      { src:"projects/fluctuate/10.jpg", span: 1 },
-      { src:"projects/fluctuate/14.jpg", span: 1 },
-      { src:"projects/fluctuate/15.jpg", span: 1 },
-      { src:"projects/fluctuate/16.jpg", span: 1 },
+      { src:"projects/fluctuate/09.jpg", span: 2 },
+      { src:"projects/fluctuate/11.jpg", span: 2 },                     // For modal gallery section
+      { src:"projects/fluctuate/02.jpg", span: 2 },
+      { src:"projects/fluctuate/03.jpg", span: 2 },
+      { src:"projects/fluctuate/04.jpg", span: 2 },
+      { src:"projects/fluctuate/05.jpg", span: 2 },
+      { src:"projects/fluctuate/06.jpg", span: 2 },
+      { src:"projects/fluctuate/07.jpg", span: 2 },
+      { src:"projects/fluctuate/10.jpg", span: 2 },
+      { src:"projects/fluctuate/14.jpg", span: 2 },
+      { src:"projects/fluctuate/15.jpg", span: 2 },
+      { src:"projects/fluctuate/16.jpg", span: 2 },
       ]
     },
     year: "2024",
@@ -144,30 +144,47 @@ const PROJECTS = [
     cls: "t-e",
     art: "art-5",
     images: {
-      thumbnail: "projects/fluctuate/thumb.jpg",  // For grid tile
-      hero: "projects/fluctuate/01.gif",         // For modal top
-      gallery: [          
-      { src:"projects/fluctuate/09.jpg", span: 1 },
-      { src:"projects/fluctuate/11.jpg", span: 1 },                     // For modal gallery section
-      { src:"projects/fluctuate/02.jpg", span: 1 },
-      { src:"projects/fluctuate/03.jpg", span: 1 },
-      { src:"projects/fluctuate/04.jpg", span: 1 },
-      { src:"projects/fluctuate/05.jpg", span: 1 },
-      { src:"projects/fluctuate/06.jpg", span: 1 },
-      { src:"projects/fluctuate/07.jpg", span: 1 },
-      { src:"projects/fluctuate/10.jpg", span: 1 },
-      { src:"projects/fluctuate/14.jpg", span: 1 },
-      { src:"projects/fluctuate/15.jpg", span: 1 },
-      { src:"projects/fluctuate/16.jpg", span: 1 },
+      thumbnail: "projects/draft-can/thumb.jpg",  // For grid tile
+      hero: "projects/draft-can/00.jpg",         // For modal top
+      gallery: [   
+      { src:"projects/draft-can/ani_02.gif", span: 1 },
+      { src:"projects/draft-can/ani_01.gif", span: 1 }, 
+      { src:"projects/draft-can/boon-supply_01.jpg", span: 1 },
+      { src:"projects/draft-can/boon-supply_02.gif", span: 1 },
+      { src:"projects/draft-can/atlp_01.jpg", span: 1 },
+      { src:"projects/draft-can/atlp_02.jpg", span: 1 }, 
+      { src:"projects/draft-can/gch_01.jpg", span: 1 },
+      { src:"projects/draft-can/apple_01.jpg", span: 1 },
+      { src:"projects/draft-can/caratz_01.jpg", span: 1 },
+      { src:"projects/draft-can/caratz_02.jpg", span: 1 }, 
+      { src:"projects/draft-can/caratz_03.jpg", span: 1 },
+      { src:"projects/draft-can/caratz_05.jpg", span: 1 },
+      { src:"projects/draft-can/caratz_404.gif", span: 1 },
+      { src:"projects/draft-can/caratz_04.gif", span: 3},
+      { src:"projects/draft-can/mercury_01.jpg", span: 1},
+      { src:"projects/draft-can/mercury_02.jpg", span: 1},
+      { src:"projects/draft-can/vase_01.jpg", span: 1},
+      { src:"projects/draft-can/vase_02.gif", span: 1},
+      { src:"projects/draft-can/thirdlove_02.gif", span: 1 },   
+      { src:"projects/draft-can/thirdlove_01.jpg", span: 1 }, 
+      { src:"projects/draft-can/bi-guide_01.gif", span: 1 },
+      { src:"projects/draft-can/fly-club_01.jpg", span: 1},   
+      { src:"projects/draft-can/turner_01.jpg", span: 1},
+      { src:"projects/draft-can/turner_02.jpg", span: 1},
+      { src:"projects/draft-can/spk_01.jpg", span: 1},
+      { src:"projects/draft-can/pa_mtg_01.jpg", span: 1},
+      { src:"projects/draft-can/illo_01.jpg", span: 1},
+      { src:"projects/draft-can/illo_02.jpg", span: 1},
+      { src:"projects/draft-can/illo_03.jpg", span: 1},
+      { src:"projects/draft-can/illo_04.jpg", span: 1},
+
       ]
     },
-    title: "Experiential",
-    sub: "Experiential and production design",
-    client: "Various",
-    role: "Graphic and Interactive Designer",
-    services: "Experiential Design, Production Design, Installation",
-    blurb: "Limited-edition hot sauce packaging for a small-batch sauce maker. Hand-illustrated label, foil-stamped seal, recyclable mono-material bottle.",
-    body: "A side project that turned into a regular client. Maison Brûlé is run by two friends out of a kitchen in Oakland. Each edition gets its own label illustration based on the dominant pepper. The bottles ship in a cardboard sleeve printed with linseed-oil ink."
+    title: "Draftcan",
+    sub: "Collection of ideas and design bits",
+    company: "Various",
+    role: "Designer, Illustrator, Creative",
+    blurb: "Collection of ideas, designs, and illustrations throughout the years. Not everything makes it to the publishing stage, but an idea unused often finds second wind in other ways!",
   }
 ];
 
