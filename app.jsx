@@ -43,7 +43,7 @@ const PROJECTS = [
       thumbnail: "projects/meta-pt/thumb-2.jpg",  // For grid tile
       hero: "projects/meta-pt/02.jpg",         // For modal top
       gallery: [                                      // For modal gallery section
-        { src: "projects/meta-pt/meta_tabs_01.gif", span: 1 },
+        { src: "projects/meta-pt/meta_tabs_01.gif", span: 2 },
         { src: "projects/meta-pt/12.jpg", span: 2 },
         { src: "projects/meta-pt/10.jpg", span: 2 },
         { src: "projects/meta-pt/06.jpg", span: 2 },
