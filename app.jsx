@@ -43,23 +43,24 @@ const PROJECTS = [
       thumbnail: "projects/meta-pt/thumb-2.jpg",  // For grid tile
       hero: "projects/meta-pt/02.jpg",         // For modal top
       gallery: [                                      // For modal gallery section
-        "projects/meta-pt/meta_tabs_01.gif",
-        "projects/meta-pt/12.jpg",
-        "projects/meta-pt/10.jpg",
-        "projects/meta-pt/06.jpg",
-        "projects/meta-pt/09.jpg",
-        "projects/meta-pt/13.jpg",
-        "projects/meta-pt/04.jpg",
-        "projects/meta-pt/14.jpg",
+        { src: "projects/meta-pt/meta_tabs_01.gif", span: 1 },
+        { src: "projects/meta-pt/12.jpg", span: 1 },
+        { src: "projects/meta-pt/10.jpg", span: 1 },
+        { src: "projects/meta-pt/06.jpg", span: 1 },
+        { src: "projects/meta-pt/09.jpg", span: 1 },
+        { src: "projects/meta-pt/13.jpg", span: 1 },
+        { src: "projects/meta-pt/04.jpg", span: 1 },
+        { src: "projects/meta-pt/14.jpg", span: 1 },
       ]
     },
     title: "Meta Pro Team",
     sub: "Brand identity & design system – B2B Program",
-    client: "Meta",
+    password: "infiniteloop",
+    company: "Meta",
     role: "Lead Designer",
-    services: "Brand Identity, Design System, Art Direction",
+    scope: "Brand Identity, Design System, Art Direction",
     blurb: "A new visual language for a Meta's B2B marketing service. From staging photoshoots on three continents to devising a unified system of iconography, color, and messaging, we designed a branded offer that scales internationally. ",
-    body: "Our assets serve a global audience, remain translation-friendly, and support internal teams with comprehensive guidance on use cases across Meta’s channels and platforms. The collection of still photos, motion assets, component library, and usage guidelines are published to the company’s internal brand portal."
+    body: "Serving a global audience, our assets remain translation-friendly and support internal teams with comprehensive guidance on use cases across Meta’s channels and platforms. The collection of still photos, motion assets, component library, and usage guidelines are published to the company’s internal brand portal."
   },
   {
     id: "p2",
@@ -69,19 +70,19 @@ const PROJECTS = [
       thumbnail: "projects/meta-campaign/thumb.jpg",  // For grid tile
       hero: "projects/meta-campaign/01.jpg",         // For modal top
       gallery: [                                      // For modal gallery section
-        "projects/meta-campaign/02.jpg",
-        "projects/meta-campaign/08.jpg",
-        "projects/meta-campaign/06.jpg",
-        "projects/meta-campaign/04.jpg",
-        "projects/meta-campaign/05.jpg",
-        "projects/meta-campaign/07.jpg",
+      { src:"projects/meta-campaign/02.jpg", span: 1 },
+      { src:"projects/meta-campaign/08.jpg", span: 1 },
+      { src:"projects/meta-campaign/06.jpg", span: 1 },
+      { src:"projects/meta-campaign/04.jpg", span: 1 },
+      { src:"projects/meta-campaign/05.jpg", span: 1 },
+      { src:"projects/meta-campaign/07.jpg", span: 1 },
       ]
     },
     title: "Meta Campaigns",
     sub: "Visual and marketing design",
-    client: "Meta",
+    company: "Meta",
     role: "Visual Designer",
-    services: "Marketing Design, Web Design",
+    scope: "Marketing Design, Web Design",
     blurb: "Designing cohesive B2B campaigns across digital touchpoints.",
     body: "Working across a high volume of B2B campaigns, I developed visual assets for landing pages, email, and social in close collaboration with cross-functional teams. I focused on crafting clean, eye-catching graphics that maintained consistency with the Meta for Business brand while adapting to different verticals and campaign needs."
   },
@@ -93,17 +94,17 @@ const PROJECTS = [
       thumbnail: "projects/human-interest/thumb-2.jpg",  // For grid tile
       hero: "projects/human-interest/00.jpg",         // For modal top
       gallery: [                                      // For modal gallery section
-        "projects/human-interest/01.jpg",
-        "projects/human-interest/02.jpg",
-        "projects/human-interest/03.jpg",
-        "projects/human-interest/04.jpg",
+      { src:"projects/human-interest/01.jpg", span: 1 },
+      { src:"projects/human-interest/02.jpg", span: 1 },
+      { src:"projects/human-interest/03.jpg", span: 1 },
+      { src:"projects/human-interest/04.jpg", span: 1 },
       ]
     },
     title: "Human Interest",
     sub: "Information design and brand strategy",
-    client: "Human Interest",
+    company: "Human Interest",
     role: "Visual Designer",
-    services: "Information Design, Brand Strategy",
+    scope: "Information Design, Brand Strategy",
     blurb: "A digital infographic for Human Interest, a fintech company and 401k provider for small and medium sized businesses.",
     body: "I served as their sole in-house designer, working closely with the marketing team on brand development, digital campaigns, gated content, and inbound growth. This infographic is the culmination of visual design, market research, and brand strategy, positioning Human Interest as an access point to critical information, supporting retirement savings solutions.",
   },
@@ -115,27 +116,26 @@ const PROJECTS = [
       thumbnail: "projects/fluctuate/thumb.jpg",  // For grid tile
       hero: "projects/fluctuate/01.gif",         // For modal top
       gallery: [          
-        "projects/fluctuate/09.jpg",
-        "projects/fluctuate/11.jpg",                       // For modal gallery section
-        "projects/fluctuate/02.jpg",
-        "projects/fluctuate/03.jpg",
-        "projects/fluctuate/04.jpg",
-        "projects/fluctuate/05.jpg",
-        "projects/fluctuate/06.jpg",
-        "projects/fluctuate/07.jpg",
-        "projects/fluctuate/10.jpg",
-        "projects/fluctuate/14.jpg",
-        "projects/fluctuate/15.jpg",
-        "projects/fluctuate/16.jpg",
+      { src:"projects/fluctuate/09.jpg", span: 1 },
+      { src:"projects/fluctuate/11.jpg", span: 1 },                     // For modal gallery section
+      { src:"projects/fluctuate/02.jpg", span: 1 },
+      { src:"projects/fluctuate/03.jpg", span: 1 },
+      { src:"projects/fluctuate/04.jpg", span: 1 },
+      { src:"projects/fluctuate/05.jpg", span: 1 },
+      { src:"projects/fluctuate/06.jpg", span: 1 },
+      { src:"projects/fluctuate/07.jpg", span: 1 },
+      { src:"projects/fluctuate/10.jpg", span: 1 },
+      { src:"projects/fluctuate/14.jpg", span: 1 },
+      { src:"projects/fluctuate/15.jpg", span: 1 },
+      { src:"projects/fluctuate/16.jpg", span: 1 },
       ]
     },
     year: "2024",
     title: "Fluctuate",
     sub: "Editorial and print design",
-    client: "Personal Project",
+    info: "Personal Project",
     role: "Creative",
-    services: "Logomaking, Editorial Design, Motion",
-    year_full: "2024",
+    scope: "Logomaking, Editorial Design, Motion",
     blurb: "Fluctuate Zine was born as an outlet to explore tension, change, and mental health. The first issue focused on food recipes, grocery items, and flavors as grounding sensory experiences.",
     body: "One of my favorite quotes is that it's hard to write something polished, and even harder to write something that is honest. I kept that in mind while approaching this personal project, allowing intuition the space to create freely. What resulted visually is a spotlight on typography, textures, and negative space."
   },
@@ -147,18 +147,18 @@ const PROJECTS = [
       thumbnail: "projects/fluctuate/thumb.jpg",  // For grid tile
       hero: "projects/fluctuate/01.gif",         // For modal top
       gallery: [          
-        "projects/fluctuate/09.jpg",
-        "projects/fluctuate/11.jpg",                       // For modal gallery section
-        "projects/fluctuate/02.jpg",
-        "projects/fluctuate/03.jpg",
-        "projects/fluctuate/04.jpg",
-        "projects/fluctuate/05.jpg",
-        "projects/fluctuate/06.jpg",
-        "projects/fluctuate/07.jpg",
-        "projects/fluctuate/10.jpg",
-        "projects/fluctuate/14.jpg",
-        "projects/fluctuate/15.jpg",
-        "projects/fluctuate/16.jpg",
+      { src:"projects/fluctuate/09.jpg", span: 1 },
+      { src:"projects/fluctuate/11.jpg", span: 1 },                     // For modal gallery section
+      { src:"projects/fluctuate/02.jpg", span: 1 },
+      { src:"projects/fluctuate/03.jpg", span: 1 },
+      { src:"projects/fluctuate/04.jpg", span: 1 },
+      { src:"projects/fluctuate/05.jpg", span: 1 },
+      { src:"projects/fluctuate/06.jpg", span: 1 },
+      { src:"projects/fluctuate/07.jpg", span: 1 },
+      { src:"projects/fluctuate/10.jpg", span: 1 },
+      { src:"projects/fluctuate/14.jpg", span: 1 },
+      { src:"projects/fluctuate/15.jpg", span: 1 },
+      { src:"projects/fluctuate/16.jpg", span: 1 },
       ]
     },
     title: "Experiential",
@@ -361,7 +361,7 @@ function ConnectFooter({ variant = "light" }) {
           </a>
         </div>
       </div>
-      <div className="copyright">© jess leung 2026</div>
+      <div className="copyright">© 2026</div>
     </footer>
   );
 }
@@ -391,54 +391,109 @@ function PersonPage() {
 /* ----- Process ----- */
 
 function ProcessPage({ processColor }) {
+  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+  const [activeTooltip, setActiveTooltip] = useState(null);
+
+  const handleMouseMove = (e, programName) => {
+    setTooltipPos({ x: e.clientX, y: e.clientY });
+    setActiveTooltip(programName);
+  };
+
+  const handleMouseLeave = () => {
+    setActiveTooltip(null);
+  };
+
   return (
-    <div className="page page--process" style={{ background: processColor }}>
-      <Header />
-      <main className="section">
-        <h1 className="title">The Process</h1>
+  <div className="page page--process" style={{ background: processColor }}>
+    <Header />
+    <main className="section">
+      <h1 className="title">The Process</h1>
 
-        <p className="process__lead">{PROCESS_LEAD}</p>
+      <p className="process__lead">{PROCESS_LEAD}</p>
 
-        <div className="process__grid">
-          <div className="process__lists">
-            <dl className="deflist">
-              <dt>Focuses</dt>
-              <dd>{FOCUSES.map((f, i) => <div key={i}>{f}</div>)}</dd>
+      <div className="process__grid">
+        <div className="process__lists">
+          <dl className="deflist">
+            <dt>Focuses</dt>
+            <dd>{FOCUSES.map((f, i) => <div key={i}>{f}</div>)}</dd>
 
-              <dt>Disciplines</dt>
-              <dd>{DISCIPLINES.map((d, i) => <div key={i}>{d}</div>)}</dd>
-            </dl>
+            <dt>Disciplines</dt>
+            <dd>{DISCIPLINES.map((d, i) => <div key={i}>{d}</div>)}</dd>
+          </dl>
 
-            <div className="programs">
-              <div className="programs__label">Programs</div>
-              <div className="programs__grid">
-                {PROGRAMS.map((p, i) => (
-                  <div key={i} className="prog">
-                    <img src={p.img} alt={p.name} />
-                    <span className="prog__tip">{p.name}</span>
-                  </div>
-                ))}
-              </div>
+          <div className="programs">
+            <div className="programs__label">Programs</div>
+            <div className="programs__grid">
+              {PROGRAMS.map((p, i) => (
+                <div 
+                  key={i} 
+                  className="prog"
+                  onMouseMove={(e) => handleMouseMove(e, p.name)}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <img src={p.img} alt={p.name} />
+                </div>
+              ))}
             </div>
           </div>
         </div>
-      </main>
-      <ConnectFooter variant="blue" />
-    </div>
-  );
+      </div>
+    </main>
+    
+    {/* Tooltip rendered outside of programs container */}
+    {activeTooltip && (
+      <span 
+        className="prog__tip" 
+        style={{ 
+          left: `${tooltipPos.x + 12}px`, 
+          top: `${tooltipPos.y + 12}px`,
+          opacity: 1
+        }}
+      >
+        {activeTooltip}
+      </span>
+    )}
+    
+    <ConnectFooter variant="blue" />
+  </div>
+);
 }
 
 /* ----- Work ----- */
 
 function Tile({ p, onOpen }) {
+  // Support both old class-based and new span-based layout
+  const inlineStyle = {};
+  if (p.span) inlineStyle.gridColumn = `span ${p.span}`;
+  if (p.aspectRatio) inlineStyle.aspectRatio = p.aspectRatio;
+  
   return (
-    <button className={`tile ${p.cls}`} onClick={() => onOpen(p)} aria-label={`Open ${p.title}`}>
+    <button 
+      className={`tile ${p.cls}`} 
+      style={Object.keys(inlineStyle).length > 0 ? inlineStyle : undefined}
+      onClick={() => {
+  // Check if project requires password and isn't unlocked yet
+  if (p.password) {
+    const unlocked = JSON.parse(sessionStorage.getItem('unlockedProjects') || '[]');
+    if (!unlocked.includes(p.id)) {
+      // If there's a password prompt setter, use it
+      if (window.__setPasswordPrompt) {
+        window.__setPasswordPrompt(p);
+        return;
+      }
+    }
+  }
+  onOpen(p);
+}}
+      aria-label={`Open ${p.title}`}
+    >
       <div className={`tile__art ${p.art}`}>
         {p.images?.thumbnail && (
           <img 
             src={p.images.thumbnail} 
             alt={p.title}
             className="tile__image"
+            loading="lazy"
           />
         )}
       </div>
@@ -486,6 +541,16 @@ function WorkPage({ onOpenProject }) {
 
 function ProjectModal({ project, onClose }) {
   const open = !!project;
+  const [showTitleInHeader, setShowTitleInHeader] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
+  const [unlockedProjects, setUnlockedProjects] = useState(() => {
+    const stored = sessionStorage.getItem('unlockedProjects');
+    return stored ? JSON.parse(stored) : [];
+  });
+  const modalBodyRef = useRef(null);
+  const titleRef = useRef(null);
+  
   useEscape(open, onClose);
 
   useEffect(() => {
@@ -494,19 +559,77 @@ function ProjectModal({ project, onClose }) {
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
-  return (
+  useEffect(() => {
+    if (open) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
+  // Reset password input when modal closes or project changes
+  useEffect(() => {
+    if (!open) {
+      setPasswordInput('');
+      setPasswordError(false);
+    }
+  }, [open, project?.id]);
+
+  // Check if current project is unlocked
+  const isUnlocked = !project?.password || unlockedProjects.includes(project.id);
+
+  // Handle password submission
+  const handlePasswordSubmit = (e) => {
+    e.preventDefault();
+    if (passwordInput === project.password) {
+      const newUnlocked = [...unlockedProjects, project.id];
+      setUnlockedProjects(newUnlocked);
+      sessionStorage.setItem('unlockedProjects', JSON.stringify(newUnlocked));
+      setPasswordInput('');
+      setPasswordError(false);
+    } else {
+      setPasswordError(true);
+      setPasswordInput('');
+    }
+  };
+
+  // Scroll listener to detect when title is scrolled past
+  useEffect(() => {
+    if (!open || !modalBodyRef.current || !titleRef.current) return;
+
+    const handleScroll = () => {
+      const titleBottom = titleRef.current.getBoundingClientRect().bottom;
+      const modalTop = modalBodyRef.current.getBoundingClientRect().top;
+      
+      // Show title in header when title has scrolled past the modal header
+      setShowTitleInHeader(titleBottom < modalTop + 80); // 80px threshold for smooth transition
+    };
+
+    const modalBody = modalBodyRef.current;
+    modalBody.addEventListener('scroll', handleScroll);
+    
+    // Initial check
+    handleScroll();
+    
+    return () => modalBody.removeEventListener('scroll', handleScroll);
+  }, [open]);
+
+return (
     <>
       <div className={`modal-backdrop ${open ? "is-open" : ""}`} onClick={onClose} />
       <div className={`modal ${open ? "is-open" : ""}`} role="dialog" aria-modal="true" aria-label={project?.title}>
         {project && (
           <>
-            <div className="modal__head">
-              <div className="modal__crumbs">the work / {project.client}</div>
+                <div className="modal__head">
+              <div className="modal__brand">
+                <span className="modal__brand-name">jess leung</span>
+                <span className={`modal__brand-title ${showTitleInHeader ? 'is-visible' : ''}`}>
+                  {project.title}
+                </span>
+              </div>
               <button className="modal__close" onClick={onClose} aria-label="Close">
                 <CloseIcon />
               </button>
             </div>
-            <div className="modal__body">
+            <div className="modal__body" ref={modalBodyRef}>
               {/* Hero image with CSS art fallback */}
               <div className={`modal__hero tile__art ${project.art}`}>
                 {project.images?.hero && (
@@ -518,13 +641,15 @@ function ProjectModal({ project, onClose }) {
                 )}
               </div>
               
-              <h2 className="modal__title">{project.title}</h2>
+              <h2 className="modal__title" ref={titleRef}>{project.title}</h2>
               <p className="modal__sub">{project.blurb}</p>
               
               <dl className="modal__meta">
-                <div><dt>Client</dt><dd>{project.client}</dd></div>
-                <div><dt>Role</dt><dd>{project.role}</dd></div>
-                <div><dt>Services</dt><dd>{project.services}</dd></div>
+                {project.info && <div><dt>Info</dt><dd>{project.info}</dd></div>}
+                {project.company && <div><dt>Company</dt><dd>{project.company}</dd></div>}
+                {project.role && <div><dt>Role</dt><dd>{project.role}</dd></div>}
+                {project.scope && <div><dt>Scope</dt><dd>{project.scope}</dd></div>}
+                {project.credits && <div><dt>Credits</dt><dd>{project.credits}</dd></div>}
               </dl>
               
               <p>{project.body}</p>
@@ -532,15 +657,27 @@ function ProjectModal({ project, onClose }) {
               {/* Gallery with real images OR CSS art fallback */}
               <div className="modal__shots">
                 {project.images?.gallery ? (
-                  project.images.gallery.map((imgSrc, idx) => (
-                    <div key={idx} className={`modal__shot-image ${idx === 0 ? 'full' : ''}`}>
-                      <img 
-                        src={imgSrc} 
-                        alt={`${project.title} - Detail ${idx + 1}`}
-                        className="modal__shot-image"
-                      />
-                    </div>
-                  ))
+                  project.images.gallery.map((item, idx) => {
+                    // Support both old string format and new {src, span} object format
+                    const imgSrc = typeof item === 'string' ? item : item.src;
+                    const span = typeof item === 'string' ? (idx === 0 ? 2 : 1) : (item.span || 1);
+                    const fullClass = span === 2 ? 'full' : '';
+                    
+                    return (
+                      <div 
+                        key={idx} 
+                        className={`modal__shot ${fullClass}`}
+                        style={{ gridColumn: `span ${span}` }}
+                      >
+                        <img 
+                          src={imgSrc} 
+                          alt={`${project.title} - Detail ${idx + 1}`}
+                          className="modal__shot-image"
+                          loading="lazy"
+                        />
+                      </div>
+                    );
+                  })
                 ) : (
                   // Fallback to CSS art if no images
                   <>
@@ -550,10 +687,63 @@ function ProjectModal({ project, onClose }) {
                   </>
                 )}
               </div>
-              <p> </p>
+<p> </p>
             </div>
           </>
         )}
+      </div>
+    </>
+  );
+}
+
+/* ----- Password Prompt ----- */
+
+function PasswordPrompt({ project, onUnlock, onClose }) {
+  const [passwordInput, setPasswordInput] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (passwordInput === project.password) {
+      const unlocked = JSON.parse(sessionStorage.getItem('unlockedProjects') || '[]');
+      const newUnlocked = [...unlocked, project.id];
+      sessionStorage.setItem('unlockedProjects', JSON.stringify(newUnlocked));
+      onUnlock();
+    } else {
+      setPasswordError(true);
+      setPasswordInput('');
+    }
+  };
+
+  return (
+    <>
+      <div className="password-overlay" onClick={onClose} />
+      <div className="password-prompt">
+        <div className="password-prompt__card">
+          <h3 className="password-prompt__title">{project.title}</h3>
+          <p className="password-prompt__subtitle">D'oh! This project is protected by an NDA</p>
+        <form onSubmit={handleSubmit}>
+          <div style={{ position: 'relative' }}>
+            <input
+              type="password"
+              value={passwordInput}
+              onChange={(e) => {
+                setPasswordInput(e.target.value);
+                setPasswordError(false);
+              }}
+              className={`password-prompt__input ${passwordError ? 'is-error' : ''}`}
+              placeholder="Password"
+              autoFocus
+            />
+            <button type="submit" className="password-prompt__submit">
+              <ArrowIcon size={16} />
+            </button>
+          </div>
+          {passwordError && (
+            <div className="password-prompt__error">Incorrect password</div>
+          )}
+        </form>
+        </div>
       </div>
     </>
   );
@@ -570,6 +760,10 @@ function App() {
   // active section index — order: work=0, process=1, person=2
   const [active, setActive] = useState(0); 
   const [openProject, setOpenProject] = useState(null);
+  const [passwordPromptProject, setPasswordPromptProject] = useState(null);
+  useEffect(() => {
+  window.__setPasswordPrompt = setPasswordPromptProject;
+}, []);
 
   // Hash-based navigation so sections are linkable
   useEffect(() => {
@@ -616,6 +810,18 @@ function App() {
       </div>
 
       <ProjectModal project={openProject} onClose={() => setOpenProject(null)} />
+
+{/* Password prompt overlay */}
+{passwordPromptProject && (
+  <PasswordPrompt 
+    project={passwordPromptProject}
+    onUnlock={() => {
+      setPasswordPromptProject(null);
+      setOpenProject(passwordPromptProject);
+    }}
+    onClose={() => setPasswordPromptProject(null)}
+  />
+)}
 
       <FloatingNav activeIdx={active} onNav={nav} style={tweaks.navStyle} />
 
