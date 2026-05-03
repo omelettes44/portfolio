@@ -40,18 +40,8 @@ const PROJECTS = [
     cls: "t-a",
     art: "art-1",
     images: {
-      thumbnail: "projects/meta-pt/thumb-2.jpg",  // For grid tile
-      hero: "projects/meta-pt/02.jpg",         // For modal top
-      gallery: [                                      // For modal gallery section
-        { src: "projects/meta-pt/meta_tabs_01.gif", span: 2 },
-        { src: "projects/meta-pt/12.jpg", span: 2 },
-        { src: "projects/meta-pt/10.jpg", span: 2 },
-        { src: "projects/meta-pt/06.jpg", span: 2 },
-        { src: "projects/meta-pt/09.jpg", span: 2 },
-        { src: "projects/meta-pt/13.jpg", span: 2 },
-        { src: "projects/meta-pt/04.jpg", span: 2 },
-        { src: "projects/meta-pt/14.jpg", span: 2 },
-      ]
+      thumbnail: "projects/meta-pt/thumb-2.jpg",
+      hero: "projects/meta-pt/02.jpg",
     },
     title: "Meta Pro Team",
     sub: "Brand identity & design system – B2B Program",
@@ -59,132 +49,251 @@ const PROJECTS = [
     company: "Meta",
     role: "Lead Designer",
     scope: "Brand Identity, Design System, Art Direction",
-    blurb: "A new visual language for Meta's B2B marketing service. From staging photoshoots on three continents to devising a unified system of iconography, color, and messaging, we designed a branded offer that scales internationally. ",
-    body: "Serving a global audience, our assets remain translation-friendly and support internal teams with comprehensive guidance on use cases across Meta’s channels and platforms. The collection of still photos, motion assets, component library, and usage guidelines are published to the company’s internal brand portal."
+    credits: "Creative Director / Linlin Yang \n Global Marketing Manager / Tiffany Tran \n Copywriter / Brittany Simons \n Agency Partner / Bone + Gold, Rachel Dorsey",
+    blurb: "A new visual language for Meta's B2B marketing service. From photoshoots to devising a unified system of iconography, color, and messaging, we designed a branded offer that scales internationally.",
+    contentBlocks: [
+      {
+        type: "text",
+        content: "Working closely with our Creative Director, I helped every step of the way from pre-production to post-production to publication. We defined design goals and target deliverables, accounting for the program's marketing framework and use-cases across channels, platforms, and audiences. I contributed to art direction notes from lighting to wardrobe to environment and more. \n\n Post-production, I led the design and organization of digital design assets in a Figma library hosting multi-instance components along with photos, videos, and motion assets. All our digital assets are translation friendly and created with intention for our audience regions and locales. \n\n In the final phase of this project, I collaborated closely with crossfunctional team members to outline program information and was responsible for translating it into a functional landing page published to Meta's internal brand portal."
+      },
+      {
+        type: "images",
+        items: [
+          { src: "projects/meta-pt/15.jpg", span: 2 },
+          { src: "projects/meta-pt/16.jpg", span: 2 },
+          { src: "projects/meta-pt/10.jpg", span: 2 },
+          { src: "projects/meta-pt/20.jpg", span: 2 },
+          { src: "projects/meta-pt/17.jpg", span: 2 },
+          { src: "projects/meta-pt/18.jpg", span: 2 },
+          { src: "projects/meta-pt/24.jpg", span: 2 },
+          { src: "projects/meta-pt/21.jpg", span: 2 },
+          { src: "projects/meta-pt/19.jpg", span: 2 },
+          { src: "projects/meta-pt/13.jpg", span: 2 },
+          { src: "projects/meta-pt/06.jpg", span: 2 },
+          { src: "projects/meta-pt/14.jpg", span: 2 },
+          { src: "projects/meta-pt/22.jpg", span: 2 },
+          { src: "projects/meta-pt/23.jpg", span: 2 },
+        ]
+      }
+    ]
   },
   {
     id: "p2",
     cls: "t-b",
     art: "art-2",
     images: {
-      thumbnail: "projects/meta-campaign/thumb.jpg",  // For grid tile
-      hero: "projects/meta-campaign/01.jpg",         // For modal top
-      gallery: [                                      // For modal gallery section
-      { src:"projects/meta-campaign/02.jpg", span: 2 },
-      { src:"projects/meta-campaign/08.jpg", span: 2 },
-      { src:"projects/meta-campaign/06.jpg", span: 2 },
-      { src:"projects/meta-campaign/04.jpg", span: 2 },
-      { src:"projects/meta-campaign/05.jpg", span: 2 },
-      { src:"projects/meta-campaign/07.jpg", span: 2 },
-      ]
+      thumbnail: "projects/meta-campaign/thumb.jpg",
+      hero: "projects/meta-campaign/01.jpg",
     },
     title: "Meta Campaigns",
     sub: "Visual and marketing design",
     company: "Meta",
     role: "Visual Designer",
-    scope: "Marketing Design, Web Design",
+    scope: "Marketing Design, Web Design, Motion Design",
+    credits: "Creative Director / Liz O'Neal",
     blurb: "Designing cohesive B2B campaigns across digital touchpoints.",
-    body: "Working across a high volume of B2B campaigns, I developed visual assets for landing pages, email, and social in close collaboration with cross-functional teams. I focused on crafting clean, eye-catching graphics that maintained consistency with the Meta for Business brand while adapting to different verticals and campaign needs."
+    contentBlocks: [
+      {
+        type: "text",
+        content: "I developed visual assets for landing pages, email, and social in close collaboration with our CD, Marketing Managers and Webdev team. I focused on crafting clean, eye-catching graphics consistent with the Meta for Business brand while adapting to different verticals and campaign needs."
+      },
+      {
+        type: "images",
+        items: [
+          { src: "projects/meta-campaign/02.jpg", span: 4 },
+          { src: "projects/meta-campaign/03.jpg", span: 2 },
+          { src: "projects/meta-campaign/04.jpg", span: 2 },
+          { src: "projects/meta-campaign/05.jpg", span: 2 },
+          { src: "projects/meta-campaign/06.jpg", span: 2 },
+        ]
+      },
+      {
+        type: "text",
+        content: "\n\n\n\n"
+      },
+      {
+        type: "images",
+        items: [
+          { src: "projects/meta-campaign/07.jpg", span: 4 },
+        ]
+      },
+      {
+      type: "video",
+      items: [
+      {
+        src: "projects/meta-campaign/08.mp4",
+        span: 2,
+        autoplay: true,
+        loop: true,
+        muted: true  // required for autoplay
+     },
+     {
+        src: "projects/meta-campaign/09.mp4",
+        span: 2,
+        autoplay: true,
+        loop: true,
+        muted: true
+     }
+    ]
+    },
+     {
+        type: "images",
+        items: [
+          { src: "projects/meta-campaign/10.jpg", span: 1 },
+          { src: "projects/meta-campaign/11.jpg", span: 1 },
+          { src: "projects/meta-campaign/12.jpg", span: 1 },
+          { src: "projects/meta-campaign/13.jpg", span: 1 },
+        ]
+     },
+     {
+        type: "text",
+        content: "\n\n\n\n"
+      },
+      {
+        type: "images",
+        items: [
+          { src: "projects/meta-campaign/15.jpg", span: 4 },
+          { src: "projects/meta-campaign/16.jpg", span: 2 },
+          { src: "projects/meta-campaign/17.jpg", span: 2 },
+          { src: "projects/meta-campaign/18.jpg", span: 2 },
+          { src: "projects/meta-campaign/19.jpg", span: 2 },
+        ]
+      },
+]
   },
   {
     id: "p3",
     cls: "t-c",
     art: "art-3",
     images: {
-      thumbnail: "projects/human-interest/thumb-3.jpg",  // For grid tile
-      hero: "projects/human-interest/07.jpg",         // For modal top
-      gallery: [                                      // For modal gallery section
-      { src:"projects/human-interest/01.jpg", span: 2 },
-      { src:"projects/human-interest/02.jpg", span: 2 },
-      { src:"projects/human-interest/03.jpg", span: 2 },
-      { src:"projects/human-interest/04.jpg", span: 2 },
-      ]
+      thumbnail: "projects/human-interest/thumb-3.jpg",
+      hero: "projects/human-interest/07.jpg",
     },
     title: "Human Interest",
-    sub: "Information design and brand strategy",
+    sub: "Brand evolution and information design",
     company: "Human Interest",
     role: "Visual Designer",
-    scope: "Information Design, Brand Strategy",
-    blurb: "A digital infographic for Human Interest, a fintech company and 401k provider for small and medium sized businesses.",
-    body: "I served as their sole in-house designer, working closely with the marketing team on brand development, digital campaigns, gated content, and inbound growth. This infographic is the culmination of visual design, market research, and brand strategy, positioning Human Interest as an access point to critical information, supporting retirement savings solutions.",
+    scope: "Brand Strategy, Information Design",
+    credits: "VP of Marketing / Tim Parks\nDirector of Research & Content / Erin Savage",
+    blurb: "Building the brand framework and strategy and digital assets for a fintech company in the retirement saving solutions space.",
+    contentBlocks: [
+      {
+        type: "text",
+        content: "In information-dense industries, a challenge often is to deliver specialized information in digestible, compelling ways. Starting with a google document of raw data compiled by our Director of Content & Research, I translated the information into a branded infographic focusing on a clear hierarchy of visuals–the heatmap, the headline, and the body text. This asset was used for gated content marketing driving inbound growth. I delivered the asset as a PDF so the vector format retains its clarity when viewed at any scale.\n\nAt the time, the Human Interest brand was in its initial stages with a logo, typefaces, and color palette. I was serving as their sole in-house designer and in order to more effectively build awareness and efficiently produce assets across channels, we would have to establish a true framework and baseline for our brand strategy."
+      },
+      {
+        type: "images",
+        items: [
+          { src: "projects/human-interest/01.jpg", span: 2 },
+          { src: "projects/human-interest/02.jpg", span: 2 },
+          { src: "projects/human-interest/03.jpg", span: 2 },
+          { src: "projects/human-interest/04.jpg", span: 2 },
+        ]
+      },
+      {
+        type: "text",
+        content: "Working closely with the VP of Marketing, we ran an 8-week brand sprint with company C-suite, workshopping one aspect of our brand arsenal each week. We did this by drawing from workshop agendas and practices from agency titans like Ogilvy.\n\nWith participation from the CEO, co-founders, and each department lead, we hosted open conversations about why the company exists, who it serves, what its presence communicates externally.\n\nAfter each workshop, myself, the VP of Marketing, and Director of Content & Research synthesized the learnings and tested them through A/B tests on our marketing website and sample audience surveys in parallel to the ongoing sprint. By the end of the 8 weeks, we had established a brand ethos and toolkit company-wide including Purpose, Vision, Mission, Personality, Target audience, Value props, and Positioning."
+      },
+      {
+        type: "images",
+        items: [
+          { src: "projects/human-interest/09.jpg", span: 2 },
+          { src: "projects/human-interest/10.jpg", span: 2 },
+          { src: "projects/human-interest/08.jpg", span: 2 },
+          { src: "projects/human-interest/11.jpg", span: 2 },
+        ]
+      }
+    ]
   },
   {
     id: "p4",
     cls: "t-d",
     art: "art-4",
     images: {
-      thumbnail: "projects/fluctuate/thumb.jpg",  // For grid tile
-      hero: "projects/fluctuate/01.gif",         // For modal top
-      gallery: [          
-      { src:"projects/fluctuate/09.jpg", span: 2 },
-      { src:"projects/fluctuate/11.jpg", span: 2 },                     // For modal gallery section
-      { src:"projects/fluctuate/02.jpg", span: 2 },
-      { src:"projects/fluctuate/03.jpg", span: 2 },
-      { src:"projects/fluctuate/04.jpg", span: 2 },
-      { src:"projects/fluctuate/05.jpg", span: 2 },
-      { src:"projects/fluctuate/06.jpg", span: 2 },
-      { src:"projects/fluctuate/07.jpg", span: 2 },
-      { src:"projects/fluctuate/10.jpg", span: 2 },
-      { src:"projects/fluctuate/14.jpg", span: 2 },
-      { src:"projects/fluctuate/15.jpg", span: 2 },
-      { src:"projects/fluctuate/16.jpg", span: 2 },
-      ]
+      thumbnail: "projects/fluctuate/thumb.jpg",
+      hero: "projects/fluctuate/01.gif",
     },
-    year: "2024",
     title: "Fluctuate",
     sub: "Editorial and print design",
     info: "Personal Project",
     role: "Creative",
     scope: "Logomaking, Editorial Design, Motion",
+    year: "2024",
     blurb: "Fluctuate Zine was born as an outlet to explore tension, change, and mental health. The first issue focused on food recipes, grocery items, and flavors as grounding sensory experiences.",
-    body: "One of my favorite quotes is that it's hard to write something polished, and even harder to write something that is honest. I kept that in mind while approaching this personal project, allowing intuition the space to create freely. What resulted visually is a spotlight on typography, textures, and negative space."
+    contentBlocks: [
+      {
+        type: "text",
+        content: "One of my favorite quotes is that it's hard to write something polished, and even harder to write something that is honest. I kept that in mind while approaching this personal project, allowing intuition the space to create freely. What resulted visually is a spotlight on typography, textures, and negative space."
+      },
+      {
+        type: "images",
+        items: [
+          { src: "projects/fluctuate/09.jpg", span: 2 },
+          { src: "projects/fluctuate/11.jpg", span: 2 },
+          { src: "projects/fluctuate/02.jpg", span: 2 },
+          { src: "projects/fluctuate/03.jpg", span: 2 },
+          { src: "projects/fluctuate/04.jpg", span: 2 },
+          { src: "projects/fluctuate/05.jpg", span: 2 },
+          { src: "projects/fluctuate/06.jpg", span: 2 },
+          { src: "projects/fluctuate/07.jpg", span: 2 },
+          { src: "projects/fluctuate/10.jpg", span: 2 },
+          { src: "projects/fluctuate/14.jpg", span: 2 },
+          { src: "projects/fluctuate/15.jpg", span: 2 },
+          { src: "projects/fluctuate/16.jpg", span: 2 },
+        ]
+      }
+    ]
   },
   {
     id: "p5",
     cls: "t-e",
     art: "art-5",
     images: {
-      thumbnail: "projects/draft-can/thumb.jpg",  // For grid tile
-      hero: "projects/draft-can/00.jpg",         // For modal top
-      gallery: [   
-      { src:"projects/draft-can/ani_02.gif", span: 1 },
-      { src:"projects/draft-can/ani_01.gif", span: 1 }, 
-      { src:"projects/draft-can/boon-supply_01.jpg", span: 1 },
-      { src:"projects/draft-can/boon-supply_02.gif", span: 1 },
-      { src:"projects/draft-can/atlp_01.jpg", span: 1 },
-      { src:"projects/draft-can/atlp_02.jpg", span: 1 }, 
-      { src:"projects/draft-can/gch_01.jpg", span: 1 },
-      { src:"projects/draft-can/apple_01.jpg", span: 1 },
-      { src:"projects/draft-can/caratz_01.jpg", span: 1 },
-      { src:"projects/draft-can/caratz_02.jpg", span: 1 }, 
-      { src:"projects/draft-can/caratz_03.jpg", span: 1 },
-      { src:"projects/draft-can/caratz_05.jpg", span: 1 },
-      { src:"projects/draft-can/Caratz_404.gif", span: 1 },
-      { src:"projects/draft-can/caratz_04.gif", span: 3},
-      { src:"projects/draft-can/mercury_01.jpg", span: 1},
-      { src:"projects/draft-can/mercury_02.jpg", span: 1},
-      { src:"projects/draft-can/vase_01.jpg", span: 1},
-      { src:"projects/draft-can/vase_02.gif", span: 1},
-      { src:"projects/draft-can/thirdlove_02.gif", span: 1 },   
-      { src:"projects/draft-can/thirdlove_01.jpg", span: 1 }, 
-      { src:"projects/draft-can/bi-guide_01.gif", span: 1 },
-      { src:"projects/draft-can/fly-club_01.jpg", span: 1},   
-      { src:"projects/draft-can/turner_01.jpg", span: 1},
-      { src:"projects/draft-can/turner_02.jpg", span: 1},
-      { src:"projects/draft-can/spk_01.jpg", span: 1},
-      { src:"projects/draft-can/pa_mtg_01.jpg", span: 1},
-      { src:"projects/draft-can/illo_01.jpg", span: 1},
-      { src:"projects/draft-can/illo_02.jpg", span: 1},
-      { src:"projects/draft-can/illo_03.jpg", span: 1},
-      { src:"projects/draft-can/illo_04.jpg", span: 1},
-
-      ]
+      thumbnail: "projects/draft-can/thumb.jpg",
+      hero: "projects/draft-can/00.jpg",
     },
     title: "Draftcan",
     sub: "Collection of ideas and design bits",
     company: "Various",
-    role: "Designer, Illustrator, Creative",
+    role: "Visual Designer, Illustrator, Motion Designer",
     blurb: "Collection of ideas, designs, and illustrations throughout the years. Not everything makes it to the publishing stage, but an idea unused often finds second wind in other ways!",
+    contentBlocks: [
+      {
+        type: "images",
+        items: [
+          { src: "projects/draft-can/ani_02.gif", span: 1 },
+          { src: "projects/draft-can/ani_01.gif", span: 1 },
+          { src: "projects/draft-can/boon-supply_01.jpg", span: 1 },
+          { src: "projects/draft-can/boon-supply_02.gif", span: 1 },
+          { src: "projects/draft-can/atlp_01.jpg", span: 1 },
+          { src: "projects/draft-can/atlp_02.jpg", span: 1 },
+          { src: "projects/draft-can/gch_01.jpg", span: 1 },
+          { src: "projects/draft-can/apple_01.jpg", span: 1 },
+          { src: "projects/draft-can/caratz_01.jpg", span: 1 },
+          { src: "projects/draft-can/caratz_02.jpg", span: 1 },
+          { src: "projects/draft-can/caratz_03.jpg", span: 1 },
+          { src: "projects/draft-can/caratz_05.jpg", span: 1 },
+          { src: "projects/draft-can/Caratz_404.gif", span: 1 },
+          { src: "projects/draft-can/caratz_04.gif", span: 3 },
+          { src: "projects/draft-can/mercury_01.jpg", span: 1 },
+          { src: "projects/draft-can/mercury_02.jpg", span: 1 },
+          { src: "projects/draft-can/vase_01.jpg", span: 1 },
+          { src: "projects/draft-can/vase_02.gif", span: 1 },
+          { src: "projects/draft-can/thirdlove_02.gif", span: 1 },
+          { src: "projects/draft-can/thirdlove_01.jpg", span: 1 },
+          { src: "projects/draft-can/draft-can.jpg", span: 1 },
+          { src: "projects/draft-can/fly-club_01.jpg", span: 1 },
+          { src: "projects/draft-can/turner_01.jpg", span: 1 },
+          { src: "projects/draft-can/turner_02.jpg", span: 1 },
+          { src: "projects/draft-can/spk_01.jpg", span: 1 },
+          { src: "projects/draft-can/pa_mtg_01.jpg", span: 1 },
+          { src: "projects/draft-can/illo_01.jpg", span: 1 },
+          { src: "projects/draft-can/illo_02.jpg", span: 1 },
+          { src: "projects/draft-can/illo_03.jpg", span: 1 },
+          { src: "projects/draft-can/illo_04.jpg", span: 1 },
+        ]
+      }
+    ]
   }
 ];
 
@@ -250,7 +359,6 @@ function Header() {
 }
 
 function FloatingNav({ activeIdx, onNav, style = "squares" }) {
-  // Order: Work (0), Process (1), Person (2)
   const labels = ["The Work", "The Process", "The Person"];
   const shorts = ["Work", "Process", "Person"];
   const nums = ["01", "02", "03"];
@@ -309,7 +417,6 @@ function FloatingNav({ activeIdx, onNav, style = "squares" }) {
     );
   }
 
-  // default: squares (current)
   return (
     <nav className={`fnav floating-nav floating-nav--${pageKey}`} aria-label="Sections">
       {labels.map((l, i) => {
@@ -341,6 +448,7 @@ function GridIcon() {
     </svg>
   );
 }
+
 function FlowIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -352,6 +460,7 @@ function FlowIcon() {
     </svg>
   );
 }
+
 function FaceIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -391,7 +500,6 @@ function PersonPage() {
       <Header />
       <main className="section">
         <h1 className="title">The Person</h1>
-
         <div className="person__grid person__grid--single">
           <div>
             <div className="person__copy">
@@ -421,65 +529,57 @@ function ProcessPage({ processColor }) {
   };
 
   return (
-  <div className="page page--process" style={{ background: processColor }}>
-    <Header />
-    <main className="section">
-      <h1 className="title">The Process</h1>
-
-      <p className="process__lead">{PROCESS_LEAD}</p>
-
-      <div className="process__grid">
-        <div className="process__lists">
-          <dl className="deflist">
-            <dt>Focuses</dt>
-            <dd>{FOCUSES.map((f, i) => <div key={i}>{f}</div>)}</dd>
-
-            <dt>Disciplines</dt>
-            <dd>{DISCIPLINES.map((d, i) => <div key={i}>{d}</div>)}</dd>
-          </dl>
-
-          <div className="programs">
-            <div className="programs__label">Programs</div>
-            <div className="programs__grid">
-              {PROGRAMS.map((p, i) => (
-                <div 
-                  key={i} 
-                  className="prog"
-                  onMouseMove={(e) => handleMouseMove(e, p.name)}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <img src={p.img} alt={p.name} />
-                </div>
-              ))}
+    <div className="page page--process" style={{ background: processColor }}>
+      <Header />
+      <main className="section">
+        <h1 className="title">The Process</h1>
+        <p className="process__lead">{PROCESS_LEAD}</p>
+        <div className="process__grid">
+          <div className="process__lists">
+            <dl className="deflist">
+              <dt>Focuses</dt>
+              <dd>{FOCUSES.map((f, i) => <div key={i}>{f}</div>)}</dd>
+              <dt>Disciplines</dt>
+              <dd>{DISCIPLINES.map((d, i) => <div key={i}>{d}</div>)}</dd>
+            </dl>
+            <div className="programs">
+              <div className="programs__label">Programs</div>
+              <div className="programs__grid">
+                {PROGRAMS.map((p, i) => (
+                  <div 
+                    key={i} 
+                    className="prog"
+                    onMouseMove={(e) => handleMouseMove(e, p.name)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <img src={p.img} alt={p.name} />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
-    
-    {/* Tooltip rendered outside of programs container */}
-    {activeTooltip && (
-      <span 
-        className="prog__tip" 
-        style={{ 
-          left: `${tooltipPos.x + 12}px`, 
-          top: `${tooltipPos.y + 12}px`,
-          opacity: 1
-        }}
-      >
-        {activeTooltip}
-      </span>
-    )}
-    
-    <ConnectFooter variant="blue" />
-  </div>
-);
+      </main>
+      {activeTooltip && (
+        <span 
+          className="prog__tip" 
+          style={{ 
+            left: `${tooltipPos.x + 12}px`, 
+            top: `${tooltipPos.y + 12}px`,
+            opacity: 1
+          }}
+        >
+          {activeTooltip}
+        </span>
+      )}
+      <ConnectFooter variant="blue" />
+    </div>
+  );
 }
 
 /* ----- Work ----- */
 
 function Tile({ p, onOpen }) {
-  // Support both old class-based and new span-based layout
   const inlineStyle = {};
   if (p.span) inlineStyle.gridColumn = `span ${p.span}`;
   if (p.aspectRatio) inlineStyle.aspectRatio = p.aspectRatio;
@@ -489,19 +589,17 @@ function Tile({ p, onOpen }) {
       className={`tile ${p.cls}`} 
       style={Object.keys(inlineStyle).length > 0 ? inlineStyle : undefined}
       onClick={() => {
-  // Check if project requires password and isn't unlocked yet
-  if (p.password) {
-    const unlocked = JSON.parse(sessionStorage.getItem('unlockedProjects') || '[]');
-    if (!unlocked.includes(p.id)) {
-      // If there's a password prompt setter, use it
-      if (window.__setPasswordPrompt) {
-        window.__setPasswordPrompt(p);
-        return;
-      }
-    }
-  }
-  onOpen(p);
-}}
+        if (p.password) {
+          const unlocked = JSON.parse(sessionStorage.getItem('unlockedProjects') || '[]');
+          if (!unlocked.includes(p.id)) {
+            if (window.__setPasswordPrompt) {
+              window.__setPasswordPrompt(p);
+              return;
+            }
+          }
+        }
+        onOpen(p);
+      }}
       aria-label={`Open ${p.title}`}
     >
       <div className={`tile__art ${p.art}`}>
@@ -531,13 +629,11 @@ function WorkPage({ onOpenProject }) {
       <Header />
       <main className="section">
         <h1 className="title">The Work</h1>
-
         <div className="grid">
           {PROJECTS.map((p) => (
             <Tile key={p.id} p={p} onOpen={onOpenProject} />
           ))}
         </div>
-
         <section className="clients" aria-label="Previously worked with">
           <div className="clients__label">Previously worked with</div>
           <div className="clients__row">
@@ -577,23 +673,14 @@ function ProjectModal({ project, onClose }) {
   }, [open]);
 
   useEffect(() => {
-    if (open) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "";
-    return () => { document.body.style.overflow = ""; };
-  }, [open]);
-
-  // Reset password input when modal closes or project changes
-  useEffect(() => {
     if (!open) {
       setPasswordInput('');
       setPasswordError(false);
     }
   }, [open, project?.id]);
 
-  // Check if current project is unlocked
   const isUnlocked = !project?.password || unlockedProjects.includes(project.id);
 
-  // Handle password submission
   const handlePasswordSubmit = (e) => {
     e.preventDefault();
     if (passwordInput === project.password) {
@@ -608,34 +695,29 @@ function ProjectModal({ project, onClose }) {
     }
   };
 
-  // Scroll listener to detect when title is scrolled past
   useEffect(() => {
     if (!open || !modalBodyRef.current || !titleRef.current) return;
 
     const handleScroll = () => {
       const titleBottom = titleRef.current.getBoundingClientRect().bottom;
       const modalTop = modalBodyRef.current.getBoundingClientRect().top;
-      
-      // Show title in header when title has scrolled past the modal header
-      setShowTitleInHeader(titleBottom < modalTop + 80); // 80px threshold for smooth transition
+      setShowTitleInHeader(titleBottom < modalTop + 80);
     };
 
     const modalBody = modalBodyRef.current;
     modalBody.addEventListener('scroll', handleScroll);
-    
-    // Initial check
     handleScroll();
     
     return () => modalBody.removeEventListener('scroll', handleScroll);
   }, [open]);
 
-return (
+  return (
     <>
       <div className={`modal-backdrop ${open ? "is-open" : ""}`} onClick={onClose} />
       <div className={`modal ${open ? "is-open" : ""}`} role="dialog" aria-modal="true" aria-label={project?.title}>
         {project && (
           <>
-                <div className="modal__head">
+            <div className="modal__head">
               <div className="modal__brand">
                 <span className="modal__brand-name">jess leung</span>
                 <span className={`modal__brand-title ${showTitleInHeader ? 'is-visible' : ''}`}>
@@ -647,7 +729,6 @@ return (
               </button>
             </div>
             <div className="modal__body" ref={modalBodyRef}>
-              {/* Hero image with CSS art fallback */}
               <div className={`modal__hero tile__art ${project.art}`}>
                 {project.images?.hero && (
                   <img 
@@ -666,45 +747,130 @@ return (
                 {project.company && <div><dt>Company</dt><dd>{project.company}</dd></div>}
                 {project.role && <div><dt>Role</dt><dd>{project.role}</dd></div>}
                 {project.scope && <div><dt>Scope</dt><dd>{project.scope}</dd></div>}
-                {project.credits && <div><dt>Credits</dt><dd>{project.credits}</dd></div>}
+                {project.credits && (
+                  <div>
+                    <dt>Credits</dt>
+                    <dd>
+                      {project.credits.split('\n').map((line, i) => (
+                        <React.Fragment key={i}>
+                          {line}
+                          {i < project.credits.split('\n').length - 1 && <br />}
+                        </React.Fragment>
+                      ))}
+                    </dd>
+                  </div>
+                )}
               </dl>
               
-              <p>{project.body}</p>
+              {project.contentBlocks && project.contentBlocks.map((block, blockIdx) => {
+                if (block.type === "video") {
+  return (
+    <div key={blockIdx} className="modal__shots">
+      {block.items ? (
+        // Multiple videos
+        block.items.map((video, idx) => {
+          const videoSrc = typeof video === 'string' ? video : video.src;
+          const span = typeof video === 'string' ? 2 : (video.span || 2);
+          const autoplay = typeof video === 'string' ? false : (video.autoplay || false);
+          const loop = typeof video === 'string' ? false : (video.loop || false);
+          const controls = typeof video === 'string' ? true : (video.controls !== false);
+          const muted = typeof video === 'string' ? false : (video.muted || autoplay || false);
+          
+          return (
+            <div 
+              key={idx}
+              className="modal__shot modal__video"
+              style={{ gridColumn: `span ${span}` }}
+            >
+              {videoSrc.includes('youtube.com') || videoSrc.includes('vimeo.com') ? (
+                <iframe
+                  src={videoSrc}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="modal__video-iframe"
+                />
+              ) : (
+                <video
+                  src={videoSrc}
+                  controls={controls}
+                  autoPlay={autoplay}
+                  loop={loop}
+                  muted={muted}
+                  playsInline
+                  className="modal__video-player"
+                />
+              )}
+            </div>
+          );
+        })
+      ) : (
+        // Single video (old format for backwards compatibility)
+        <div 
+          className="modal__shot modal__video"
+          style={{ gridColumn: `span ${block.span || 4}` }}
+        >
+          {block.src.includes('youtube.com') || block.src.includes('vimeo.com') ? (
+            <iframe
+              src={block.src}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="modal__video-iframe"
+            />
+          ) : (
+            <video
+              src={block.src}
+              controls={block.controls !== false}
+              autoPlay={block.autoplay || false}
+              loop={block.loop || false}
+              muted={block.muted || block.autoplay || false}
+              playsInline
+              className="modal__video-player"
+            />
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+if (block.type === "text") {
+  return (
+    <p key={blockIdx} style={{ whiteSpace: 'pre-line' }}>
+      {block.content}
+    </p>
+  );
+}
+                if (block.type === "images") {
+                  return (
+                    <div key={blockIdx} className="modal__shots">
+                      {block.items.map((item, idx) => {
+                        const imgSrc = typeof item === 'string' ? item : item.src;
+                        const span = typeof item === 'string' ? 1 : (item.span || 1);
+                        
+                        return (
+                          <div 
+                            key={idx} 
+                            className="modal__shot"
+                            style={{ gridColumn: `span ${span}` }}
+                          >
+                            <img 
+                              src={imgSrc} 
+                              alt={`${project.title} - Detail ${idx + 1}`}
+                              className="modal__shot-image"
+                              loading="lazy"
+                            />
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                }
+                
+                return null;
+              })}
               
-              {/* Gallery with real images OR CSS art fallback */}
-              <div className="modal__shots">
-                {project.images?.gallery ? (
-                  project.images.gallery.map((item, idx) => {
-                    // Support both old string format and new {src, span} object format
-                    const imgSrc = typeof item === 'string' ? item : item.src;
-                    const span = typeof item === 'string' ? (idx === 0 ? 2 : 1) : (item.span || 1);
-                    const fullClass = span === 2 ? 'full' : '';
-                    
-                    return (
-                      <div 
-                        key={idx} 
-                        className={`modal__shot ${fullClass}`}
-                        style={{ gridColumn: `span ${span}` }}
-                      >
-                        <img 
-                          src={imgSrc} 
-                          alt={`${project.title} - Detail ${idx + 1}`}
-                          className="modal__shot-image"
-                          loading="lazy"
-                        />
-                      </div>
-                    );
-                  })
-                ) : (
-                  // Fallback to CSS art if no images
-                  <>
-                    <div className={`modal__shot full tile__art ${project.art}`} />
-                    <div className={`modal__shot tile__art ${project.art}`} style={{ filter: "hue-rotate(20deg)" }} />
-                    <div className={`modal__shot tile__art ${project.art}`} style={{ filter: "hue-rotate(-30deg) saturate(0.85)" }} />
-                  </>
-                )}
-              </div>
-<p> </p>
+              <p> </p>
             </div>
           </>
         )}
@@ -739,27 +905,27 @@ function PasswordPrompt({ project, onUnlock, onClose }) {
         <div className="password-prompt__card">
           <h3 className="password-prompt__title">{project.title}</h3>
           <p className="password-prompt__subtitle">D'oh! This project is protected by an NDA</p>
-        <form onSubmit={handleSubmit}>
-          <div style={{ position: 'relative' }}>
-            <input
-              type="password"
-              value={passwordInput}
-              onChange={(e) => {
-                setPasswordInput(e.target.value);
-                setPasswordError(false);
-              }}
-              className={`password-prompt__input ${passwordError ? 'is-error' : ''}`}
-              placeholder="Password"
-              autoFocus
-            />
-            <button type="submit" className="password-prompt__submit">
-              <ArrowIcon size={16} />
-            </button>
-          </div>
-          {passwordError && (
-            <div className="password-prompt__error">Incorrect password</div>
-          )}
-        </form>
+          <form onSubmit={handleSubmit}>
+            <div style={{ position: 'relative' }}>
+              <input
+                type="password"
+                value={passwordInput}
+                onChange={(e) => {
+                  setPasswordInput(e.target.value);
+                  setPasswordError(false);
+                }}
+                className={`password-prompt__input ${passwordError ? 'is-error' : ''}`}
+                placeholder="Password"
+                autoFocus
+              />
+              <button type="submit" className="password-prompt__submit">
+                <ArrowIcon size={16} />
+              </button>
+            </div>
+            {passwordError && (
+              <div className="password-prompt__error">Incorrect password</div>
+            )}
+          </form>
         </div>
       </div>
     </>
@@ -770,19 +936,18 @@ function PasswordPrompt({ project, onUnlock, onClose }) {
 
 function App() {
   const tweaks = {
-  processColor: "#3856CF",
-  navStyle: "squares"
-};
+    processColor: "#3856CF",
+    navStyle: "squares"
+  };
 
-  // active section index — order: work=0, process=1, person=2
-  const [active, setActive] = useState(0); 
+  const [active, setActive] = useState(0);
   const [openProject, setOpenProject] = useState(null);
   const [passwordPromptProject, setPasswordPromptProject] = useState(null);
+  
   useEffect(() => {
-  window.__setPasswordPrompt = setPasswordPromptProject;
-}, []);
+    window.__setPasswordPrompt = setPasswordPromptProject;
+  }, []);
 
-  // Hash-based navigation so sections are linkable
   useEffect(() => {
     const map = ["work", "process", "person"];
     const fromHash = () => {
@@ -801,16 +966,13 @@ function App() {
     if (window.history.replaceState) {
       window.history.replaceState(null, "", "#" + map[i]);
     }
-    // Scroll the now-active layer to top
     requestAnimationFrame(() => {
       const layers = document.querySelectorAll(".layer");
       if (layers[i]) layers[i].scrollTop = 0;
     });
   }, []);
 
-  // Expose nav for header buttons (avoid prop-drilling everywhere)
   useEffect(() => { window.__nav = nav; }, [nav]);
-
 
   return (
     <>
@@ -828,20 +990,18 @@ function App() {
 
       <ProjectModal project={openProject} onClose={() => setOpenProject(null)} />
 
-{/* Password prompt overlay */}
-{passwordPromptProject && (
-  <PasswordPrompt 
-    project={passwordPromptProject}
-    onUnlock={() => {
-      setPasswordPromptProject(null);
-      setOpenProject(passwordPromptProject);
-    }}
-    onClose={() => setPasswordPromptProject(null)}
-  />
-)}
+      {passwordPromptProject && (
+        <PasswordPrompt 
+          project={passwordPromptProject}
+          onUnlock={() => {
+            setPasswordPromptProject(null);
+            setOpenProject(passwordPromptProject);
+          }}
+          onClose={() => setPasswordPromptProject(null)}
+        />
+      )}
 
       <FloatingNav activeIdx={active} onNav={nav} style={tweaks.navStyle} />
-
     </>
   );
 }
