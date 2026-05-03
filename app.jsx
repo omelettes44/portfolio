@@ -417,55 +417,49 @@ function FloatingNav({ activeIdx, onNav, style = "squares" }) {
     );
   }
 
-  return (
-    <nav className={`fnav floating-nav floating-nav--${pageKey}`} aria-label="Sections">
-      {labels.map((l, i) => {
-        const Icon = icons[i];
-        return (
-          <button
-            key={i}
-            className="nav__btn"
-            aria-current={activeIdx === i}
-            aria-label={l}
-            title={l}
-            onClick={() => onNav(i)}
-          >
-            <Icon />
-          </button>
-        );
-      })}
-    </nav>
-  );
+return (
+  <nav className={`fnav floating-nav floating-nav--${pageKey}`} aria-label="Sections">
+    {labels.map((l, i) => {
+      const Icon = icons[i];
+      const activeSizes = [16, 18, 18];
+      const iconSize = activeIdx === i ? activeSizes[i] : 10;  // ← change 14 to 10 here
+      return (
+        <button
+          key={i}
+          className="nav__btn"
+          aria-current={activeIdx === i}
+          aria-label={l}
+          title={l}
+          onClick={() => onNav(i)}
+        >
+          <Icon size={iconSize} />
+        </button>
+      );
+    })}
+  </nav>
+);
 }
 
-function GridIcon() {
+function GridIcon({ size = 10 }) {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <rect x="4" y="4" width="7" height="7" rx="1" />
-      <rect x="13" y="4" width="7" height="7" rx="1" />
-      <rect x="4" y="13" width="7" height="7" rx="1" />
-      <rect x="13" y="13" width="7" height="7" rx="1" />
+    <svg style={{ width: size, height: size }} viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <path d="M10.5879 10.5879V11.6475H11.6475V10.5879H10.5879ZM6.29102 11.6475H7.34961V10.5879H6.29102V11.6475ZM8.4707 8.4707H7.34961V9.5293H8.4707V10.5879H9.5293V9.5293H10.6504V8.4707H9.5293V7.41211H8.4707V8.4707ZM6.29102 7.41211H7.34961V6.35254H6.29102V7.41211ZM10.5879 7.41211H11.6475V6.35254H10.5879V7.41211ZM16.8789 11.6475H15.8828V12.7061H12.7061V15.8828H11.6475V16.9414H10.5879V18H7.34961V16.9414H6.29102V15.8828H5.23145V12.7061H2.05566V11.6475H1.05859V10.5879H0V7.41211H1.05859V6.35254H2.05566V5.29395H5.23145V2.11719H6.29102V1.05859H7.34961V0H10.5879V1.05859H11.6475V2.11719H12.7061V5.29395H15.8828V6.35254H16.8789V7.41211H18V10.5879H16.8789V11.6475Z" fill="currentColor"/>
     </svg>
   );
 }
 
-function FlowIcon() {
+function FlowIcon({ size = 10 }) {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <circle cx="6" cy="6" r="2" />
-      <circle cx="18" cy="12" r="2" />
-      <circle cx="6" cy="18" r="2" />
-      <path d="M8 6h6a4 4 0 0 1 4 4v0" />
-      <path d="M16 12a4 4 0 0 1-4 4H8" />
+    <svg style={{ width: size, height: size }} viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <path d="M9.5 18H8.5V17H7V14H8.5V11H9.5V14H11V17H9.5V18ZM6 13H5V12H6V13ZM13 13H12V12H13V13ZM4 8.4707H7.34961V9.5293H4V11H1V9.5293H0V8.4707H1V7H4V8.4707ZM17 8.4707H17.998V9.5293H17V11H14V9.5293H10.6484V8.4707H14V7H17V8.4707ZM9.5 1H11V4H9.5V7H8.5V4H7V1H8.5V0H9.5V1ZM6 6H5V5H6V6ZM13 6H12V5H13V6Z" fill="currentColor"/>
     </svg>
   );
 }
 
-function FaceIcon() {
+function FaceIcon({ size = 10 }) {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <circle cx="12" cy="9" r="4" />
-      <path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6" />
+    <svg style={{ width: size, height: size }} viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <path d="M9.5 8.5V7H8.5V8.5H7V9.5H8.5V11H9.5V9.5H11V8.5H9.5ZM18 9.5H16V10.5H13.5V11.5H11.5V13H10.5V15H9.5V18H8.5V15H7.5V13H6.5V11.5H4.5V10.5H2V9.5H0V8.5H2V7.5H4.5V6.5H6.5V5H7.5V3H8.5V0H9.5V3H10.5V5H11.5V6.5H13.5V7.5H16V8.5H18V9.5Z" fill="currentColor"/>
     </svg>
   );
 }
