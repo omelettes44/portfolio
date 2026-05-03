@@ -773,6 +773,29 @@
   object-fit: contain;  /* Changed from cover */
 }
 
+/* Video styles */
+.modal__video {
+  position: relative;
+  width: 100%;
+  background: #000;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.modal__video-iframe {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: block;
+}
+
+.modal__video-player {
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
   /* Clients */
   .clients {
     margin-top: clamp(56px, 8vw, 96px);
