@@ -44,11 +44,11 @@ const PROJECTS = [
       hero: "projects/meta-pt/02.jpg",
     },
     title: "Meta Pro Team",
-    sub: "Brand identity & design system – B2B Program",
+    sub: "Brand strategy & design system – B2B Program",
     password: "infiniteloop",
     company: "Meta",
     role: "Lead Designer",
-    scope: "Brand Identity, Design System, Art Direction",
+    scope: "Brand Strategy, Design System, Art Direction",
     credits: "Creative Director / Linlin Yang \n Global Marketing Manager / Tiffany Tran \n Copywriter / Brittany Simons \n Agency Partner / Bone + Gold, Rachel Dorsey",
     blurb: "A new visual language for Meta's B2B marketing service. From photoshoots to devising a unified system of iconography, color, and messaging, we designed a branded offer that scales internationally.",
     contentBlocks: [
