@@ -879,6 +879,12 @@ function PasswordPrompt({ project, onUnlock, onClose }) {
   const [passwordInput, setPasswordInput] = useState('');
   const [passwordError, setPasswordError] = useState(false);
 
+  // Lock body scroll while password prompt is open
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (passwordInput === project.password) {
