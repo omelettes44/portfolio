@@ -528,10 +528,11 @@
     margin-top: 4px;
   }
   .programs__label {
-    font-size: 16px;
-    letter-spacing: 0.04em;
+    font-size: 18px;
+    letter-spacing: normal;
     margin-bottom: 24px;
     font-weight: 600;
+    grid-column: 1;
   }
   .programs__grid {
     display: grid;
@@ -771,6 +772,40 @@
   height: auto;  /* Changed from 100% */
   display: block;
   object-fit: contain;  /* Changed from cover */
+}
+
+/* Image skeleton loading placeholders */
+.image-skeleton {
+  background: linear-gradient(
+    90deg,
+    #e8e8e8 0%,
+    #f4f4f4 50%,
+    #e8e8e8 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  min-height: 200px;
+}
+
+.modal__hero .image-skeleton {
+  min-height: 400px;
+  border-radius: 14px;
+}
+
+.modal__shot .image-skeleton {
+  min-height: 200px;
+  border-radius: 10px;
+  aspect-ratio: 4 / 3;
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Hide skeleton once image loads */
+img.loaded + .image-skeleton {
+  display: none;
 }
 
 /* Video styles */
@@ -1168,6 +1203,29 @@
       font-size: 18px;
       max-width: 200px;
     }
+    /* Mobile: tooltip positioned above icon on tap */
+.prog {
+  cursor: pointer;
+}
+
+.prog__tip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  margin-bottom: 0;
+  pointer-events: none;
+}
+
+.prog.is-active .prog__tip {
+  opacity: 1;
+}
+
+/* Disable hover on mobile */
+.prog:hover .prog__tip {
+  opacity: 0;
+}
+
   }
 
   /* Reduce motion */
