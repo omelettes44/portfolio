@@ -1,1389 +1,1003 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1" />
-<title>Jess Leung — Visual Designer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
+const { useState, useEffect, useRef, useCallback } = React;
 
-<!-- OPTIMIZED: Production React (7x smaller than development) -->
-<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+/* ----------------------------- Data ----------------------------- */
 
-<style>
-  :root {
-    --bg-person: #ffffff;
-    --bg-process: #2e57d6;
-    --bg-work: #0d1116;
-    --ink-person: #111418;
-    --ink-process: #ffffff;
-    --ink-work: #ffffff;
-    --accent: #f7c98a;
-    --accent-soft: #fde6c4;
-    --tile: #14253f;
-    --tile-hi: #1a2e4d;
-    --rule: rgba(0,0,0,0.08);
-    --rule-on-blue: rgba(255,255,255,0.18);
-    --rule-on-dark: rgba(255,255,255,0.10);
-    --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  * { box-sizing: border-box; }
-  html, body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Figtree', system-ui, -apple-system, Helvetica, Arial, sans-serif;
-    font-feature-settings: "ss01", "cv11";
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    background: #0d1116; /* Will be dynamically updated by React */
-    color: #111;
-    overflow-x: hidden;
-    transition: background-color 700ms var(--ease); /* Smooth transition when changing pages */
-  }
-  body {
-    min-height: 100vh;
-    min-height: 100dvh;
-  }
-  a { color: inherit; }
+const PERSON_COPY = [
+  "After studying design at Pratt Institute, I worked for several years at a creative experiential agency in New York City. In 2018, I relocated to San Francisco, where I've since been freelancing and working in-house with tech companies across the Bay Area.",
+  "My interests shift from time to time but a consistent aspect is one of design — the joy of shaping and participation.",
+  "Outside of work, I'm often deep-diving on one of my sporadic curiosities, doing gel-x nail art for my friends, and building towns in Animal Crossing."
+];
 
-  /* Stage holds three layers that cross-fade. */
-  .stage {
-    position: relative;
-    min-height: 100vh;
-    min-height: 100dvh;
-    width: 100%;
-    overflow: hidden;
-  }
-  .layer {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 700ms var(--ease);
-    will-change: opacity;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-  }
-  .layer.is-active {
-    opacity: 1;
-    pointer-events: auto;
-    z-index: 2;
-  }
-  .layer.is-active main.section,
-  .layer.is-active .connect { animation: rise 900ms var(--ease) both; }
-  .layer.is-active main.section .title,
-  .layer.is-active main.section h1.title { animation: none; }
+const PROCESS_LEAD = "I'm a multidisciplinary designer interested in storytelling and transformation through visual design. From the briefing room to concepting to execution, I'm inspired by vision-driven design solutions that shape meaningful narratives, encourage connection, and are enjoyable to experience.";
 
-  @keyframes rise {
-    from { transform: translateY(8px); opacity: 0; }
-    to   { transform: none; opacity: 1; }
-  }
+const FOCUSES = ["Brand Strategy", "Brand Identity Systems", "Art Direction"];
+const DISCIPLINES = ["Marketing Design", "Web & Digital Design", "Experiential Design", "Presentation Design", "Illustration", "Motion"];
 
-  .page {
-    min-height: 100vh;
-    min-height: 100dvh;
-    padding: 36px 56px 28px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-  }
-  .page--person { background: var(--bg-person); color: var(--ink-person); --bg-current: var(--bg-person); }
-  .page--process { background: var(--bg-process); color: var(--ink-process); --bg-current: var(--bg-process); }
-  .page--work { background: var(--bg-work); color: var(--ink-work); --bg-current: var(--bg-work); }
+const PROGRAMS = [
+  { abbr: "Fg", name: "Figma", img: "assets/programs/figma.png" },
+  { abbr: "Ps", name: "Photoshop", img: "assets/programs/photoshop.png" },
+  { abbr: "Ai", name: "Illustrator", img: "assets/programs/illustrator.png" },
+  { abbr: "Ae", name: "After Effects", img: "assets/programs/after-effects.png" },
+  { abbr: "Id", name: "InDesign", img: "assets/programs/indesign.png" },
+  { abbr: "Fr", name: "Framer", img: "assets/programs/framer.png" },
+  { abbr: "Kn", name: "Keynote", img: "assets/programs/keynote.png" },
+  { abbr: "Pt", name: "Powerpoint", img: "assets/programs/powerpoint.png" },
+  { abbr: "Gs", name: "Google Slides", img: "assets/programs/google-slides.png" },
+  { abbr: "Sk", name: "SketchUp", img: "assets/programs/sketchup.png" },
+  { abbr: "Cl", name: "Claude", img: "assets/programs/claude.png" },
+  { abbr: "Vs", name: "Visual Studio Code", img: "assets/programs/visual-studio-code.png" },
+];
 
-  /* Floating nav (fixed top-right, persists across all pages) */
-  .fnav {
-    position: fixed;
-    top: 36px;
-    right: 56px;
-    z-index: 30;
-    transition: color 500ms var(--ease);
-  }
-  .fnav--person { color: #111; }
-  .fnav--process { color: #ffffff; }
-  .fnav--work { color: rgba(255,255,255,0.92); }
+const PRINCIPLES = [
+  { num: "01", title: "Listen first, sketch second.", body: "Every project starts in conversation. The brief is just the entry point — the real work is finding the unsaid thing the team can't name yet." },
+  { num: "02", title: "Systems, not snapshots.", body: "I design for the long arc: tokens, components, rituals. A logo is the easy part; what's hard is the hundredth touchpoint still feeling like the first." },
+  { num: "03", title: "Make it enjoyable.", body: "Delight isn't decoration. A well-placed surprise — a wink, a curve, a soft transition — is how brands become memories." }
+];
 
-  /* Style A: Squares (default — your current) */
-  .floating-nav {
-    display: flex;
-    gap: 12px;
-    color: #111;
+const PROJECTS = [
+  {
+    id: "p1",
+    cls: "t-a",
+    art: "art-1",
+    images: {
+      thumbnail: "projects/meta-pt/thumb-2.jpg",
+      hero: "projects/meta-pt/02.jpg",
+    },
+    title: "Meta Pro Team",
+    sub: "Brand strategy & design system – B2B Program",
+    password: "infiniteloop",
+    company: "Meta",
+    role: "Lead Designer",
+    scope: "Brand Strategy, Design System, Art Direction",
+    credits: "Creative Director / Linlin Yang \n Global Marketing Manager / Tiffany Tran \n Copywriter / Brittany Simons \n Agency Partner / Bone + Gold, Rachel Dorsey",
+    blurb: "A new visual language for Meta's B2B marketing service. From photoshoots to devising a unified system of iconography, color, and messaging, we designed a branded offer that scales internationally.",
+    contentBlocks: [
+      {
+        type: "text",
+        content: "Working closely with our Creative Director, I helped every step of the way from pre-production to post-production to publication. We defined design goals and target deliverables, accounting for the program's marketing framework and use-cases across channels, platforms, and audiences. I contributed to art direction notes from lighting to wardrobe to environment and more. \n\n Post-production, I led the design and organization of digital design assets in a Figma library hosting multi-instance components along with photos, videos, and motion assets. All our digital assets are translation friendly and created with intention for our audience regions and locales. \n\n In the final phase of this project, I collaborated closely with crossfunctional team members to outline program information and was responsible for translating it into a functional landing page published to Meta's internal brand portal."
+      },
+      {
+        type: "images",
+        items: [
+          { src: "projects/meta-pt/15.jpg", span: 2 },
+          { src: "projects/meta-pt/16.jpg", span: 2 },
+          { src: "projects/meta-pt/10.jpg", span: 2 },
+          { src: "projects/meta-pt/20.jpg", span: 2 },
+          { src: "projects/meta-pt/17.jpg", span: 2 },
+          { src: "projects/meta-pt/18.jpg", span: 2 },
+          { src: "projects/meta-pt/24.jpg", span: 2 },
+          { src: "projects/meta-pt/21.jpg", span: 2 },
+          { src: "projects/meta-pt/19.jpg", span: 2 },
+          { src: "projects/meta-pt/13.jpg", span: 2 },
+          { src: "projects/meta-pt/06.jpg", span: 2 },
+          { src: "projects/meta-pt/14.jpg", span: 2 },
+          { src: "projects/meta-pt/22.jpg", span: 2 },
+          { src: "projects/meta-pt/23.jpg", span: 2 },
+        ]
+      }
+    ]
+  },
+  {
+    id: "p2",
+    cls: "t-b",
+    art: "art-2",
+    images: {
+      thumbnail: "projects/meta-campaign/thumb.jpg",
+      hero: "projects/meta-campaign/01.jpg",
+    },
+    title: "Meta Campaigns",
+    sub: "Visual and marketing design",
+    company: "Meta",
+    role: "Visual Designer",
+    scope: "Marketing Design, Web Design, Motion Design",
+    credits: "Creative Director / Liz O'Neal",
+    blurb: "Designing cohesive B2B campaigns across digital touchpoints.",
+    contentBlocks: [
+      {
+        type: "text",
+        content: "I developed visual assets for landing pages, email, and social in close collaboration with our CD, Marketing Managers and Webdev team. I focused on crafting clean, eye-catching graphics consistent with the Meta for Business brand while adapting to different verticals and campaign needs."
+      },
+      {
+        type: "images",
+        items: [
+          { src: "projects/meta-campaign/02.jpg", span: 4 },
+          { src: "projects/meta-campaign/03.jpg", span: 2 },
+          { src: "projects/meta-campaign/04.jpg", span: 2 },
+          { src: "projects/meta-campaign/05.jpg", span: 2 },
+          { src: "projects/meta-campaign/06.jpg", span: 2 },
+        ]
+      },
+      {
+        type: "text",
+        content: "\n\n\n\n"
+      },
+      {
+        type: "images",
+        items: [
+          { src: "projects/meta-campaign/07.jpg", span: 4 },
+        ]
+      },
+      {
+      type: "video",
+      items: [
+      {
+        src: "projects/meta-campaign/08.mp4",
+        span: 2,
+        autoplay: true,
+        loop: true,
+        muted: true  // required for autoplay
+     },
+     {
+        src: "projects/meta-campaign/09.mp4",
+        span: 2,
+        autoplay: true,
+        loop: true,
+        muted: true
+     }
+    ]
+    },
+     {
+        type: "images",
+        items: [
+          { src: "projects/meta-campaign/10.jpg", span: 1 },
+          { src: "projects/meta-campaign/11.jpg", span: 1 },
+          { src: "projects/meta-campaign/12.jpg", span: 1 },
+          { src: "projects/meta-campaign/13.jpg", span: 1 },
+        ]
+     },
+     {
+        type: "text",
+        content: "\n\n\n\n"
+      },
+      {
+        type: "images",
+        items: [
+          { src: "projects/meta-campaign/15.jpg", span: 4 },
+          { src: "projects/meta-campaign/16.jpg", span: 2 },
+          { src: "projects/meta-campaign/17.jpg", span: 2 },
+          { src: "projects/meta-campaign/18.jpg", span: 2 },
+          { src: "projects/meta-campaign/19.jpg", span: 2 },
+        ]
+      },
+]
+  },
+  {
+    id: "p3",
+    cls: "t-c",
+    art: "art-3",
+    images: {
+      thumbnail: "projects/human-interest/thumb-3.jpg",
+      hero: "projects/human-interest/07.jpg",
+    },
+    title: "Human Interest",
+    sub: "Brand evolution and information design",
+    company: "Human Interest",
+    role: "Visual Designer",
+    scope: "Brand Strategy, Information Design",
+    credits: "VP of Marketing / Tim Parks\nDirector of Research & Content / Erin Savage",
+    blurb: "Building the brand framework and strategy and digital assets for a fintech company in the retirement saving solutions space.",
+    contentBlocks: [
+      {
+        type: "text",
+        content: "In information-dense industries, a challenge often is to deliver specialized information in digestible, compelling ways. Starting with a google document of raw data compiled by our Director of Content & Research, I translated the information into a branded infographic focusing on a clear hierarchy of visuals–the heatmap, the headline, and the body text. This asset was used for gated content marketing driving inbound growth. I delivered the asset as a PDF so the vector format retains its clarity when viewed at any scale.\n\nAt the time, the Human Interest brand was in its initial stages with a logo, typefaces, and color palette. I was serving as their sole in-house designer and in order to more effectively build awareness and efficiently produce assets across channels, we would have to establish a true framework and baseline for our brand strategy."
+      },
+      {
+        type: "images",
+        items: [
+          { src: "projects/human-interest/01.jpg", span: 2 },
+          { src: "projects/human-interest/02.jpg", span: 2 },
+          { src: "projects/human-interest/03.jpg", span: 2 },
+          { src: "projects/human-interest/04.jpg", span: 2 },
+        ]
+      },
+      {
+        type: "text",
+        content: "Working closely with the VP of Marketing, we ran an 8-week brand sprint with company C-suite, workshopping one aspect of our brand arsenal each week. We did this by drawing from workshop agendas and practices from agency titans like Ogilvy.\n\nWith participation from the CEO, co-founders, and each department lead, we hosted open conversations about why the company exists, who it serves, what its presence communicates externally.\n\nAfter each workshop, myself, the VP of Marketing, and Director of Content & Research synthesized the learnings and tested them through A/B tests on our marketing website and sample audience surveys in parallel to the ongoing sprint. By the end of the 8 weeks, we had established a brand ethos and toolkit company-wide including Purpose, Vision, Mission, Personality, Target audience, Value props, and Positioning."
+      },
+      {
+        type: "images",
+        items: [
+          { src: "projects/human-interest/09.jpg", span: 2 },
+          { src: "projects/human-interest/10.jpg", span: 2 },
+          { src: "projects/human-interest/08.jpg", span: 2 },
+          { src: "projects/human-interest/11.jpg", span: 2 },
+        ]
+      }
+    ]
+  },
+  {
+    id: "p4",
+    cls: "t-d",
+    art: "art-4",
+    images: {
+      thumbnail: "projects/fluctuate/thumb.jpg",
+      hero: "projects/fluctuate/01.gif",
+    },
+    title: "Fluctuate",
+    sub: "Editorial and print design",
+    info: "Personal Project",
+    role: "Creative",
+    scope: "Logomaking, Editorial Design, Motion",
+    year: "2024",
+    blurb: "Fluctuate Zine was born as an outlet to explore tension, change, and mental health. The first issue focused on food recipes, grocery items, and flavors as grounding sensory experiences.",
+    contentBlocks: [
+      {
+        type: "text",
+        content: "One of my favorite quotes is that it's hard to write something polished, and even harder to write something that is honest. I kept that in mind while approaching this personal project, allowing intuition the space to create freely. What resulted visually is a spotlight on typography, textures, and negative space."
+      },
+      {
+        type: "images",
+        items: [
+          { src: "projects/fluctuate/09.jpg", span: 2 },
+          { src: "projects/fluctuate/11.jpg", span: 2 },
+          { src: "projects/fluctuate/02.jpg", span: 2 },
+          { src: "projects/fluctuate/03.jpg", span: 2 },
+          { src: "projects/fluctuate/04.jpg", span: 2 },
+          { src: "projects/fluctuate/05.jpg", span: 2 },
+          { src: "projects/fluctuate/06.jpg", span: 2 },
+          { src: "projects/fluctuate/07.jpg", span: 2 },
+          { src: "projects/fluctuate/10.jpg", span: 2 },
+          { src: "projects/fluctuate/14.jpg", span: 2 },
+          { src: "projects/fluctuate/15.jpg", span: 2 },
+          { src: "projects/fluctuate/16.jpg", span: 2 },
+        ]
+      }
+    ]
+  },
+  {
+    id: "p5",
+    cls: "t-e",
+    art: "art-5",
+    images: {
+      thumbnail: "projects/draft-can/thumb.jpg",
+      hero: "projects/draft-can/00.jpg",
+    },
+    title: "Draftcan",
+    sub: "Collection of ideas and design bits",
+    company: "Various",
+    role: "Visual Designer, Illustrator, Motion Designer",
+    blurb: "Collection of ideas, designs, and illustrations throughout the years. Not everything makes it to the publishing stage, but an idea unused often finds second wind in other ways!",
+    contentBlocks: [
+      {
+        type: "images",
+        items: [
+          { src: "projects/draft-can/ani_02.gif", span: 1 },
+          { src: "projects/draft-can/ani_01.gif", span: 1 },
+          { src: "projects/draft-can/boon-supply_01.jpg", span: 1 },
+          { src: "projects/draft-can/boon-supply_02.gif", span: 1 },
+          { src: "projects/draft-can/atlp_01.jpg", span: 1 },
+          { src: "projects/draft-can/atlp_02.jpg", span: 1 },
+          { src: "projects/draft-can/gch_01.jpg", span: 1 },
+          { src: "projects/draft-can/apple_01.jpg", span: 1 },
+          { src: "projects/draft-can/caratz_01.jpg", span: 1 },
+          { src: "projects/draft-can/caratz_02.jpg", span: 1 },
+          { src: "projects/draft-can/caratz_03.jpg", span: 1 },
+          { src: "projects/draft-can/caratz_05.jpg", span: 1 },
+          { src: "projects/draft-can/Caratz_404.gif", span: 1 },
+          { src: "projects/draft-can/caratz_04.gif", span: 3 },
+          { src: "projects/draft-can/mercury_01.jpg", span: 1 },
+          { src: "projects/draft-can/mercury_02.jpg", span: 1 },
+          { src: "projects/draft-can/vase_01.jpg", span: 1 },
+          { src: "projects/draft-can/vase_02.gif", span: 1 },
+          { src: "projects/draft-can/thirdlove_02.gif", span: 1 },
+          { src: "projects/draft-can/thirdlove_01.jpg", span: 1 },
+          { src: "projects/draft-can/draft-can.jpg", span: 1 },
+          { src: "projects/draft-can/fly-club_01.jpg", span: 1 },
+          { src: "projects/draft-can/turner_01.jpg", span: 1 },
+          { src: "projects/draft-can/turner_02.jpg", span: 1 },
+          { src: "projects/draft-can/spk_01.jpg", span: 1 },
+          { src: "projects/draft-can/pa_mtg_01.jpg", span: 1 },
+          { src: "projects/draft-can/illo_01.jpg", span: 1 },
+          { src: "projects/draft-can/illo_02.jpg", span: 1 },
+          { src: "projects/draft-can/illo_03.jpg", span: 1 },
+          { src: "projects/draft-can/illo_04.jpg", span: 1 },
+        ]
+      }
+    ]
   }
-  .floating-nav--person { color: #111; }
-  .floating-nav--process { color: #ffffff; }
-  .floating-nav--work { color: #ffffff; }
-  .floating-nav--process .nav__btn,
-  .floating-nav--work .nav__btn { border-color: currentColor; }
+];
 
-  /* Style B: Pill (segmented control) */
-  .fnav--pill {
-    display: inline-flex;
-    position: fixed;
-    padding: 4px;
-    border-radius: 999px;
-    background: rgba(0,0,0,0.04);
-    border: 1px solid rgba(0,0,0,0.08);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-  .fnav--pill.fnav--process,
-  .fnav--pill.fnav--work {
-    background: rgba(255,255,255,0.08);
-    border-color: rgba(255,255,255,0.18);
-  }
-  .fnav-pill__thumb {
-    position: absolute;
-    top: 4px; left: 4px; bottom: 4px;
-    width: calc((100% - 8px) / 3);
-    background: currentColor;
-    border-radius: 999px;
-    transition: transform 380ms var(--ease);
-    opacity: 1;
-  }
-  .fnav-pill__btn {
-    position: relative;
-    z-index: 1;
-    border: 0;
-    background: transparent;
-    padding: 8px 18px;
-    font: inherit;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: -0.005em;
-    cursor: pointer;
-    color: currentColor;
-    opacity: 0.7;
-    transition: opacity 220ms var(--ease), color 220ms var(--ease);
-  }
-  .fnav-pill__btn[aria-current="true"] {
-    opacity: 1;
-    color: var(--pill-on, #fff);
-    mix-blend-mode: difference;
-  }
-  .fnav-pill__btn:hover { opacity: 1; }
+const CLIENTS = [
+  { name: "Meta", logo: "assets/logos/meta.png" },
+  { name: "Roblox", logo: "assets/logos/roblox.png" },
+  { name: "Human Interest", logo: "assets/logos/human-interest.png" },
+  { name: "The Participation Agency", logo: "assets/logos/participation-agency.png" },
+  { name: "Apple", logo: "assets/logos/apple.png" },
+  { name: "Transparent Clinch Gallery", logo: "assets/logos/clinch.png" },
+  { name: "Mondelēz International", logo: "assets/logos/mondelez.png" }
+];
 
-  /* Style C: Dots (minimal index) */
-  .fnav--dots {
-    display: flex;
-    align-items: center;
-    gap: 22px;
-  }
-  .fnav-dot {
-    border: 0;
-    background: transparent;
-    padding: 6px 0;
-    cursor: pointer;
-    color: currentColor;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font: inherit;
-  }
-  .fnav-dot__core {
-    display: inline-block;
-    width: 7px; height: 7px; border-radius: 50%;
-    background: currentColor;
-    opacity: 0.35;
-    transition: opacity 240ms var(--ease), transform 320ms var(--ease);
-  }
-  .fnav-dot[aria-current="true"] .fnav-dot__core {
-    opacity: 1;
-    transform: scale(1.6);
-  }
-  .fnav-dot__label {
-    font-size: 12px;
-    letter-spacing: 0.02em;
-    opacity: 0;
-    max-width: 0;
-    overflow: hidden;
-    transition: opacity 240ms var(--ease), max-width 320ms var(--ease);
-    white-space: nowrap;
-  }
-  .fnav-dot[aria-current="true"] .fnav-dot__label,
-  .fnav-dot:hover .fnav-dot__label {
-    opacity: 1;
-    max-width: 80px;
-  }
+/* ----------------------------- Helpers ----------------------------- */
 
-  /* Style D: Numbers — monospace tabular */
-  .fnav--numbers {
-    display: flex;
-    gap: 28px;
-  }
-  .fnav-num {
-    border: 0;
-    background: transparent;
-    padding: 4px 0;
-    cursor: pointer;
-    color: currentColor;
-    font: inherit;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    opacity: 0.45;
-    transition: opacity 240ms var(--ease);
-    position: relative;
-  }
-  .fnav-num:hover { opacity: 0.85; }
-  .fnav-num[aria-current="true"] { opacity: 1; }
-  .fnav-num__n {
-    font-family: figtree;
-    font-size: 11px;
-    letter-spacing: 0.04em;
-    opacity: 0.75;
-  }
-  .fnav-num__l {
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: -0.005em;
-  }
-  .fnav-num[aria-current="true"]::after {
-    content: "";
-    position: absolute;
-    left: 0; right: 0;
-    bottom: -6px;
-    height: 1.5px;
-    background: currentColor;
-    border-radius: 1px;
-    animation: underline 320ms var(--ease) both;
-  }
-  @keyframes underline {
-    from { transform: scaleX(0); transform-origin: left; }
-    to   { transform: scaleX(1); transform-origin: left; }
-  }
-
-  /* Style E: Minimal — text labels with leading line that grows when active */
-  .fnav--minimal {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 6px;
-  }
-  .fnav-min {
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-    color: currentColor;
-    font: inherit;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 4px 0;
-    font-size: 13px;
-    font-weight: 500;
-    opacity: 0.55;
-    transition: opacity 240ms var(--ease);
-  }
-  .fnav-min:hover { opacity: 0.9; }
-  .fnav-min[aria-current="true"] { opacity: 1; font-weight: 600; }
-  .fnav-min__line {
-    display: inline-block;
-    width: 14px;
-    height: 1.5px;
-    background: currentColor;
-    transition: width 320ms var(--ease);
-  }
-  .fnav-min[aria-current="true"] .fnav-min__line { width: 32px; }
-
-  .header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 24px;
-    padding-right: 220px;
-  }
-  .brand {
-    display: flex;
-    align-items: baseline;
-    gap: 18px;
-    flex-wrap: wrap;
-  }
-  .brand__name {
-    font-weight: 700;
-    font-size: 20px;
-    letter-spacing: -0.01em;
-  }
-  .brand__role {
-    font-size: 16px;
-    opacity: 0.78;
-    font-weight: 400;
-  }
-
-  /* Nav squares */
-  .nav {
-    display: flex;
-    gap: 12px;
-  }
-  .nav__btn {
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
-    border: 1.5px solid currentColor;
-    background: transparent;
-    color: inherit;
-    cursor: pointer;
-    padding: 0;
-    position: relative;
-    display: grid;
-    place-items: center;
-    opacity: 0.28;
-    transition: opacity 220ms var(--ease), transform 220ms var(--ease);
-  }
-  .nav__btn:hover { opacity: 0.7; transform: translateY(-1px); }
-  .nav__btn[aria-current="true"] { opacity: 1; }
-  .nav__btn > svg { transition: width 220ms var(--ease), height 220ms var(--ease), transform 220ms var(--ease); }
-  .nav__btn[aria-current="true"] > svg { transform: scale(1.05); }
-
-  /* Section base */
-  .section {
-    flex: 1;
-    margin-top: clamp(36px, 6vw, 80px);
-    width: 100%;
-    max-width: 1280px;
-  }
-  .eyebrow {
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: lowercase;
-    opacity: 0.6;
-    font-weight: 500;
-  }
-  h1.title {
-    margin: 0 0 8px;
-    font-size: clamp(36px, 5.4vw, 64px);
-    font-weight: 800;
-    letter-spacing: -0.025em;
-    line-height: 1;
-  }
-
-  /* Person */
-  .person__grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-    gap: clamp(40px, 6vw, 96px);
-    align-items: start;
-    margin-top: 56px;
-  }
-  .person__grid--single {
-    grid-template-columns: minmax(0, 720px);
-  }
-  .person__copy {
-    max-width: 520px;
-    font-size: 17px;
-    line-height: 1.55;
-    color: #2a2f36;
-  }
-  .person__copy p + p { margin-top: 1.2em; }
-  .person__meta {
-    display: grid;
-    grid-template-columns: 110px 1fr;
-    gap: 10px 24px;
-    margin-top: 36px;
-    font-size: 14px;
-    color: #2a2f36;
-  }
-  .person__meta dt { font-weight: 600; }
-  .person__meta dd { margin: 0; opacity: 0.8; }
-
-  .person__media {
-    position: relative;
-  }
-  .portrait {
-    aspect-ratio: 4 / 5;
-    width: 100%;
-    max-width: 460px;
-    margin-left: auto;
-    border-radius: 18px;
-    background:
-      radial-gradient(120% 80% at 30% 0%, #fde6c4 0%, transparent 60%),
-      radial-gradient(120% 80% at 90% 100%, #f7c98a 0%, transparent 55%),
-      linear-gradient(180deg, #f6efe4 0%, #ecdfca 100%);
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 30px 60px -30px rgba(0,0,0,0.18);
-  }
-  .portrait__sticker {
-    position: absolute;
-    bottom: 18px;
-    left: 18px;
-    background: #111;
-    color: #fff;
-    border-radius: 999px;
-    padding: 8px 14px;
-    font-size: 12px;
-    letter-spacing: 0.02em;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .pulse {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: #6ee787;
-    box-shadow: 0 0 0 0 rgba(110,231,135,0.7);
-    animation: pulse 1.8s infinite;
-  }
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(110,231,135,0.6); }
-    70% { box-shadow: 0 0 0 10px rgba(110,231,135,0); }
-    100% { box-shadow: 0 0 0 0 rgba(110,231,135,0); }
-  }
-  .portrait__label {
-    position: absolute;
-    inset: auto 0 0 0;
-    padding: 22px 22px 18px;
-    display: flex;
-    justify-content: space-between;
-    font-family: ui-monospace, SF Mono, Menlo, monospace;
-    font-size: 11px;
-    color: rgba(0,0,0,0.55);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-  .portrait__big {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    color: rgba(0,0,0,0.18);
-    font-size: clamp(32px, 6vw, 56px);
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    text-align: center;
-    padding: 24px;
-  }
-
-  /* Marquee facts */
-  .marquee {
-    margin-top: clamp(40px, 7vw, 80px);
-    padding: 18px 0;
-    overflow: hidden;
-    mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
-  }
-  .marquee__track {
-    display: flex;
-    gap: 48px;
-    width: max-content;
-    animation: marquee 38s linear infinite;
-    font-size: 14px;
-    color: #4a5160;
-    align-items: center;
-  }
-  .marquee__track span { display: inline-flex; align-items: center; gap: 14px; white-space: nowrap; }
-  .marquee__track span::after {
-    content: "";
-    width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: 0.5;
-  }
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
-
-  /* Process */
-  .process__lead {
-    font-size: clamp(26px, 3.4vw, 42px);
-    line-height: 1.18;
-    font-weight: 500;
-    letter-spacing: -0.018em;
-    max-width: 24ch;
-    margin: 32px 0 0;
-    text-wrap: balance;
-  }
-  .process__grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: clamp(40px, 5vw, 80px);
-    margin-top: clamp(48px, 7vw, 88px);
-    align-items: start;
-  }
-  .process__lists {
-    display: grid;
-    gap: 28px;
-  }
-  .deflist {
-    display: grid;
-    grid-template-columns: 130px 1fr;
-    gap: 8px 18px;
-    font-size: 18px;
-    align-items: start;
-  }
-  .deflist dt {
-    font-weight: 600;
-    grid-column: 1;
-    margin: 0;
-  }
-  .deflist dd {
-    margin: 0;
-    grid-column: 2;
-    opacity: 0.86;
-    line-height: 1.55;
-  }
-  .deflist dd + dt { margin-top: 6px; }
-
-  .programs {
-    margin-top: 4px;
-  }
-  .programs__label {
-    font-size: 18px;
-    letter-spacing: normal;
-    margin-bottom: 24px;
-    font-weight: 600;
-    grid-column: 1;
-  }
-  .programs__grid {
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 12px;
-    max-width: 460px;
-  }
-  .prog {
-    aspect-ratio: 1 / 1;
-    border-radius: 10px;
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.16);
-    display: grid;
-    place-items: center;
-    font-weight: 700;
-    font-size: 14px;
-    letter-spacing: -0.02em;
-    cursor: default;
-    position: relative;
-    max-width: 74px;
-  }
-  .prog img {
-  width: 42px;
-  height: 42px;
-  object-fit: contain;
-  }
-  .prog:hover { 
-    transform: none; 
-    background: rgba(255,255,255,0.12);
-  }
-.prog__tip {
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: #313131;
-  color: #fff;
-  border-radius: 10px;
-  font-size: 14px;
-  padding: 4px 8px;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 180ms var(--ease);
-  z-index: 1000;
-  transform: translate(4px, 4px);
-}
-.prog:hover .prog__tip { opacity: 1; }
-
-  .process__side {
-    display: grid;
-    gap: 28px;
-    align-content: start;
-  }
-  .principle {
-    border: 1px solid var(--rule-on-blue);
-    border-radius: 14px;
-    padding: 22px 24px;
-    background: rgba(255,255,255,0.04);
-  }
-  .principle__num {
-    font-family: ui-monospace, SF Mono, Menlo, monospace;
-    font-size: 12px;
-    opacity: 0.7;
-  }
-  .principle h3 {
-    margin: 8px 0 6px;
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-  }
-  .principle p { margin: 0; font-size: 14px; line-height: 1.55; opacity: 0.85; }
-
-  /* Work */
-  .work__head {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 24px;
-  }
-  .work__count {
-    display: none;
-  }
-
-  /* OPTIMIZED: Explicit grid for better control, but keeping tile classes for compatibility */
-  .grid {
-    margin-top: 36px;
-    display: grid;
-    gap: 18px;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-  }
-  .tile {
-    position: relative;
-    background: var(--tile);
-    border-radius: 14px;
-    overflow: hidden;
-    aspect-ratio: 4 / 3;
-    cursor: pointer;
-    border: 0;
-    padding: 0;
-    text-align: left;
-    color: inherit;
-    transition: transform 360ms var(--ease);
-  }
-  .tile.t-a { grid-column: span 3; aspect-ratio: 16 / 11; }
-  .tile.t-b { grid-column: span 3; aspect-ratio: 16 / 11; }
-  .tile.t-c, .tile.t-d, .tile.t-e { grid-column: span 2; aspect-ratio: 4 / 3; }
-
-  .tile__art {
-    position: absolute; inset: 0;
-    transition: transform 700ms var(--ease), filter 500ms var(--ease);
-  }
-  .tile:hover .tile__art { transform: scale(1.04); }
-
-  .tile__overlay {
-    position: absolute; inset: 0;
-    padding: 22px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    color: #fff;
-    background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.55) 100%);
-    opacity: 0;
-    transition: opacity 320ms var(--ease);
-  }
-  .tile:hover .tile__overlay,
-  .tile:focus-visible .tile__overlay { opacity: 1; }
-  .tile__title {
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-  }
-  .tile__sub {
-    font-size: 13px;
-    opacity: 0.8;
-    margin-top: 2px;
-  }
-  .tile__year {
-    position: absolute;
-    top: 16px;
-    left: 18px;
-    font-family: ui-monospace, SF Mono, Menlo, monospace;
-    font-size: 11px;
-    opacity: 0.7;
-    color: #fff;
-    letter-spacing: 0.06em;
-  }
-  .tile__open {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.12);
-    backdrop-filter: blur(6px);
-    display: grid; place-items: center;
-    color: #fff;
-    opacity: 1;
-    z-index: 10;
-    transition: background 220ms var(--ease), transform 220ms var(--ease);
-  }
-  .tile:hover .tile__open { background: rgba(255,255,255,0.2); transform: scale(1.25); opacity: 1; }
-
-  /* Tile artworks (each one is a different composition built in CSS so they read as distinct) */
-  .art-1 {
-    background:
-      radial-gradient(120% 90% at 20% 20%, #f7c98a 0%, transparent 55%),
-      radial-gradient(120% 90% at 80% 90%, #ff6b48 0%, transparent 55%),
-      linear-gradient(135deg, #1a2e4d 0%, #14253f 100%);
-  }
-  .art-1::before {
-    content: "";
-    position: absolute;
-    inset: 14% 8% 14% 8%;
-    border-radius: 50%;
-    background: radial-gradient(circle, #fff8eb 0%, #f7c98a 40%, transparent 75%);
-    filter: blur(2px);
-    opacity: 0.85;
-  }
-  .art-2 {
-    
-  }
-  .art-2::before {
-  
-  }
-  .art-2::after {
-
-  }
-  .art-3 {
-
-  }
-  .art-3::before {
-
-  }
-  .art-3::after {
-
-  }
-  .art-4 {
-
-  }
-  .art-4::before {
-
-  }
-  .art-5 {
-
-  }
-  .art-5::before {
-
-  }
-  .art-5::after {
-
-  }
-
-/* Image overlays on tiles */
-.tile__image {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;  /* Keep this for tiles - they need fixed aspect ratios */
-  object-position: center center;
-  z-index: 1;
+function useEscape(active, onEscape) {
+  useEffect(() => {
+    if (!active) return;
+    const h = (e) => { if (e.key === "Escape") onEscape(); };
+    window.addEventListener("keydown", h);
+    return () => window.removeEventListener("keydown", h);
+  }, [active, onEscape]);
 }
 
-/* Modal hero image - height adjusts to image */
-.modal__hero-image {
-  position: relative;  /* Changed from absolute */
-  width: 100%;
-  height: auto;  /* Changed from 100% */
-  display: block;
-  object-fit: contain;  /* Changed from cover */
-}
+/* ----------------------------- Components ----------------------------- */
 
-/* Modal gallery images - height adjusts to image */
-.modal__shot-image {
-  position: relative;  /* Changed from absolute */
-  width: 100%;
-  height: auto;  /* Changed from 100% */
-  display: block;
-  object-fit: contain;  /* Changed from cover */
-}
-
-/* Image skeleton loading placeholders */
-.image-skeleton {
-  background: linear-gradient(
-    90deg,
-    #e8e8e8 0%,
-    #f4f4f4 50%,
-    #e8e8e8 100%
+function ArrowIcon({ size = 16 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="arrow">
+      <line x1="5" y1="12" x2="19" y2="12"/>
+      <polyline points="12 5 19 12 12 19"/>
+    </svg>
   );
-  background-size: 200% 100%;
-  animation: skeleton-shimmer 1.5s ease-in-out infinite;
-  min-height: 200px;
 }
 
-.modal__hero .image-skeleton {
-  min-height: 400px;
-  border-radius: 14px;
+function PlusIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <line x1="12" y1="5" x2="12" y2="19"/>
+      <line x1="5" y1="12" x2="19" y2="12"/>
+    </svg>
+  );
 }
 
-.modal__shot .image-skeleton {
-  min-height: 200px;
-  border-radius: 10px;
-  aspect-ratio: 4 / 3;
+function CloseIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <line x1="6" y1="6" x2="18" y2="18"/>
+      <line x1="18" y1="6" x2="6" y2="18"/>
+    </svg>
+  );
 }
 
-@keyframes skeleton-shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+function Header() {
+  return (
+    <header className="header">
+      <div className="brand">
+        <span className="brand__name">jess leung</span>
+        <span className="brand__role">visual designer — san francisco</span>
+      </div>
+    </header>
+  );
 }
 
-/* Hide skeleton once image loads */
-img.loaded + .image-skeleton {
-  display: none;
+function FloatingNav({ activeIdx, onNav, style = "squares" }) {
+  const labels = ["The Work", "The Process", "The Person"];
+  const shorts = ["Work", "Process", "Person"];
+  const nums = ["01", "02", "03"];
+  const pageKey = ["work","process","person"][activeIdx];
+  const icons = [GridIcon, FlowIcon, FaceIcon];
+
+  if (style === "pill") {
+    return (
+      <nav className={`fnav fnav--pill fnav--${pageKey}`} aria-label="Sections">
+        <span className="fnav-pill__thumb" style={{ transform: `translateX(${activeIdx * 100}%)` }} />
+        {shorts.map((l, i) => (
+          <button key={i} className="fnav-pill__btn" aria-current={activeIdx === i} onClick={() => onNav(i)}>
+            {l}
+          </button>
+        ))}
+      </nav>
+    );
+  }
+
+  if (style === "dots") {
+    return (
+      <nav className={`fnav fnav--dots fnav--${pageKey}`} aria-label="Sections">
+        {labels.map((l, i) => (
+          <button key={i} className="fnav-dot" aria-current={activeIdx === i} aria-label={l} title={l} onClick={() => onNav(i)}>
+            <span className="fnav-dot__core" />
+            <span className="fnav-dot__label">{shorts[i]}</span>
+          </button>
+        ))}
+      </nav>
+    );
+  }
+
+  if (style === "numbers") {
+    return (
+      <nav className={`fnav fnav--numbers fnav--${pageKey}`} aria-label="Sections">
+        {labels.map((l, i) => (
+          <button key={i} className="fnav-num" aria-current={activeIdx === i} aria-label={l} title={l} onClick={() => onNav(i)}>
+            <span className="fnav-num__n">{nums[i]}</span>
+            <span className="fnav-num__l">{shorts[i]}</span>
+          </button>
+        ))}
+      </nav>
+    );
+  }
+
+  if (style === "minimal") {
+    return (
+      <nav className={`fnav fnav--minimal fnav--${pageKey}`} aria-label="Sections">
+        {labels.map((l, i) => (
+          <button key={i} className="fnav-min" aria-current={activeIdx === i} aria-label={l} onClick={() => onNav(i)}>
+            <span className="fnav-min__line" />
+            <span className="fnav-min__label">{shorts[i]}</span>
+          </button>
+        ))}
+      </nav>
+    );
+  }
+
+return (
+  <nav className={`fnav floating-nav floating-nav--${pageKey}`} aria-label="Sections">
+    {labels.map((l, i) => {
+      const Icon = icons[i];
+      const activeSizes = [16, 18, 18];
+      const iconSize = activeIdx === i ? activeSizes[i] : 10;  // ← change 14 to 10 here
+      return (
+        <button
+          key={i}
+          className="nav__btn"
+          aria-current={activeIdx === i}
+          aria-label={l}
+          title={l}
+          onClick={() => onNav(i)}
+        >
+          <Icon size={iconSize} />
+        </button>
+      );
+    })}
+  </nav>
+);
 }
 
-/* Video styles */
-.modal__video {
-  position: relative;
-  width: 100%;
-  background: #000;
-  border-radius: 10px;
-  overflow: hidden;
+function GridIcon({ size = 10 }) {
+  return (
+    <svg style={{ width: size, height: size }} viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <path d="M10.5879 10.5879V11.6475H11.6475V10.5879H10.5879ZM6.29102 11.6475H7.34961V10.5879H6.29102V11.6475ZM8.4707 8.4707H7.34961V9.5293H8.4707V10.5879H9.5293V9.5293H10.6504V8.4707H9.5293V7.41211H8.4707V8.4707ZM6.29102 7.41211H7.34961V6.35254H6.29102V7.41211ZM10.5879 7.41211H11.6475V6.35254H10.5879V7.41211ZM16.8789 11.6475H15.8828V12.7061H12.7061V15.8828H11.6475V16.9414H10.5879V18H7.34961V16.9414H6.29102V15.8828H5.23145V12.7061H2.05566V11.6475H1.05859V10.5879H0V7.41211H1.05859V6.35254H2.05566V5.29395H5.23145V2.11719H6.29102V1.05859H7.34961V0H10.5879V1.05859H11.6475V2.11719H12.7061V5.29395H15.8828V6.35254H16.8789V7.41211H18V10.5879H16.8789V11.6475Z" fill="currentColor"/>
+    </svg>
+  );
 }
 
-.modal__video-iframe {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  display: block;
+function FlowIcon({ size = 10 }) {
+  return (
+    <svg style={{ width: size, height: size }} viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <path d="M9.5 18H8.5V17H7V14H8.5V11H9.5V14H11V17H9.5V18ZM6 13H5V12H6V13ZM13 13H12V12H13V13ZM4 8.4707H7.34961V9.5293H4V11H1V9.5293H0V8.4707H1V7H4V8.4707ZM17 8.4707H17.998V9.5293H17V11H14V9.5293H10.6484V8.4707H14V7H17V8.4707ZM9.5 1H11V4H9.5V7H8.5V4H7V1H8.5V0H9.5V1ZM6 6H5V5H6V6ZM13 6H12V5H13V6Z" fill="currentColor"/>
+    </svg>
+  );
 }
 
-.modal__video-player {
-  position: relative;
-  width: 100%;
-  height: auto;
-  display: block;
+function FaceIcon({ size = 10 }) {
+  return (
+    <svg style={{ width: size, height: size }} viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <path d="M9.5 8.5V7H8.5V8.5H7V9.5H8.5V11H9.5V9.5H11V8.5H9.5ZM18 9.5H16V10.5H13.5V11.5H11.5V13H10.5V15H9.5V18H8.5V15H7.5V13H6.5V11.5H4.5V10.5H2V9.5H0V8.5H2V7.5H4.5V6.5H6.5V5H7.5V3H8.5V0H9.5V3H10.5V5H11.5V6.5H13.5V7.5H16V8.5H18V9.5Z" fill="currentColor"/>
+    </svg>
+  );
 }
 
-  /* Clients */
-  .clients {
-    margin-top: clamp(56px, 8vw, 96px);
-  }
-  .clients__label {
-    font-size: 16px;
-    letter-spacing: 0.04em;
-    opacity: 0.55;
-    margin-bottom: 18px;
-  }
-  .clients__row {
-    display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    gap: 32px;
-    align-items: center;
-    padding: 12px 0 12px 0;
-  }
-  .client {
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 36px;
-    opacity: 1;
-  }
-  .client img {
-    max-height: 100%;
-    max-width: 100%;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    filter: brightness(0) invert(1);
-  }
-
-  /* Footer (connect bar) */
-  .connect {
-    margin-top: clamp(56px, 8vw, 88px);
-    padding-top: 28px;
-    display: grid;
-    grid-template-columns: 1fr auto;
-  }
-
-  .connect__label {
-    font-size: 16px;
-    letter-spacing: 0.00em;
-    opacity: 0.6;
-    margin-bottom: 32px;
-  }
-  .connect__cta {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    grid-row: 1;
-    grid-column: 1;
-  }
-  /* Sweep CTA pill */
-  .btn-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 28px;
-    border-radius: 999px;
-    font-size: 18px;
-    font-weight: 200;
-    letter-spacing: -0.012em;
-    text-decoration: none;
-    line-height: 1;
-    border: 1.5px solid color-mix(in srgb, currentColor 20%, transparent);
-    background: color-mix(in srgb, currentColor 10%, transparent);
-    position: relative;
-    overflow: hidden;
-    isolation: isolate;
-    transition: transform 220ms var(--ease),
-                color 260ms var(--ease),
-                border-color 260ms var(--ease);
-  }
-  .btn-pill::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--accent);
-    transform: translateX(-101%);
-    transition: transform 380ms var(--ease);
-    z-index: -1;
-  }
-  .btn-pill .btn-pill__label,
-  .btn-pill .arrow {
-    position: relative;
-    z-index: 1;
-  }
-  .btn-pill .arrow {
-    width: 22px; height: 22px;
-    transition: transform 260ms var(--ease);
-  }
-  .btn-pill:hover::before { transform: translateX(0); }
-  .btn-pill:hover .arrow { transform: translateX(4px); }
-  .btn-pill:active { transform: scale(0.98); }
-
-  /* Person page — dark outline, peach sweep, dark text on hover */
-  .page--person .btn-pill { color: #1b1410; }
-  .page--person .btn-pill::before { background: var(--accent); }
-  .page--person .btn-pill:hover { color: #1b1410; border-color: var(--accent); }
-
-  /* Process page — white outline, white sweep, blue text on hover */
-  .page--process .btn-pill { color: #ffffff; }
-  .page--process .btn-pill::before { background: #ffffff; }
-  .page--process .btn-pill:hover { color: #2e57d6; }
-
-  /* Work page — white outline, white sweep, dark text on hover */
-  .page--work .btn-pill { color: #ffffff; }
-  .page--work .btn-pill::before { background: #ffffff; }
-  .page--work .btn-pill:hover { color: #0d1116; }
-
-  /* Slide LinkedIn link */
-  .btn-text {
-    display: inline-block;
-    padding: 16px 20px;
-    border-radius: 999px;
-    font-size: 18px;
-    font-weight: 200;
-    letter-spacing: -0.012em;
-    text-decoration: none;
-    color: inherit;
-    opacity: 1;
-    line-height: 1.1;
-    transition: opacity 220ms var(--ease), color 220ms var(--ease);
-  }
-  .btn-text:hover { opacity: 1; }
-  .btn-text:active { color: var(--accent); }
-  .btn-text .slide-inner {
-    position: relative;
-    display: inline-block;
-    height: 1.1em;
-    overflow: hidden;
-    line-height: 1.1;
-    vertical-align: bottom;
-  }
-  .btn-text .slide-top,
-  .btn-text .slide-bot {
-    display: inline-block;
-    transition: transform 380ms var(--ease);
-  }
-  .btn-text .slide-bot {
-    position: absolute;
-    top: 0;
-    left: 0;
-    white-space: nowrap;
-    transform: translateX(calc(-100% - 48px));
-  }
-  .btn-text:hover .slide-top { transform: translateX(calc(100% + 48px)); }
-  .btn-text:hover .slide-bot { transform: translateX(0); }
-
-  .copyright {
-    text-align: right;
-    font-size: 14px;
-    opacity: 0.2;
-    align-self: end;
-    font-family: figtree;
-    grid-row: 2;
-    grid-column: 1;
-    margin-top: 48px; /* this becomes your breathing space */
-    text-align: right;
-  }
-
-  /* Modal */
-  .modal-backdrop {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.55);
-    backdrop-filter: blur(6px);
-    z-index: 50;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 320ms var(--ease);
-  }
-  .modal-backdrop.is-open { opacity: 1; pointer-events: auto; }
-
-  .modal {
-    position: fixed;
-    inset: 4vh 4vw;
-    background: #fafaf7;
-    color: #111;
-    border-radius: 28px;
-    overflow: hidden;
-    z-index: 60;
-    transform: translateY(24px) scale(0.985);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 360ms var(--ease), transform 420ms var(--ease);
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 40px 100px -20px rgba(0,0,0,0.5);
-  }
-  .modal.is-open { opacity: 1; transform: none; pointer-events: auto; }
-  .modal__head {
-    padding: 22px 28px;
-    border-bottom: 1px solid var(--rule);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-  }
-  .modal__brand {
-    display: flex;
-    align-items: baseline;
-    gap: 18px;
-    flex-wrap: wrap;
-  }
-  .modal__brand-name {
-    font-weight: 700;
-    font-size: 20px;
-    letter-spacing: -0.01em;
-    color: #111;  
-    opacity: 0.3;
-  }
-  .modal__brand-title {
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    color: #111;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 320ms var(--ease), transform 320ms var(--ease);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 0;
-  }
-  .modal__brand-title.is-visible {
-    opacity: 1;
-    transform: translateX(0);
-    max-width: 600px;
-  }
-  .modal__brand-role {
-    font-size: 16px;
-    opacity: 0.78;
-    font-weight: 400;
-    color: #111;  
-    opacity: 0.4;
-  }
-  .modal__close {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    border: 1px solid #ddd;
-    background: #fff;
-    cursor: pointer;
-    display: grid; place-items: center;
-    transition: transform 220ms var(--ease);
-  }
-  .modal__close:hover { transform: scale(1.25); }
-  .modal__close > svg { transition: transform 220ms var(--ease); }
-  .modal__body {
-    overflow-y: auto;
-    padding: 36px 36px 56px;
-  }
-  .modal__hero {
-    border-radius: 14px;
-    margin-bottom: 28px;
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-  }
-  .modal__title {
-    font-size: clamp(28px, 4vw, 44px);
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    margin: 0 0 8px;
-    line-height: 1.05;
-  }
-  .modal__sub {
-    font-size: 16px;
-    color: #444;
-    margin: 0 0 28px;
-    max-width: 60ch;
-    line-height: 1.55;
-  }
-  .modal__meta {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0,1fr));
-    gap: 18px;
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-    padding: 18px 0;
-    margin-bottom: 28px;
-  }
-  .modal__meta dt {
-    font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.55; margin-bottom: 4px;
-    font-family: ui-monospace, SF Mono, Menlo, monospace;
-  }
-  .modal__meta dd { margin: 0; font-size: 14px; font-weight: 500; }
-  .modal__body p { font-size: 16px; line-height: 1.6; color: #2a2f36; max-width: 70ch; }
-  .modal__shots {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-    margin: 24px 0;
-    justify-items: center;
-    align-items: center;
-  }
-.modal__shot {
-  border-radius: 10px;
-  overflow: hidden;
-  position: relative;
-  width: 100%;
+function ConnectFooter({ variant = "light" }) {
+  return (
+    <footer className="connect">
+      <div>
+        <div className="connect__label">Connect with me</div>
+        <div className="connect__cta">
+          <a className="btn-pill" href="mailto:hi@jesslikes.work">
+            <span className="btn-pill__label">Send an email</span> <ArrowIcon />
+          </a>
+          <a className="btn-text" href="https://www.linkedin.com/in/jess-leung-77897010b/" target="_blank" rel="noopener">
+            <span className="slide-inner">
+              <span className="slide-top">LinkedIn</span>
+              <span className="slide-bot">LinkedIn</span>
+            </span>
+          </a>
+        </div>
+      </div>
+      <div className="copyright">© 2026</div>
+    </footer>
+  );
 }
 
-.modal__shot.full { 
-  grid-column: span 4; 
+/* ----- Person ----- */
+
+function PersonPage() {
+  return (
+    <div className="page page--person">
+      <Header />
+      <main className="section">
+        <h1 className="title">The Person</h1>
+        <div className="person__grid person__grid--single">
+          <div>
+            <div className="person__copy">
+              {PERSON_COPY.map((p, i) => <p key={i}>{p}</p>)}
+            </div>
+          </div>
+        </div>
+      </main>
+      <ConnectFooter />
+    </div>
+  );
 }
 
-/* OPTIMIZED: Images now use lazy loading for better performance */
+/* ----- Process ----- */
 
-  /* Mobile */
-  @media (max-width: 760px) {
-    .page { padding: 22px 22px 24px; }
-    .fnav { top: 22px; right: 22px; }
-    .floating-nav { gap: 8px; }
-    .fnav--numbers { gap: 18px; }
-    .fnav--dots { gap: 14px; }
-    .header { padding-right: 130px; }
-    .brand__name { font-size: 15px; }
-    .brand__role { font-size: 12px; flex-basis: 100%; }
-    .brand { gap: 6px; }
-    .nav__btn { width: 30px; height: 30px; }
-    h1.title { font-size: 38px; }
+function ProcessPage({ processColor }) {
+  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+  const [activeTooltip, setActiveTooltip] = useState(null);
 
-    .section { margin-top: 36px; }
+  const handleMouseMove = (e, programName) => {
+    setTooltipPos({ x: e.clientX, y: e.clientY });
+    setActiveTooltip(programName);
+  };
 
-    .person__grid {
-      grid-template-columns: 1fr;
-      gap: 28px;
-      margin-top: 32px;
-    }
-    .person__media { order: -1; }
-    .portrait { max-width: 100%; aspect-ratio: 5 / 4; }
-    .person__copy { font-size: 16px; }
-    .person__meta { grid-template-columns: 100px 1fr; }
+  const handleMouseLeave = () => {
+    setActiveTooltip(null);
+  };
 
-    .process__lead { font-size: 24px; }
-    .process__grid { grid-template-columns: 1fr; gap: 36px; }
-    .programs__grid { grid-template-columns: repeat(6, 1fr); max-width: none; }
-    .deflist { grid-template-columns: 110px 1fr; }
+  return (
+    <div className="page page--process" style={{ background: processColor }}>
+      <Header />
+      <main className="section">
+        <h1 className="title">The Process</h1>
+        <p className="process__lead">{PROCESS_LEAD}</p>
+        <div className="process__grid">
+          <div className="process__lists">
+            <dl className="deflist">
+              <dt>Focuses</dt>
+              <dd>{FOCUSES.map((f, i) => <div key={i}>{f}</div>)}</dd>
+              <dt>Disciplines</dt>
+              <dd>{DISCIPLINES.map((d, i) => <div key={i}>{d}</div>)}</dd>
+            </dl>
+            <div className="programs">
+              <div className="programs__label">Programs</div>
+              <div className="programs__grid">
+                {PROGRAMS.map((p, i) => (
+                  <div 
+                    key={i} 
+                    className="prog"
+                    onMouseMove={(e) => handleMouseMove(e, p.name)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <img src={p.img} alt={p.name} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      {activeTooltip && (
+        <span 
+          className="prog__tip" 
+          style={{ 
+            left: `${tooltipPos.x + 12}px`, 
+            top: `${tooltipPos.y + 12}px`,
+            opacity: 1
+          }}
+        >
+          {activeTooltip}
+        </span>
+      )}
+      <ConnectFooter variant="blue" />
+    </div>
+  );
+}
 
-    .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .tile.t-a, .tile.t-b { grid-column: span 2; aspect-ratio: 16 / 11; }
-    .tile.t-c, .tile.t-d, .tile.t-e { grid-column: span 2; aspect-ratio: 16 / 11.tile__open; }
-    .tile__title { font-size: 15px; }
-    .tile__overlay { opacity: 1; padding: 14px; }
+/* ----- Work ----- */
 
-    .clients__label { text-align: center; }
-    .clients__row { grid-template-columns: repeat(3, 1fr); gap: 22px 18px; padding: 22px 0; }
-    .client { height: 28px; }
-
-    .connect { grid-template-columns: 1fr; }
-    .connect__label { text-align: center; }
-    .connect__cta { flex-wrap: wrap; justify-content: center; }
-    .copyright { text-align: center; }
-
-    .modal { inset: 0; border-radius: 0; }
-    .modal__body { padding: 24px 20px 40px; }
-    .modal__meta { grid-template-columns: 1fr; }
-   .modal__shots { 
-      grid-template-columns: 1fr; 
-    }
-    .modal__shots > * {
-      grid-column: span 1 !important;
-    }
-    
-    /* Smaller font size for project title in header on mobile */
-    .modal__brand-title {
-      font-size: 18px;
-      max-width: 200px;
-    }
-    
-  }
-
-  /* Reduce motion */
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.001ms !important;
-      transition-duration: 0.001ms !important;
-    }
-  }
-
-  /* Tweaks dark fallback */
-  body[data-density="tight"] .section { margin-top: 28px; }
-  body[data-density="tight"] .clients { margin-top: 40px; }
+function Tile({ p, onOpen }) {
+  const inlineStyle = {};
+  if (p.span) inlineStyle.gridColumn = `span ${p.span}`;
+  if (p.aspectRatio) inlineStyle.aspectRatio = p.aspectRatio;
   
-/* Tweaks dark fallback */
-  body[data-density="tight"] .section { margin-top: 28px; }
-  body[data-density="tight"] .clients { margin-top: 40px; }
-
-/* Password Prompt Styles - Floating over work page */
-.password-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(13, 17, 22, 0.85);
-  opacity: .7;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  z-index: 100;
+  return (
+    <button 
+      className={`tile ${p.cls}`} 
+      style={Object.keys(inlineStyle).length > 0 ? inlineStyle : undefined}
+      onClick={() => {
+        if (p.password) {
+          const unlocked = JSON.parse(sessionStorage.getItem('unlockedProjects') || '[]');
+          if (!unlocked.includes(p.id)) {
+            if (window.__setPasswordPrompt) {
+              window.__setPasswordPrompt(p);
+              return;
+            }
+          }
+        }
+        onOpen(p);
+      }}
+      aria-label={`Open ${p.title}`}
+    >
+      <div className={`tile__art ${p.art}`}>
+        {p.images?.thumbnail && (
+          <img 
+            src={p.images.thumbnail} 
+            alt={p.title}
+            className="tile__image"
+            loading="lazy"
+          />
+        )}
+      </div>
+      <span className="tile__open" aria-hidden="true">
+        <PlusIcon />
+      </span>
+      <div className="tile__overlay">
+        <div className="tile__title">{p.title}</div>
+        <div className="tile__sub">{p.sub}</div>
+      </div>
+    </button>
+  );
 }
 
-.password-prompt {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 101;
+function WorkPage({ onOpenProject }) {
+  return (
+    <div className="page page--work">
+      <Header />
+      <main className="section">
+        <h1 className="title">The Work</h1>
+        <div className="grid">
+          {PROJECTS.map((p) => (
+            <Tile key={p.id} p={p} onOpen={onOpenProject} />
+          ))}
+        </div>
+        <section className="clients" aria-label="Previously worked with">
+          <div className="clients__label">Previously worked with</div>
+          <div className="clients__row">
+            {CLIENTS.map((c, i) => (
+              <span key={i} className="client" title={c.name}>
+                <img src={c.logo} alt={c.name} />
+              </span>
+            ))}
+          </div>
+        </section>
+      </main>
+      <ConnectFooter variant="dark" />
+    </div>
+  );
 }
 
-.password-prompt__card {
-  background: #ffffff;
-  border: 1px solid #e8e8e8;
-  border-radius: 14px;
-  padding: 32px 36px;
-  max-width: 340px;
-  width: 100%;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-}
+/* ----- Modal ----- */
 
-.password-prompt__title {
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  margin: 0 0 6px;
-  color: #111;
-}
-
-.password-prompt__subtitle {
-  font-size: 14px;
-  color: #666;
-  margin: 0 0 20px;
-  opacity: 0.8;
-}
-
-.password-prompt form {
-  position: relative;
-  min-height: 44px;
-}
-
-.password-prompt__input {
-  width: 100%;
-  padding: 12px 48px 12px 14px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-family: inherit;
-  font-size: 16px;
-  transition: all 200ms var(--ease);
-  background: #fafafa;
-  color: #111;
-}
-
-.password-prompt__input::placeholder {
-  color: #999;
-  opacity: 0.6;
-}
-
-.password-prompt__input:focus {
-  outline: none;
-  border-color: #111;
-  background: #ffffff;
-}
-
-.password-prompt__input.is-error {
-  border-color: #dc2626;
-  background: #fef2f2;
-}
-
-.password-prompt__error {
-  color: #dc2626;
-  font-size: 13px;
-  margin-top: 8px;
-  font-weight: 500;
-  top: 100%;
-  left: 0;
-  right: 0;
-}
-
-.password-prompt__submit {
-  position: absolute;
-  right: 4px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 36px;
-  height: 36px;
-  border: none;
-  background: #111;
-  color: #fff;
-  border-radius: 6px;
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  transition: all 200ms var(--ease);
-}
-
-.password-prompt__submit:hover {
-  background: #000;
-  transform: translateY(-50%) scale(1.05);
-}
-
-.password-prompt__submit:active {
-  transform: translateY(-50%) scale(0.95);
-}
-
-@media (max-width: 760px) {
-  .password-prompt__card {
-    padding: 28px 24px;
-    max-width: calc(100vw - 48px);
-  }
-}
-  
-
-  
-</style>
-</head>
-<body>
-
-<div id="root"></div>
-
-<script>
-(function() {
-  if (window.matchMedia && window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
-  var mx = 0, my = 0, rx = 0, ry = 0, started = false;
-
-  document.addEventListener('mousemove', function(e) {
-    mx = e.clientX; my = e.clientY;
-    if (!started) { rx = mx; ry = my; started = true; }
+function ProjectModal({ project, onClose }) {
+  const open = !!project;
+  const [showTitleInHeader, setShowTitleInHeader] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
+  const [unlockedProjects, setUnlockedProjects] = useState(() => {
+    const stored = sessionStorage.getItem('unlockedProjects');
+    return stored ? JSON.parse(stored) : [];
   });
+  const modalBodyRef = useRef(null);
+  const titleRef = useRef(null);
+  
+  useEscape(open, onClose);
 
-  function tick() {
-    rx += (mx - rx) * 0.45;
-    ry += (my - ry) * 0.45;
-    dot.style.transform = 'translate(' + mx + 'px,' + my + 'px)';
-    ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px)';
-    requestAnimationFrame(tick);
-  }
-  tick();
-})();
-</script>
+  useEffect(() => {
+    if (open) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
 
-<script>
-  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-    "processColor": "#2e57d6",
-    "accentColor": "#f7c98a",
-    "density": "default",
-    "showStartingScreen": "work",
-    "transitionStyle": "crossfade",
-    "navStyle": "squares"
-  }/*EDITMODE-END*/;
-</script>
+  useEffect(() => {
+    if (!open) {
+      setPasswordInput('');
+      setPasswordError(false);
+    }
+  }, [open, project?.id]);
 
-<script type="text/babel" src="tweaks-panel.jsx"></script>
-<script type="text/babel" src="app.jsx"></script>
+  const isUnlocked = !project?.password || unlockedProjects.includes(project.id);
 
-</body>
-</html>
+  const handlePasswordSubmit = (e) => {
+    e.preventDefault();
+    if (passwordInput === project.password) {
+      const newUnlocked = [...unlockedProjects, project.id];
+      setUnlockedProjects(newUnlocked);
+      sessionStorage.setItem('unlockedProjects', JSON.stringify(newUnlocked));
+      setPasswordInput('');
+      setPasswordError(false);
+    } else {
+      setPasswordError(true);
+      setPasswordInput('');
+    }
+  };
+
+  useEffect(() => {
+    if (!open || !modalBodyRef.current || !titleRef.current) return;
+
+    const handleScroll = () => {
+      const titleBottom = titleRef.current.getBoundingClientRect().bottom;
+      const modalTop = modalBodyRef.current.getBoundingClientRect().top;
+      setShowTitleInHeader(titleBottom < modalTop + 80);
+    };
+
+    const modalBody = modalBodyRef.current;
+    modalBody.addEventListener('scroll', handleScroll);
+    handleScroll();
+    
+    return () => modalBody.removeEventListener('scroll', handleScroll);
+  }, [open]);
+
+  return (
+    <>
+      <div className={`modal-backdrop ${open ? "is-open" : ""}`} onClick={onClose} />
+      <div className={`modal ${open ? "is-open" : ""}`} role="dialog" aria-modal="true" aria-label={project?.title}>
+        {project && (
+          <>
+            <div className="modal__head">
+              <div className="modal__brand">
+                <span className="modal__brand-name">jess leung</span>
+                <span className={`modal__brand-title ${showTitleInHeader ? 'is-visible' : ''}`}>
+                  {project.title}
+                </span>
+              </div>
+              <button className="modal__close" onClick={onClose} aria-label="Close">
+                <CloseIcon />
+              </button>
+            </div>
+            <div className="modal__body" ref={modalBodyRef}>
+              <div className={`modal__hero tile__art ${project.art}`}>
+                {project.images?.hero && (
+                  <img 
+                    src={project.images.hero} 
+                    alt={project.title}
+                    className="modal__hero-image"
+                  />
+                )}
+              </div>
+              
+              <h2 className="modal__title" ref={titleRef}>{project.title}</h2>
+              <p className="modal__sub">{project.blurb}</p>
+              
+              <dl className="modal__meta">
+                {project.info && <div><dt>Info</dt><dd>{project.info}</dd></div>}
+                {project.company && <div><dt>Company</dt><dd>{project.company}</dd></div>}
+                {project.role && <div><dt>Role</dt><dd>{project.role}</dd></div>}
+                {project.scope && <div><dt>Scope</dt><dd>{project.scope}</dd></div>}
+                {project.credits && (
+                  <div>
+                    <dt>Credits</dt>
+                    <dd>
+                      {project.credits.split('\n').map((line, i) => (
+                        <React.Fragment key={i}>
+                          {line}
+                          {i < project.credits.split('\n').length - 1 && <br />}
+                        </React.Fragment>
+                      ))}
+                    </dd>
+                  </div>
+                )}
+              </dl>
+              
+              {project.contentBlocks && project.contentBlocks.map((block, blockIdx) => {
+                if (block.type === "video") {
+  return (
+    <div key={blockIdx} className="modal__shots">
+      {block.items ? (
+        // Multiple videos
+        block.items.map((video, idx) => {
+          const videoSrc = typeof video === 'string' ? video : video.src;
+          const span = typeof video === 'string' ? 2 : (video.span || 2);
+          const autoplay = typeof video === 'string' ? false : (video.autoplay || false);
+          const loop = typeof video === 'string' ? false : (video.loop || false);
+          const controls = typeof video === 'string' ? true : (video.controls !== false);
+          const muted = typeof video === 'string' ? false : (video.muted || autoplay || false);
+          
+          return (
+            <div 
+              key={idx}
+              className="modal__shot modal__video"
+              style={{ gridColumn: `span ${span}` }}
+            >
+              {videoSrc.includes('youtube.com') || videoSrc.includes('vimeo.com') ? (
+                <iframe
+                  src={videoSrc}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="modal__video-iframe"
+                />
+              ) : (
+                <video
+                  src={videoSrc}
+                  controls={controls}
+                  autoPlay={autoplay}
+                  loop={loop}
+                  muted={muted}
+                  playsInline
+                  className="modal__video-player"
+                />
+              )}
+            </div>
+          );
+        })
+      ) : (
+        // Single video (old format for backwards compatibility)
+        <div 
+          className="modal__shot modal__video"
+          style={{ gridColumn: `span ${block.span || 4}` }}
+        >
+          {block.src.includes('youtube.com') || block.src.includes('vimeo.com') ? (
+            <iframe
+              src={block.src}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="modal__video-iframe"
+            />
+          ) : (
+            <video
+              src={block.src}
+              controls={block.controls !== false}
+              autoPlay={block.autoplay || false}
+              loop={block.loop || false}
+              muted={block.muted || block.autoplay || false}
+              playsInline
+              className="modal__video-player"
+            />
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+if (block.type === "text") {
+  return (
+    <p key={blockIdx} style={{ whiteSpace: 'pre-line' }}>
+      {block.content}
+    </p>
+  );
+}
+                if (block.type === "images") {
+                  return (
+                    <div key={blockIdx} className="modal__shots">
+                      {block.items.map((item, idx) => {
+                        const imgSrc = typeof item === 'string' ? item : item.src;
+                        const span = typeof item === 'string' ? 1 : (item.span || 1);
+                        
+                        return (
+                          <div 
+                            key={idx} 
+                            className="modal__shot"
+                            style={{ gridColumn: `span ${span}` }}
+                          >
+                            <img 
+                              src={imgSrc} 
+                              alt={`${project.title} - Detail ${idx + 1}`}
+                              className="modal__shot-image"
+                              loading="lazy"
+                            />
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                }
+                
+                return null;
+              })}
+              
+              <p> </p>
+            </div>
+          </>
+        )}
+      </div>
+    </>
+  );
+}
+
+/* ----- Password Prompt ----- */
+
+function PasswordPrompt({ project, onUnlock, onClose }) {
+  const [passwordInput, setPasswordInput] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (passwordInput === project.password) {
+      const unlocked = JSON.parse(sessionStorage.getItem('unlockedProjects') || '[]');
+      const newUnlocked = [...unlocked, project.id];
+      sessionStorage.setItem('unlockedProjects', JSON.stringify(newUnlocked));
+      onUnlock();
+    } else {
+      setPasswordError(true);
+      setPasswordInput('');
+    }
+  };
+
+  return (
+    <>
+      <div className="password-overlay" onClick={onClose} />
+      <div className="password-prompt">
+        <div className="password-prompt__card">
+          <h3 className="password-prompt__title">{project.title}</h3>
+          <p className="password-prompt__subtitle">D'oh! This project is protected by an NDA</p>
+          <form onSubmit={handleSubmit}>
+            <div style={{ position: 'relative' }}>
+              <input
+                type="password"
+                value={passwordInput}
+                onChange={(e) => {
+                  setPasswordInput(e.target.value);
+                  setPasswordError(false);
+                }}
+                className={`password-prompt__input ${passwordError ? 'is-error' : ''}`}
+                placeholder="Password"
+                autoFocus
+              />
+              <button type="submit" className="password-prompt__submit">
+                <ArrowIcon size={16} />
+              </button>
+            </div>
+            {passwordError && (
+              <div className="password-prompt__error">Incorrect password</div>
+            )}
+          </form>
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* ----- App ----- */
+
+function App() {
+  const tweaks = {
+    processColor: "#3856CF",
+    navStyle: "squares"
+  };
+
+  const [active, setActive] = useState(0);
+  const [openProject, setOpenProject] = useState(null);
+  const [passwordPromptProject, setPasswordPromptProject] = useState(null);
+  
+  useEffect(() => {
+    window.__setPasswordPrompt = setPasswordPromptProject;
+  }, []);
+
+  useEffect(() => {
+    const map = ["work", "process", "person"];
+    const fromHash = () => {
+      const h = window.location.hash.replace("#", "");
+      const i = map.indexOf(h);
+      if (i >= 0) setActive(i);
+    };
+    fromHash();
+    window.addEventListener("hashchange", fromHash);
+    return () => window.removeEventListener("hashchange", fromHash);
+  }, []);
+
+  const nav = useCallback((i) => {
+    setActive(i);
+    const map = ["work", "process", "person"];
+    if (window.history.replaceState) {
+      window.history.replaceState(null, "", "#" + map[i]);
+    }
+    requestAnimationFrame(() => {
+      const layers = document.querySelectorAll(".layer");
+      if (layers[i]) layers[i].scrollTop = 0;
+    });
+  }, []);
+
+  useEffect(() => { window.__nav = nav; }, [nav]);
+ 
+  return (
+    <>
+      <div className="stage">
+        <div className={`layer ${active === 0 ? "is-active" : ""}`} aria-hidden={active !== 0}>
+          <WorkPage onOpenProject={setOpenProject} />
+        </div>
+        <div className={`layer ${active === 1 ? "is-active" : ""}`} aria-hidden={active !== 1}>
+          <ProcessPage processColor={tweaks.processColor} />
+        </div>
+        <div className={`layer ${active === 2 ? "is-active" : ""}`} aria-hidden={active !== 2}>
+          <PersonPage />
+        </div>
+      </div>
+
+      <ProjectModal project={openProject} onClose={() => setOpenProject(null)} />
+
+      {passwordPromptProject && (
+        <PasswordPrompt 
+          project={passwordPromptProject}
+          onUnlock={() => {
+            setPasswordPromptProject(null);
+            setOpenProject(passwordPromptProject);
+          }}
+          onClose={() => setPasswordPromptProject(null)}
+        />
+      )}
+
+      <FloatingNav activeIdx={active} onNav={nav} style={tweaks.navStyle} />
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
