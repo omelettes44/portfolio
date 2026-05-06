@@ -512,6 +512,7 @@ function PersonPage() {
 function ProcessPage({ processColor }) {
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [activeTooltip, setActiveTooltip] = useState(null);
+  const [activeProgram, setActiveProgram] = useState(null); // NEW LINE ADDED
 
   const handleMouseMove = (e, programName) => {
     setTooltipPos({ x: e.clientX, y: e.clientY });
@@ -542,11 +543,13 @@ function ProcessPage({ processColor }) {
                 {PROGRAMS.map((p, i) => (
                   <div 
                     key={i} 
-                    className="prog"
+                    className={`prog ${activeProgram === i ? 'is-active' : ''}`}
                     onMouseMove={(e) => handleMouseMove(e, p.name)}
                     onMouseLeave={handleMouseLeave}
+                    onClick={() => setActiveProgram(activeProgram === i ? null : i)}
                   >
                     <img src={p.img} alt={p.name} />
+                    <span className="prog__tip">{p.name}</span>
                   </div>
                 ))}
               </div>
