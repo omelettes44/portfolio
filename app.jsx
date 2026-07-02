@@ -175,7 +175,7 @@ const PROJECTS = [
     role: "Visual Designer",
     scope: "Brand Strategy, Information Design",
     credits: "VP of Marketing / Tim Parks\nDirector of Research & Content / Erin Savage",
-    blurb: "Building the brand framework and strategy and digital assets for a fintech company in the retirement saving solutions space.",
+    blurb: "Building brand strategy and digital assets for a fintech company in the retirement saving solutions space.",
     contentBlocks: [
       {
         type: "text",
